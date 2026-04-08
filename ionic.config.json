@@ -1,0 +1,7 @@
+{
+  "name": "VibeWell",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
