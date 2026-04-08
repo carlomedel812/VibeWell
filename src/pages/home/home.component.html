@@ -1,0 +1,47 @@
+<ion-split-pane contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay" class="vibewell-menu">
+    <ion-content class="menu-content">
+      <div class="menu-inner">
+        <div class="menu-top">
+          <!-- User Profile Header -->
+          <div class="menu-profile">
+            <div class="profile-avatar">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <div class="profile-info">
+              <span class="profile-name">{{ currentUser.name }}</span>
+              <span class="profile-role">{{ currentUser.role }}</span>
+            </div>
+          </div>
+
+          <!-- Nav Items -->
+          <nav class="nav-list">
+            @for (p of appPages; track p) {
+              <ion-menu-toggle auto-hide="false">
+                <a
+                  class="nav-item"
+                  routerDirection="root"
+                  [routerLink]="[p.url]"
+                  routerLinkActive="active"
+                >
+                  <ion-icon [name]="p.icon" aria-hidden="true"></ion-icon>
+                  <span class="nav-label">{{ p.title }}</span>
+                </a>
+              </ion-menu-toggle>
+            }
+          </nav>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="menu-footer">
+          <button class="logout-btn" (click)="logout()">
+            <ion-icon name="log-out-outline"></ion-icon>
+            Logout
+          </button>
+        </div>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-split-pane>

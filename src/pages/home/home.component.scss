@@ -1,0 +1,317 @@
+// VibeWell Left Panel
+// --------------------------------------------------
+
+.vibewell-menu {
+  --width: 260px;
+  border-right: none;
+
+  // Left accent line (the blue/purple line visible in the screenshot)
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, #5c6bc0 0%, #3949ab 100%);
+    z-index: 10;
+  }
+}
+
+.menu-content {
+  --background: #0d1117;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.menu-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 100%;
+}
+
+.menu-top {
+  display: flex;
+  flex-direction: column;
+}
+
+// Profile header
+.menu-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 8px;
+}
+
+.profile-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #1a3a28;
+  border: 2px solid #50C878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 20px;
+    color: #50C878;
+  }
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.profile-name {
+  font-family: var(--vibewell-font-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0f4f8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-role {
+  font-family: var(--vibewell-font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: #50C878;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+// Nav list
+.nav-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 32px 12px 16px 12px;
+}
+
+// Individual nav item
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #8a9bb0;
+  font-family: var(--vibewell-font-body);
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 20px;
+    color: #8a9bb0;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  &:hover {
+    background: rgba(80, 200, 120, 0.08);
+    color: #c8d8e8;
+
+    ion-icon {
+      color: #c8d8e8;
+    }
+  }
+
+  // Active / selected state — green pill (matches screenshot)
+  &.active,
+  &.active-exact {
+    background: #1a3a28;
+    color: #50C878;
+    font-weight: 700;
+
+    ion-icon {
+      color: #50C878;
+    }
+  }
+}
+
+// Pierce encapsulation so routerLinkActive class is visible inside ion-menu-toggle
+:host ::ng-deep {
+  .nav-item.active {
+    background: #1a3a28 !important;
+    color: #50C878 !important;
+    font-weight: 700 !important;
+
+    ion-icon {
+      color: #50C878 !important;
+    }
+  }
+}
+
+.nav-label {
+  letter-spacing: 0.01em;
+}
+
+// Footer with Submit Phase button
+.menu-footer {
+  padding: 16px 12px 32px 12px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 13px 0;
+  background: transparent;
+  color: #e87070;
+  border: 1.5px solid #e87070;
+  border-radius: 10px;
+  font-family: var(--vibewell-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+
+  ion-icon {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background: rgba(232, 112, 112, 0.12);
+    color: #f08080;
+    border-color: #f08080;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+ion-menu.md ion-content {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+}
+
+ion-menu.md ion-list {
+  padding: 20px 0;
+}
+
+ion-menu.md ion-note {
+  margin-bottom: 30px;
+}
+
+ion-menu.md ion-list-header,
+ion-menu.md ion-note {
+  padding-left: 10px;
+}
+
+ion-menu.md ion-list#inbox-list {
+  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
+}
+
+ion-menu.md ion-list#inbox-list ion-list-header {
+  font-size: 22px;
+  font-weight: 600;
+
+  min-height: 20px;
+}
+
+ion-menu.md ion-list#labels-list ion-list-header {
+  font-size: 16px;
+
+  margin-bottom: 18px;
+
+  color: #757575;
+
+  min-height: 26px;
+}
+
+ion-menu.md ion-item {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border-radius: 4px;
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #616e7e;
+}
+
+ion-menu.md ion-item ion-label {
+  font-weight: 500;
+}
+
+ion-menu.ios ion-content {
+  --padding-bottom: 20px;
+}
+
+ion-menu.ios ion-list {
+  padding: 20px 0 0 0;
+}
+
+ion-menu.ios ion-note {
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 24px;
+  color: #73849a;
+}
+
+ion-menu.ios ion-list#labels-list ion-list-header {
+  margin-bottom: 8px;
+}
+
+ion-menu.ios ion-list-header,
+ion-menu.ios ion-note {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+ion-menu.ios ion-note {
+  margin-bottom: 8px;
+}
+
+ion-note {
+  display: inline-block;
+  font-size: 16px;
+
+  color: var(--ion-color-medium-shade);
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+}

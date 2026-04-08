@@ -1,2 +1,115 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+// VibeWell Design System
+// -------------------------------------------------------
+
+:root {
+  // --- Brand Colors ---
+  --ion-color-primary: #50C878;
+  --ion-color-primary-rgb: 80, 200, 120;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #46b06a;
+  --ion-color-primary-tint: #62ce86;
+
+  --ion-color-secondary: #12171F;
+  --ion-color-secondary-rgb: 18, 23, 31;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0f131a;
+  --ion-color-secondary-tint: #2a2e35;
+
+  --ion-color-tertiary: #1F150B;
+  --ion-color-tertiary-rgb: 31, 21, 11;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #1b120a;
+  --ion-color-tertiary-tint: #352c23;
+
+  --ion-color-success: #50C878;
+  --ion-color-success-rgb: 80, 200, 120;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #46b06a;
+  --ion-color-success-tint: #62ce86;
+
+  --ion-color-warning: #f4d47c;
+  --ion-color-warning-rgb: 244, 212, 124;
+  --ion-color-warning-contrast: #12171F;
+  --ion-color-warning-contrast-rgb: 18, 23, 31;
+  --ion-color-warning-shade: #d7ba6d;
+  --ion-color-warning-tint: #f5d989;
+
+  --ion-color-danger: #e87070;
+  --ion-color-danger-rgb: 232, 112, 112;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cc6363;
+  --ion-color-danger-tint: #ea7e7e;
+
+  --ion-color-dark: #12171F;
+  --ion-color-dark-rgb: 18, 23, 31;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #0f131a;
+  --ion-color-dark-tint: #2a2e35;
+
+  --ion-color-medium: #6b7280;
+  --ion-color-medium-rgb: 107, 114, 128;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #5e6470;
+  --ion-color-medium-tint: #7a808d;
+
+  --ion-color-light: #f0f4f8;
+  --ion-color-light-rgb: 240, 244, 248;
+  --ion-color-light-contrast: #12171F;
+  --ion-color-light-contrast-rgb: 18, 23, 31;
+  --ion-color-light-shade: #d3d7db;
+  --ion-color-light-tint: #f2f5f9;
+
+  // --- Typography ---
+  --ion-font-family: 'Manrope', sans-serif;
+  --vibewell-font-headline: 'Noto Serif', serif;
+  --vibewell-font-body: 'Manrope', sans-serif;
+  --vibewell-font-label: 'Manrope', sans-serif;
+
+  // --- Backgrounds ---
+  --ion-background-color: #12171F;
+  --ion-background-color-rgb: 18, 23, 31;
+  --ion-item-background: #1a2030;
+
+  // --- Text ---
+  --ion-text-color: #f0f4f8;
+  --ion-text-color-rgb: 240, 244, 248;
+
+  // --- Toolbar ---
+  --ion-toolbar-background: #12171F;
+  --ion-toolbar-color: #f0f4f8;
+
+  // --- Tab Bar ---
+  --ion-tab-bar-background: #12171F;
+  --ion-tab-bar-color: #6b7280;
+  --ion-tab-bar-color-selected: #50C878;
+
+  // --- Card / Surface ---
+  --vibewell-surface: #1a2030;
+  --vibewell-surface-alt: #1F150B;
+  --vibewell-border-radius: 12px;
+}
+
+// Dark mode is the default for VibeWell
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #12171F;
+    --ion-background-color-rgb: 18, 23, 31;
+    --ion-text-color: #f0f4f8;
+    --ion-text-color-rgb: 240, 244, 248;
+    --ion-item-background: #1a2030;
+    --ion-toolbar-background: #12171F;
+    --ion-toolbar-color: #f0f4f8;
+    --ion-tab-bar-background: #12171F;
+    --ion-card-background: #1a2030;
+  }
+}

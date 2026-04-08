@@ -1,0 +1,231 @@
+// VibeWell Login Page
+// --------------------------------------------------
+
+.login-content {
+  --background: #0d1117;
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 32px 20px;
+}
+
+// Brand / Logo
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.brand-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #1a3a28;
+  border: 2px solid #50C878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+
+  ion-icon {
+    font-size: 28px;
+    color: #50C878;
+  }
+}
+
+.brand-name {
+  font-family: var(--vibewell-font-headline);
+  font-size: 28px;
+  font-weight: 700;
+  color: #f0f4f8;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.brand-tagline {
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  color: #8a9bb0;
+  margin: 0;
+}
+
+// Card
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: #131920;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 32px 28px;
+}
+
+// Error banner
+.error-banner {
+  background: rgba(232, 112, 112, 0.12);
+  border: 1px solid rgba(232, 112, 112, 0.35);
+  border-radius: 8px;
+  color: #e87070;
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+}
+
+// Fields
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.field-label {
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a9bb0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .field-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 17px;
+    color: #8a9bb0;
+    pointer-events: none;
+  }
+
+  .toggle-pw {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    color: #8a9bb0;
+    transition: color 0.2s;
+
+    ion-icon {
+      font-size: 18px;
+    }
+
+    &:hover {
+      color: #f0f4f8;
+    }
+  }
+}
+
+.field-input {
+  width: 100%;
+  background: #0d1117;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #f0f4f8;
+  font-family: var(--vibewell-font-body);
+  font-size: 15px;
+  padding: 12px 44px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #3d4f63;
+  }
+
+  &:focus {
+    border-color: #50C878;
+  }
+}
+
+// Forgot password
+.forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 24px;
+}
+
+.forgot-link {
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  color: #50C878;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Login button
+.login-btn {
+  width: 100%;
+  padding: 14px 0;
+  background: #50C878;
+  color: #0d1117;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--vibewell-font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.1s ease;
+
+  &:hover:not(:disabled) {
+    background: #62ce86;
+  }
+
+  &:active:not(:disabled) {
+    background: #46b06a;
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-spinner {
+    --color: #0d1117;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Sign up prompt
+.signup-prompt {
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  color: #8a9bb0;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.signup-link {
+  color: #50C878;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
