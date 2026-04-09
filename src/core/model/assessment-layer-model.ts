@@ -3,8 +3,10 @@ import { IBigFivePersonalityTraitConfig } from "./big-five-personality-trait-con
 import { ITraitListConfigModel } from "./trait-list-config-model";
 
 export interface IAssessmentLayerModel {
-    name?: string;
+    title?: string;
     description?: string;
+    question: string;
+    answerHint: string;
     assessmentId: string;
     layer: number;
     type: AssessmentLayerType;
