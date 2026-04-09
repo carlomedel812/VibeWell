@@ -48,6 +48,12 @@ export const routes: Routes = [
           import('../pages/admin/admin.component').then((m) => m.AdminComponent),
       },
       {
+        path: 'profile',
+        data: { roles: [UserRole.ADMIN, UserRole.USER] },
+        loadComponent: () =>
+          import('../pages/profile/profile.component').then((m) => m.ProfileComponent),
+      },
+      {
         path: ':id',
         data: { roles: [UserRole.ADMIN, UserRole.USER] },
         loadComponent: () =>

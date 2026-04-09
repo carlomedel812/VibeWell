@@ -4,7 +4,7 @@ export interface IUserModel {
     email: string;
     firstName: string;
     lastName: string;
-    profilePictureUrl?: string;
+    profilePictureUrl?: string | null;
     createdAt: Date;
     updatedAt: Date;
     isActive: boolean;

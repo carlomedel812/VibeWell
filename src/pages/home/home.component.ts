@@ -25,8 +25,10 @@ export class HomeComponent implements ViewWillEnter {
   public currentUser: Partial<IUserModel> = {
     firstName: 'Jane',
     lastName: 'Doe',
+    profilePictureUrl: null,
     role: undefined,
   };
+  public hasProfileImageError = false;
 
   public appPages: Array<{ title: string; url: string; icon: string }> = [];
 
@@ -61,7 +63,9 @@ export class HomeComponent implements ViewWillEnter {
     if (user) {
       this.currentUser.firstName = user.firstName;
       this.currentUser.lastName = user.lastName;
+      this.currentUser.profilePictureUrl = user.profilePictureUrl ?? null;
       this.currentUser.role = user.role;
+      this.hasProfileImageError = false;
       if (user.role === UserRole.ADMIN) {
         this.appPages = this.adminRolePages;
       } else {
@@ -77,5 +81,9 @@ export class HomeComponent implements ViewWillEnter {
     this.tokenStorageService.clearAll();
     await signOut(this.auth);
     this.router.navigateByUrl('/login');
+  }
+
+  onProfileImageError(): void {
+    this.hasProfileImageError = true;
   }
 }

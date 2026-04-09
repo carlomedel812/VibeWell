@@ -1,0 +1,200 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+  <div class="profile-wrapper">
+    @if (isLoading) {
+      <div class="profile-loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p class="profile-loading-text">Loading your profile...</p>
+      </div>
+    } @else {
+      <section class="profile-hero-card">
+        <div class="profile-avatar-wrap">
+          @if (profile?.profilePictureUrl && !hasProfileImageError) {
+            <img
+              class="profile-avatar-image"
+              [src]="profile?.profilePictureUrl"
+              [alt]="fullName + ' profile picture'"
+              (error)="onProfileImageError()"
+            />
+          } @else {
+            <ion-icon name="person-circle-outline"></ion-icon>
+          }
+        </div>
+
+        <div class="profile-hero-copy">
+          <h1 class="profile-name">{{ fullName }}</h1>
+          <p class="profile-email">{{ profile?.email || 'No email available' }}</p>
+          <span class="profile-role-badge">{{ profile?.role || 'USER' }}</span>
+        </div>
+
+        <div class="profile-hero-actions">
+          @if (!isEditing) {
+            <button class="profile-action-btn" type="button" (click)="startEditing()">
+              <ion-icon name="create-outline"></ion-icon>
+              Edit Profile
+            </button>
+          }
+        </div>
+      </section>
+
+      @if (saveSuccess) {
+        <div class="profile-status-message success">{{ saveSuccess }}</div>
+      }
+
+      @if (saveError) {
+        <div class="profile-status-message error">{{ saveError }}</div>
+      }
+
+      @if (isEditing) {
+        <section class="profile-edit-card">
+          <div class="profile-edit-header">
+            <h2 class="profile-edit-title">Edit Profile</h2>
+            <p class="profile-edit-subtitle">Update your account details below.</p>
+          </div>
+
+          <div class="profile-form-grid">
+            <label class="profile-field">
+              <span class="profile-field-label">First Name</span>
+              <input type="text" [(ngModel)]="editForm.firstName" name="firstName" />
+            </label>
+
+            <label class="profile-field">
+              <span class="profile-field-label">Last Name</span>
+              <input type="text" [(ngModel)]="editForm.lastName" name="lastName" />
+            </label>
+
+            <label class="profile-field profile-field-full">
+              <span class="profile-field-label">Profile Picture URL</span>
+              <input type="url" [(ngModel)]="editForm.profilePictureUrl" name="profilePictureUrl" placeholder="https://example.com/avatar.png" />
+            </label>
+          </div>
+
+          <div class="profile-edit-actions">
+            <button class="profile-secondary-btn" type="button" (click)="cancelEditing()" [disabled]="isSaving">
+              Cancel
+            </button>
+            <button class="profile-primary-btn" type="button" (click)="saveProfile()" [disabled]="isSaving">
+              @if (isSaving) {
+                Saving...
+              } @else {
+                Save Changes
+              }
+            </button>
+          </div>
+        </section>
+      }
+
+      @if (passwordSuccess) {
+        <div class="profile-status-message success">{{ passwordSuccess }}</div>
+      }
+
+      @if (passwordError) {
+        <div class="profile-status-message error">{{ passwordError }}</div>
+      }
+
+      <section class="profile-edit-card">
+        <div class="profile-edit-header">
+          <h2 class="profile-edit-title">Update Password</h2>
+          <p class="profile-edit-subtitle">Use your current password to set a new one.</p>
+        </div>
+
+        <div class="profile-form-grid profile-password-form-grid">
+          <label class="profile-field profile-field-full">
+            <span class="profile-field-label">Current Password</span>
+            <div class="profile-password-input-wrap">
+              <input [type]="passwordVisibility.currentPassword ? 'text' : 'password'" [(ngModel)]="passwordForm.currentPassword" name="currentPassword" />
+              <button
+                class="profile-password-toggle"
+                type="button"
+                (click)="togglePasswordVisibility('currentPassword')"
+                [attr.aria-label]="passwordVisibility.currentPassword ? 'Hide current password' : 'Show current password'"
+              >
+                <ion-icon [name]="passwordVisibility.currentPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+          </label>
+
+          <label class="profile-field">
+            <span class="profile-field-label">New Password</span>
+            <div class="profile-password-input-wrap">
+              <input [type]="passwordVisibility.newPassword ? 'text' : 'password'" [(ngModel)]="passwordForm.newPassword" name="newPassword" />
+              <button
+                class="profile-password-toggle"
+                type="button"
+                (click)="togglePasswordVisibility('newPassword')"
+                [attr.aria-label]="passwordVisibility.newPassword ? 'Hide new password' : 'Show new password'"
+              >
+                <ion-icon [name]="passwordVisibility.newPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+          </label>
+
+          <label class="profile-field">
+            <span class="profile-field-label">Confirm New Password</span>
+            <div class="profile-password-input-wrap">
+              <input [type]="passwordVisibility.confirmPassword ? 'text' : 'password'" [(ngModel)]="passwordForm.confirmPassword" name="confirmNewPassword" />
+              <button
+                class="profile-password-toggle"
+                type="button"
+                (click)="togglePasswordVisibility('confirmPassword')"
+                [attr.aria-label]="passwordVisibility.confirmPassword ? 'Hide confirm password' : 'Show confirm password'"
+              >
+                <ion-icon [name]="passwordVisibility.confirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+          </label>
+        </div>
+
+        <div class="profile-edit-actions">
+          <button class="profile-primary-btn" type="button" (click)="savePassword()" [disabled]="isPasswordSaving || !isPasswordFormValid">
+            @if (isPasswordSaving) {
+              Updating...
+            } @else {
+              Update Password
+            }
+          </button>
+        </div>
+      </section>
+
+      <section class="profile-details-grid">
+        <article class="profile-detail-card">
+          <div class="detail-icon-wrap">
+            <ion-icon name="mail-outline"></ion-icon>
+          </div>
+          <div class="detail-copy">
+            <span class="detail-label">Email Address</span>
+            <span class="detail-value">{{ profile?.email || '—' }}</span>
+          </div>
+        </article>
+
+        <article class="profile-detail-card">
+          <div class="detail-icon-wrap">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+          </div>
+          <div class="detail-copy">
+            <span class="detail-label">Role</span>
+            <span class="detail-value">{{ profile?.role || '—' }}</span>
+          </div>
+        </article>
+
+        <article class="profile-detail-card">
+          <div class="detail-icon-wrap">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <div class="detail-copy">
+            <span class="detail-label">Member Since</span>
+            <span class="detail-value">{{ formatDate(profile?.createdAt) }}</span>
+          </div>
+        </article>
+      </section>
+    }
+  </div>
+</ion-content>

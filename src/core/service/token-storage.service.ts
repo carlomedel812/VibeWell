@@ -13,6 +13,7 @@ export interface JwtPayload {
   email: string;
   firstName: string;
   lastName: string;
+  profilePictureUrl?: string | null;
   role: string;
   iat?: number;
   exp?: number;
@@ -39,6 +40,7 @@ export class TokenStorageService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      profilePictureUrl: user.profilePictureUrl ?? null,
       role: user.role,
       iat: issuedAt,
       exp: issuedAt + this.resolveExpiresInSeconds(expiresIn),
@@ -68,6 +70,7 @@ export class TokenStorageService {
       email: payload.email,
       firstName: payload.firstName,
       lastName: payload.lastName,
+      profilePictureUrl: payload.profilePictureUrl ?? null,
       role: payload.role as UserRole,
       isActive: true,
       createdAt: new Date(),
