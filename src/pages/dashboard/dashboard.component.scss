@@ -1,0 +1,279 @@
+// Dashboard Page
+// --------------------------------------------------
+
+ion-toolbar {
+  --background: #0d1117;
+  --color: #f0f4f8;
+  --border-color: transparent;
+}
+
+.dashboard-content {
+  --background: #0d1117;
+}
+
+.dashboard-body {
+  padding: 24px 20px 40px;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+// Greeting row
+.greeting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.greeting-title {
+  font-family: var(--vibewell-font-headline);
+  font-size: 24px;
+  font-weight: 700;
+  color: #f0f4f8;
+  margin: 0 0 4px;
+}
+
+.greeting-sub {
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  color: #8a9bb0;
+  margin: 0;
+}
+
+.new-session-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #50C878;
+  color: #0d1117;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 20px;
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  ion-icon { font-size: 16px; }
+
+  &:hover { background: #62ce86; }
+  &:active { background: #46b06a; }
+}
+
+// Stat cards
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.stat-card {
+  background: #131920;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.stat-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #1a3a28;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 20px;
+    color: #50C878;
+  }
+}
+
+.stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-value {
+  font-family: var(--vibewell-font-headline);
+  font-size: 22px;
+  font-weight: 700;
+  color: #f0f4f8;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-family: var(--vibewell-font-body);
+  font-size: 12px;
+  color: #8a9bb0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stat-sub {
+  font-family: var(--vibewell-font-body);
+  font-size: 12px;
+  color: #8a9bb0;
+  margin-top: 4px;
+
+  &.up { color: #50C878; }
+}
+
+// Lower two-column grid
+.lower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Shared panel
+.panel {
+  background: #131920;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-title {
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0f4f8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.panel-link {
+  font-family: var(--vibewell-font-body);
+  font-size: 12px;
+  color: #50C878;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  ion-icon { font-size: 13px; }
+  &:hover { text-decoration: underline; }
+}
+
+// Skill progress
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skill-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skill-meta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.skill-name {
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  color: #c8d8e8;
+}
+
+.skill-pct {
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: #50C878;
+}
+
+.skill-bar {
+  --background: rgba(255,255,255,0.07);
+  --progress-background: #50C878;
+  height: 6px;
+  border-radius: 99px;
+}
+
+// Recent activity
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activity-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: rgba(80, 200, 120, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 17px;
+    color: #50C878;
+  }
+}
+
+.activity-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.activity-title {
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: #f0f4f8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-date {
+  font-family: var(--vibewell-font-body);
+  font-size: 11px;
+  color: #8a9bb0;
+}
+
+.activity-score {
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}

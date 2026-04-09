@@ -1,0 +1,127 @@
+<ion-content class="signup-content">
+  <div class="signup-wrapper">
+    <div class="signup-brand">
+      <div class="brand-icon">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+      <h1 class="brand-name">Create Account</h1>
+      <p class="brand-tagline">Join VibeWell and begin your journey.</p>
+    </div>
+
+    <div class="signup-card">
+      @if (errorMessage) {
+        <div class="error-banner">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+        <div class="name-grid">
+          <div class="field-group">
+            <label class="field-label" for="firstName">First Name</label>
+            <div class="field-input-wrap">
+              <ion-icon name="person-outline" class="field-icon"></ion-icon>
+              <input
+                id="firstName"
+                type="text"
+                class="field-input"
+                placeholder="Jane"
+                [(ngModel)]="firstName"
+                name="firstName"
+                autocomplete="given-name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="lastName">Last Name</label>
+            <div class="field-input-wrap">
+              <ion-icon name="person-outline" class="field-icon"></ion-icon>
+              <input
+                id="lastName"
+                type="text"
+                class="field-input"
+                placeholder="Doe"
+                [(ngModel)]="lastName"
+                name="lastName"
+                autocomplete="family-name"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="email">Email</label>
+          <div class="field-input-wrap">
+            <ion-icon name="mail-outline" class="field-icon"></ion-icon>
+            <input
+              id="email"
+              type="email"
+              class="field-input"
+              placeholder="you@example.com"
+              [(ngModel)]="email"
+              name="email"
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="password">Password</label>
+          <div class="field-input-wrap">
+            <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="field-input"
+              placeholder="At least 8 characters"
+              [(ngModel)]="password"
+              name="password"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="toggle-pw" (click)="togglePassword()">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="confirmPassword">Confirm Password</label>
+          <div class="field-input-wrap">
+            <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="field-input"
+              placeholder="Repeat your password"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="toggle-pw" (click)="toggleConfirmPassword()">
+              <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="signup-btn" [disabled]="isLoading">
+          @if (isLoading) {
+            <ion-spinner name="crescent" class="btn-spinner"></ion-spinner>
+          } @else {
+            Create Account
+          }
+        </button>
+      </form>
+    </div>
+
+    <p class="signin-prompt">
+      Already have an account?
+      <a routerLink="/login" class="signin-link">Sign in</a>
+    </p>
+  </div>
+</ion-content>

@@ -1,0 +1,4 @@
+export enum AssessmentLayerType {
+   TRAIT_LIST = 'TRAIT_LIST',
+   BIG_FIVE_PERSONALITY_TRAIT = 'BIG_FIVE_PERSONALITY_TRAIT'
+}

@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+
+  <div class="dashboard-body">
+
+    <!-- Greeting -->
+    <div class="greeting-row">
+      <div>
+        <h1 class="greeting-title">{{ greeting }} 👋</h1>
+        <p class="greeting-sub">Here's how you're doing today.</p>
+      </div>
+      <button class="new-session-btn">
+        <ion-icon name="flash-outline"></ion-icon>
+        New Session
+      </button>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stat-grid">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-card">
+          <div class="stat-icon-wrap">
+            <ion-icon [name]="stat.icon"></ion-icon>
+          </div>
+          <div class="stat-body">
+            <span class="stat-value">{{ stat.value }}</span>
+            <span class="stat-label">{{ stat.label }}</span>
+            <span class="stat-sub" [class.up]="stat.trend === 'up'">{{ stat.sub }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Two-column lower section -->
+    <div class="lower-grid">
+
+      <!-- Skill Progress -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Skill Progress</span>
+          <a class="panel-link">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
+        </div>
+        <div class="skill-list">
+          @for (skill of skills; track skill.label) {
+            <div class="skill-row">
+              <div class="skill-meta">
+                <span class="skill-name">{{ skill.label }}</span>
+                <span class="skill-pct">{{ (skill.progress * 100).toFixed(0) }}%</span>
+              </div>
+              <ion-progress-bar
+                [value]="skill.progress"
+                class="skill-bar">
+              </ion-progress-bar>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recent Activity</span>
+          <a class="panel-link" routerLink="/home/past-assessment">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
+        </div>
+        <div class="activity-list">
+          @for (item of recentActivity; track item.title) {
+            <div class="activity-row">
+              <div class="activity-icon-wrap">
+                <ion-icon [name]="item.icon"></ion-icon>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-title">{{ item.title }}</span>
+                <span class="activity-date">{{ item.date }}</span>
+              </div>
+              <span class="activity-score" [style.color]="scoreColor(item.score)">
+                {{ item.score }}%
+              </span>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
