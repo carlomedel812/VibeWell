@@ -1,3 +1,3 @@
-export interface IBigFivePersonalityTraitConfig {
+export interface IBigFivePersonalityTraitConfigModel {
    allQuestionsEnabled: boolean;
 }

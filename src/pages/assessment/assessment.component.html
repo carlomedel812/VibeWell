@@ -1,0 +1,119 @@
+<ion-header [translucent]="true">
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+		</ion-buttons>
+		<ion-title>Assessment</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="assessment-content">
+	<div class="assessment-page">
+		@if (isLoading) {
+			<div class="assessment-loading-state">
+				<ion-spinner name="crescent"></ion-spinner>
+				<p class="assessment-loading-text">Loading assessment...</p>
+			</div>
+		} @else if (!assessment) {
+			<div class="assessment-empty-state">
+				<h2 class="assessment-empty-title">Assessment unavailable</h2>
+				<p class="assessment-empty-text">{{ loadError || 'We could not find this assessment.' }}</p>
+				<a class="assessment-secondary-btn" routerLink="/home/dashboard">Return to dashboard</a>
+			</div>
+		} @else if (!activeLayer) {
+			<div class="assessment-empty-state">
+				<h2 class="assessment-empty-title">No layers available</h2>
+				<p class="assessment-empty-text">This assessment does not have any layers configured yet.</p>
+				<a class="assessment-secondary-btn" routerLink="/home/dashboard">Return to dashboard</a>
+			</div>
+		} @else {
+			<section class="assessment-runner">
+				<div class="runner-topbar">
+					<div>
+						<p class="runner-eyebrow">
+							Onboarding ·
+							@if (layerView === 'complete') {
+								Assessment complete
+							} @else {
+								Layer {{ displayActiveLayerNumber }}
+							}
+						</p>
+						<h1 class="runner-heading">{{ assessment.title }}</h1>
+					</div>
+
+					<div class="runner-steps" aria-label="Assessment layers progress">
+						@for (layer of assessmentLayers; track layer.layer) {
+							<span class="runner-step" [class.active]="layer.layer === activeLayer.layer" [class.completed]="layerView === 'complete' || layer.layer < activeLayer.layer"></span>
+						}
+					</div>
+				</div>
+
+				@if (layerView === 'intro') {
+					<article class="layer-intro-shell" [style.background-image]="heroBackground">
+						<div class="layer-intro-panel">
+							<span class="module-label">{{ formatLayerType(activeLayer.type) }}</span>
+							<h2 class="layer-intro-title">Layer {{ displayActiveLayerNumber }}: {{ activeLayerTitle }}</h2>
+
+							<div class="layer-preview-frame">
+								@if (activeLayerImage) {
+									<img class="layer-preview-image" [src]="activeLayerImage" [alt]="activeLayerTitle" />
+								} @else {
+									<div class="layer-preview-placeholder">
+										<ion-icon name="sparkles-outline"></ion-icon>
+									</div>
+								}
+							</div>
+
+							<p class="layer-intro-description">
+								{{ activeLayer.description || 'Prepare to step into the first signal layer of your assessment.' }}
+							</p>
+
+							<button class="assessment-primary-btn" type="button" (click)="startLayer()" [disabled]="!canStartLayer">
+								Start Assessment <ion-icon name="arrow-forward-outline"></ion-icon>
+							</button>
+						</div>
+					</article>
+				} @else if (layerView === 'complete') {
+					<div class="assessment-empty-state">
+						<h2 class="assessment-empty-title">Assessment complete</h2>
+						<p class="assessment-empty-text">
+							You’ve finished all configured layers for {{ assessment.title }}.
+						</p>
+						<a class="assessment-primary-btn" routerLink="/home/dashboard">Return to dashboard</a>
+					</div>
+				} @else {
+					@switch (activeLayer.type) {
+						@case (assessmentLayerType.TRAIT_LIST) {
+							<app-trait-list-layer
+								[layer]="activeLayer"
+								[displayTitle]="activeLayerTitle"
+								(back)="backToLayerIntro()"
+								(next)="goToNextLayer()"
+							/>
+						}
+						@case (assessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT) {
+							<app-big-five-personality-layer
+								[layer]="activeLayer"
+								[displayTitle]="activeLayerTitle"
+								[layerTypeLabel]="formatLayerType(activeLayer.type)"
+								(back)="backToLayerIntro()"
+								(next)="goToNextLayer()"
+							/>
+						}
+						@default {
+							<div class="assessment-empty-state">
+								<h2 class="assessment-empty-title">Layer type not ready yet</h2>
+								<p class="assessment-empty-text">
+									{{ formatLayerType(activeLayer.type) }} is recognized, but its question experience is not implemented yet.
+								</p>
+								<button class="assessment-secondary-btn button-reset" type="button" (click)="backToLayerIntro()">
+									Back to layer intro
+								</button>
+							</div>
+						}
+					}
+				}
+			</section>
+		}
+	</div>
+</ion-content>

@@ -54,6 +54,12 @@ export const routes: Routes = [
           import('../pages/profile/profile.component').then((m) => m.ProfileComponent),
       },
       {
+        path: 'assessment/:id',
+        data: { roles: [UserRole.ADMIN, UserRole.USER] },
+        loadComponent: () =>
+          import('../pages/assessment/assessment.component').then((m) => m.AssessmentComponent),
+      },
+      {
         path: ':id',
         data: { roles: [UserRole.ADMIN, UserRole.USER] },
         loadComponent: () =>

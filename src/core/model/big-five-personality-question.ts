@@ -1,6 +1,6 @@
 import { IBigFivePersonalityTraitType } from '../enum/big-five-personality-trait-type';
 
-export interface IBigFivePersonalityQuestion {
+export interface IBigFivePersonalityQuestionModel {
     layerId: string;
     trait: IBigFivePersonalityTraitType;
     statement: string;

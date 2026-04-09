@@ -1,0 +1,69 @@
+<article class="big-five-shell">
+  @if (isLoading) {
+    <div class="question-loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p class="big-five-muted-text">Loading Big Five questions...</p>
+    </div>
+  } @else if (loadError) {
+    <div class="question-loading-state">
+      <p class="big-five-muted-text">{{ loadError }}</p>
+    </div>
+  } @else if (currentQuestion) {
+    <div class="big-five-header">
+      <span class="module-label">{{ layerTypeLabel }}</span>
+      <div class="question-progress-copy">Question {{ currentQuestionNumber }} of {{ totalQuestions }}</div>
+    </div>
+
+    <div class="question-progress-track" aria-hidden="true">
+      <span class="question-progress-fill" [style.width.%]="(currentQuestionNumber / totalQuestions) * 100"></span>
+    </div>
+
+    <div class="big-five-card">
+      <h3 class="big-five-title">"{{ currentQuestion.statement }}"</h3>
+
+      <div class="scale-section">
+        <div class="scale-control" [class.has-selection]="hasSelectedScale">
+          <div class="scale-track-shell" aria-hidden="true">
+            <span class="scale-track-line">
+              <span class="scale-track-fill" [style.width.%]="selectedProgressWidth"></span>
+            </span>
+          </div>
+
+          <div class="scale-options" role="radiogroup" aria-label="Agreement scale">
+            @for (option of scaleOptions; track trackScaleOption($index, option)) {
+              <button
+                type="button"
+                class="scale-option button-reset"
+                [class.selected]="selectedScaleValue === option"
+                [attr.aria-checked]="selectedScaleValue === option"
+                role="radio"
+                (click)="selectScaleValue(option)"
+              >
+                <span class="scale-dot"></span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="scale-labels">
+          <span>Strongly disagree</span>
+          <span>Strongly agree</span>
+        </div>
+      </div>
+
+      <div class="assessment-actions">
+        <button class="assessment-secondary-btn button-reset" type="button" (click)="onBack()">
+          {{ canGoPrevious ? 'Previous' : 'Back' }}
+        </button>
+
+        <button class="assessment-primary-btn button-reset" type="button" [disabled]="!canGoNext" (click)="onNext()">
+          {{ nextButtonLabel }}
+        </button>
+      </div>
+    </div>
+
+    <p class="big-five-footnote">
+      Take your time. There are no right or wrong answers, only your unique perspective on how you navigate the world.
+    </p>
+  }
+</article>

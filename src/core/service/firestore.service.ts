@@ -53,7 +53,10 @@ export class FirestoreService {
   getOne<T>(path: string, id: string): Observable<T | undefined> {
     const docRef = doc(this.firestore, `${path}/${id}`);
     return from(getDoc(docRef)).pipe(
-      map((snapshot) => (snapshot.exists() ? (snapshot.data() as T) : undefined)),
+      map((snapshot) => (snapshot.exists() ? ({
+        id: snapshot.id,
+        ...snapshot.data(),
+      } as T) : undefined)),
     );
   }
 

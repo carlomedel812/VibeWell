@@ -1,0 +1,61 @@
+<article class="trait-list-shell">
+  <div class="trait-list-header">
+    <div>
+      <span class="module-label">Phase {{ displayLayerNumber }}</span>
+      <h2 class="trait-list-title">{{ config.headerQuestion || displayTitle }}</h2>
+      <p class="trait-list-subtitle">
+        {{ config.headerAnswerHint || layer.description || 'Select the traits that resonate most with this layer.' }}
+      </p>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="question-loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p class="layer-muted-text">Loading layer choices...</p>
+    </div>
+  } @else if (loadError) {
+    <div class="question-loading-state">
+      <p class="layer-muted-text">{{ loadError }}</p>
+    </div>
+  } @else {
+    <div class="trait-list-card">
+      <div class="trait-grid">
+        @for (option of traitListOptions; track option.adjective) {
+          <button
+            type="button"
+            class="trait-chip"
+            [class.selected]="isTraitSelected(option)"
+            [disabled]="!canSelectMore(option)"
+            (click)="toggleTraitSelection(option)"
+          >
+            {{ option.adjective }}
+          </button>
+        }
+      </div>
+
+      <div class="trait-list-footer">
+        <div class="trait-count-pill">
+          <span class="trait-count-value">{{ selectedTraitCount }}</span>
+          @if (selectionTarget > 0) {
+            <span class="trait-count-divider">/</span>
+            <span class="trait-count-target">{{ selectionTarget }} selection made. Discover your instincts profile.</span>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="assessment-actions">
+    <button class="assessment-secondary-btn button-reset" type="button" (click)="onBack()">
+      Back
+    </button>
+
+    @if (canProceed) {
+      <button class="assessment-primary-btn button-reset" type="button" (click)="onNext()">
+        Next
+        <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+      </button>
+    }
+  </div>
+</article>

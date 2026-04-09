@@ -1,5 +1,6 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton,
   IonTitle, IonContent, IonIcon, IonProgressBar, IonSpinner,
@@ -33,7 +34,7 @@ interface RecentActivity {
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonIcon, IonProgressBar, IonSpinner],
+  imports: [RouterLink, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonIcon, IonProgressBar, IonSpinner],
 })
 export class DashboardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
