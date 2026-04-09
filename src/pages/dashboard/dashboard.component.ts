@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton,
-  IonTitle, IonContent, IonIcon, IonProgressBar,
+  IonTitle, IonContent, IonIcon, IonProgressBar, IonSpinner,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -9,6 +10,8 @@ import {
   flashOutline, barChartOutline, calendarOutline,
   ribbonOutline, arrowForwardOutline,
 } from 'ionicons/icons';
+import { IAssessmentModel } from '../../core/model/assessment-model';
+import { AssessmentRepository } from '../../core/repository/assessment-repository';
 
 interface StatCard {
   label: string;
@@ -30,10 +33,14 @@ interface RecentActivity {
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonIcon, IonProgressBar],
+  imports: [IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonIcon, IonProgressBar, IonSpinner],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   greeting = this.getGreeting();
+  assessments: IAssessmentModel[] = [];
+  isAssessmentsLoading = true;
 
   stats: StatCard[] = [
     { label: 'Total Sessions',  value: '24',   sub: '+3 this week',    icon: 'flash-outline',             trend: 'up'     },
@@ -56,12 +63,23 @@ export class DashboardComponent {
     { title: 'Logic Puzzle',        date: 'Apr 5, 8:45 AM',       score: 85, icon: 'flash-outline'             },
   ];
 
-  constructor() {
+  constructor(private readonly assessmentRepository: AssessmentRepository) {
     addIcons({
       trendingUpOutline, checkmarkCircleOutline, timeOutline,
       flashOutline, barChartOutline, calendarOutline,
       ribbonOutline, arrowForwardOutline,
     });
+  }
+
+  ngOnInit(): void {
+    this.assessmentRepository.getEnabledAssessments()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((assessments) => {
+        this.assessments = assessments;
+        this.isAssessmentsLoading = false;
+      }, () => {
+        this.isAssessmentsLoading = false;
+      });
   }
 
   scoreColor(score: number): string {

@@ -17,7 +17,7 @@ ion-toolbar {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 42px;
 }
 
 // Greeting row
@@ -68,24 +68,198 @@ ion-toolbar {
 // Stat cards
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.assessment-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-title {
+  margin: 0;
+  font-family: var(--vibewell-font-headline);
+  font-size: 22px;
+  font-weight: 700;
+  color: #f0f4f8;
+}
+
+.section-subtitle {
+  margin: 0;
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  color: #8a9bb0;
+}
+
+.assessment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 220px));
   gap: 14px;
+  justify-content: start;
+
+  @media (max-width: 540px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.assessment-card {
+  width: 220px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #131920;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  position: relative;
+
+  @media (max-width: 540px) {
+    width: 100%;
+  }
+}
+
+.assessment-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.assessment-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(80, 200, 120, 0.12);
+  color: #50C878;
+  font-family: var(--vibewell-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.assessment-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assessment-title {
+  margin: 0;
+  font-family: var(--vibewell-font-headline);
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f4f8;
+}
+
+.assessment-description {
+  margin: 0;
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(240, 244, 248, 0.8);
+}
+
+.assessment-go-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(80, 200, 120, 0.95);
+  color: #0d1117;
+  font-family: var(--vibewell-font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: #62ce86;
+    transform: translateY(-1px);
+  }
+
+  &:active { background: #46b06a; }
+}
+
+.assessment-empty-state {
+  background: #131920;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 24px 20px;
+}
+
+.assessment-loading-state {
+  min-height: 220px;
+  background: #131920;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  ion-spinner {
+    --color: #50C878;
+    transform: scale(1.15);
+  }
+}
+
+.assessment-loading-text {
+  margin: 0;
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  color: #8a9bb0;
+}
+
+.assessment-empty-title {
+  margin: 0 0 8px;
+  font-family: var(--vibewell-font-headline);
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f4f8;
+}
+
+.assessment-empty-text {
+  margin: 0;
+  font-family: var(--vibewell-font-body);
+  font-size: 14px;
+  color: #8a9bb0;
 }
 
 .stat-card {
   background: #131920;
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 14px;
-  padding: 18px 20px;
+  padding: 12px 14px;
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 10px;
 }
 
 .stat-icon-wrap {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: #1a3a28;
   display: flex;
   align-items: center;
@@ -93,7 +267,7 @@ ion-toolbar {
   flex-shrink: 0;
 
   ion-icon {
-    font-size: 20px;
+    font-size: 16px;
     color: #50C878;
   }
 }
@@ -106,7 +280,7 @@ ion-toolbar {
 
 .stat-value {
   font-family: var(--vibewell-font-headline);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: #f0f4f8;
   line-height: 1.1;
@@ -114,7 +288,7 @@ ion-toolbar {
 
 .stat-label {
   font-family: var(--vibewell-font-body);
-  font-size: 12px;
+  font-size: 10px;
   color: #8a9bb0;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -122,9 +296,9 @@ ion-toolbar {
 
 .stat-sub {
   font-family: var(--vibewell-font-body);
-  font-size: 12px;
+  font-size: 10px;
   color: #8a9bb0;
-  margin-top: 4px;
+  margin-top: 3px;
 
   &.up { color: #50C878; }
 }

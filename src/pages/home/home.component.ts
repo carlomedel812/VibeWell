@@ -52,13 +52,12 @@ export class HomeComponent implements ViewWillEnter {
   }
 
   ionViewWillEnter() {
-    console.log('HomeComponent ionViewWillEnter called');
     this.setMenuByRole();
   }
 
   private setMenuByRole(): void {
     const user = this.tokenStorageService.decodeToken();
-    console.log('Decoded user from token:', user);
+   
     if (user) {
       this.currentUser.firstName = user.firstName;
       this.currentUser.lastName = user.lastName;

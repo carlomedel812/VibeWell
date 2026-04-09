@@ -4,10 +4,10 @@ import {
   QueryConstraint,
   addDoc,
   collection,
-  collectionData,
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   query,
   setDoc,
   updateDoc,
@@ -59,7 +59,14 @@ export class FirestoreService {
 
   getAll<T>(path: string): Observable<T[]> {
     const collectionRef = collection(this.firestore, path);
-    return collectionData(collectionRef, { idField: 'id' }) as Observable<T[]>;
+    const queryRef = query(collectionRef);
+
+    return from(getDocs(queryRef)).pipe(
+      map((snapshot) => snapshot.docs.map((docSnapshot) => ({
+        id: docSnapshot.id,
+        ...docSnapshot.data(),
+      } as T))),
+    );
   }
 
   getByQuery<T>(path: string, constraints: QueryConstraint[] = []): Observable<T[]> {
@@ -68,6 +75,11 @@ export class FirestoreService {
       ? query(collectionRef, ...constraints)
       : query(collectionRef);
 
-    return collectionData(queryRef, { idField: 'id' }) as Observable<T[]>;
+    return from(getDocs(queryRef)).pipe(
+      map((snapshot) => snapshot.docs.map((docSnapshot) => ({
+        id: docSnapshot.id,
+        ...docSnapshot.data(),
+      } as T))),
+    );
   }
 }

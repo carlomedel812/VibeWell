@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { IonContent, IonIcon, IonSpinner } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, IonSpinner, ViewWillEnter } from '@ionic/angular/standalone';
 import { ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
@@ -22,7 +22,7 @@ import { UserRole } from '../../core/enum/user-role';
   styleUrls: ['signup.component.scss'],
   imports: [FormsModule, RouterLink, IonContent, IonIcon, IonSpinner],
 })
-export class SignupComponent {
+export class SignupComponent implements ViewWillEnter {
   private readonly auth = inject(Auth);
   private readonly toastController = inject(ToastController);
 
@@ -48,6 +48,22 @@ export class SignupComponent {
       eyeOutline,
       eyeOffOutline,
     });
+  }
+  
+  ionViewWillEnter(): void {
+    this.clearInputs();
+  }
+
+  clearInputs(): void {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.password = '';
+    this.confirmPassword = '';
+    this.errorMessage = '';
+    this.showPassword = false;
+    this.showConfirmPassword = false;
+    this.isLoading = false;
   }
 
   togglePassword(): void {

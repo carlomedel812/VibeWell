@@ -17,10 +17,6 @@
         <h1 class="greeting-title">{{ greeting }} 👋</h1>
         <p class="greeting-sub">Here's how you're doing today.</p>
       </div>
-      <button class="new-session-btn">
-        <ion-icon name="flash-outline"></ion-icon>
-        New Session
-      </button>
     </div>
 
     <!-- Stat Cards -->
@@ -38,6 +34,44 @@
         </div>
       }
     </div>
+
+    <section class="assessment-section">
+      <div class="section-heading">
+        <h2 class="section-title">Available assessments you can start</h2>
+        <p class="section-subtitle">Choose an assessment and begin your next session.</p>
+      </div>
+
+      @if (isAssessmentsLoading) {
+        <div class="assessment-loading-state">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p class="assessment-loading-text">Loading assessments...</p>
+        </div>
+      } @else if (assessments.length > 0) {
+        <div class="assessment-grid">
+          @for (assessment of assessments; track assessment.id) {
+            <article
+              class="assessment-card"
+              [style.background-image]="assessment.thumbnailUrl ? 'linear-gradient(180deg, rgba(13, 17, 23, 0.18) 0%, rgba(13, 17, 23, 0.88) 70%, rgba(13, 17, 23, 0.98) 100%), url(' + assessment.thumbnailUrl + ')' : 'linear-gradient(180deg, rgba(24, 34, 48, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%)'"
+            >
+              <div class="assessment-card-top">
+                <span class="assessment-badge">Assessment</span>
+                <button class="assessment-go-btn" type="button">Go</button>
+              </div>
+
+              <div class="assessment-card-body">
+                <h3 class="assessment-title">{{ assessment.title }}</h3>
+                <p class="assessment-description">{{ assessment.description }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="assessment-empty-state">
+          <h3 class="assessment-empty-title">No assessments available yet</h3>
+          <p class="assessment-empty-text">Check back later for new assessments to start.</p>
+        </div>
+      }
+    </section>
 
     <!-- Two-column lower section -->
     <div class="lower-grid">

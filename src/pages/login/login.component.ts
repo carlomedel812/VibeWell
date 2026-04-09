@@ -6,6 +6,7 @@ import {
   IonContent,
   IonIcon,
   IonSpinner,
+  ViewWillEnter,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline, lockClosedOutline, mailOutline } from 'ionicons/icons';
@@ -20,7 +21,7 @@ import { UserRepository } from '../../core/repository/user-repository';
   styleUrls: ['login.component.scss'],
   imports: [FormsModule, RouterLink, IonContent, IonIcon, IonSpinner],
 })
-export class LoginComponent {
+export class LoginComponent implements ViewWillEnter {
   email = '';
   password = '';
   showPassword = false;
@@ -34,6 +35,16 @@ export class LoginComponent {
     private readonly tokenStorageService: TokenStorageService,
   ) {
     addIcons({ eyeOutline, eyeOffOutline, lockClosedOutline, mailOutline });
+  }
+
+  ionViewWillEnter(): void {
+    this.clearInputs();
+  }
+
+  clearInputs(): void {
+    this.email = '';
+    this.password = '';
+    this.errorMessage = '';
   }
 
   togglePassword() {

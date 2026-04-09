@@ -4,4 +4,6 @@ export interface IAssessmentModel {
     description: string;
     createdAt: Date;
     updatedAt: Date;
+    thumbnailUrl?: string;
+    enabled: boolean;
 }
