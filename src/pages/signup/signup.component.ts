@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Auth, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { IonContent, IonIcon, IonSpinner, ViewWillEnter } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -11,10 +11,10 @@ import {
   mailOutline,
   personOutline,
 } from 'ionicons/icons';
+import { firstValueFrom } from 'rxjs';
 import { UserRepository } from '../../core/repository/user-repository';
 import { UserRole } from '../../core/enum/user-role';
-
-const SIGNUP_SUCCESS_FLAG_KEY = 'vw_signup_success';
+import { TokenStorageService } from '../../core/service/token-storage.service';
 
 @Component({
   selector: 'app-signup',
@@ -40,6 +40,7 @@ export class SignupComponent implements ViewWillEnter {
   constructor(
     private readonly router: Router,
     private readonly userRepository: UserRepository,
+    private readonly tokenStorageService: TokenStorageService,
   ) {
     addIcons({
       personOutline,
@@ -111,9 +112,15 @@ export class SignupComponent implements ViewWillEnter {
         updatedAt: now,
       });
 
-      await signOut(this.auth);
-      sessionStorage.setItem(SIGNUP_SUCCESS_FLAG_KEY, '1');
-      await this.router.navigateByUrl('/login', { replaceUrl: true });
+      const user = await firstValueFrom(this.userRepository.getUserById(credential.user.uid));
+
+      if (!user) {
+        this.errorMessage = 'User profile not found. Please contact support.';
+        return;
+      }
+
+      this.tokenStorageService.createToken(credential.user.uid, user);
+      await this.router.navigateByUrl('/home', { replaceUrl: true });
     } catch (error: unknown) {
       this.errorMessage = this.parseAuthError(error);
     } finally {
