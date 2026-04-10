@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { IonContent, IonIcon, IonSpinner, ViewWillEnter } from '@ionic/angular/standalone';
-import { ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   eyeOffOutline,
@@ -15,6 +14,8 @@ import {
 import { UserRepository } from '../../core/repository/user-repository';
 import { UserRole } from '../../core/enum/user-role';
 
+const SIGNUP_SUCCESS_FLAG_KEY = 'vw_signup_success';
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -24,7 +25,6 @@ import { UserRole } from '../../core/enum/user-role';
 })
 export class SignupComponent implements ViewWillEnter {
   private readonly auth = inject(Auth);
-  private readonly toastController = inject(ToastController);
 
   firstName = '';
   lastName = '';
@@ -111,8 +111,9 @@ export class SignupComponent implements ViewWillEnter {
         updatedAt: now,
       });
 
-      await this.showSignupSuccessToast();
-      this.router.navigateByUrl('/login');
+      await signOut(this.auth);
+      sessionStorage.setItem(SIGNUP_SUCCESS_FLAG_KEY, '1');
+      await this.router.navigateByUrl('/login', { replaceUrl: true });
     } catch (error: unknown) {
       this.errorMessage = this.parseAuthError(error);
     } finally {
@@ -132,17 +133,5 @@ export class SignupComponent implements ViewWillEnter {
       default:
         return 'Registration failed. Please try again.';
     }
-  }
-
-  private async showSignupSuccessToast(): Promise<void> {
-    const toast = await this.toastController.create({
-      message: 'Please login using your newly created account',
-      duration: 2000,
-      position: 'top',
-      color: 'success',
-    });
-
-    await toast.present();
-    await toast.onDidDismiss();
   }
 }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import {
@@ -8,11 +8,14 @@ import {
   IonSpinner,
   ViewWillEnter,
 } from '@ionic/angular/standalone';
+import { ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline, lockClosedOutline, mailOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
 import { TokenStorageService } from '../../core/service/token-storage.service';
 import { UserRepository } from '../../core/repository/user-repository';
+
+const SIGNUP_SUCCESS_FLAG_KEY = 'vw_signup_success';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +25,8 @@ import { UserRepository } from '../../core/repository/user-repository';
   imports: [FormsModule, RouterLink, IonContent, IonIcon, IonSpinner],
 })
 export class LoginComponent implements ViewWillEnter {
+  private readonly toastController = inject(ToastController);
+
   email = '';
   password = '';
   showPassword = false;
@@ -39,6 +44,7 @@ export class LoginComponent implements ViewWillEnter {
 
   ionViewWillEnter(): void {
     this.clearInputs();
+    this.showSignupSuccessToastIfNeeded();
   }
 
   clearInputs(): void {
@@ -102,5 +108,23 @@ export class LoginComponent implements ViewWillEnter {
       default:
         return 'Login failed. Please try again.';
     }
+  }
+
+  private async showSignupSuccessToastIfNeeded(): Promise<void> {
+    console.log('Checking for signup success flag in sessionStorage');
+    if (sessionStorage.getItem(SIGNUP_SUCCESS_FLAG_KEY) !== '1') {
+      return;
+    }
+
+    sessionStorage.removeItem(SIGNUP_SUCCESS_FLAG_KEY);
+
+    const toast = await this.toastController.create({
+      message: 'Please login using your newly created account',
+      duration: 4000,
+      position: 'top',
+      color: 'success',
+    });
+
+    await toast.present();
   }
 }
