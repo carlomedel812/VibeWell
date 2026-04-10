@@ -9,12 +9,13 @@ import { addIcons } from 'ionicons';
 import {
   trendingUpOutline, checkmarkCircleOutline, timeOutline,
   flashOutline, barChartOutline, calendarOutline,
-  ribbonOutline, arrowForwardOutline, sparklesOutline,
+  ribbonOutline, arrowForwardOutline, sparklesOutline, peopleOutline,
 } from 'ionicons/icons';
 import { forkJoin, of } from 'rxjs';
 
 import { IAssessmentAnswerModel } from '../../core/model/assessment-answer-model';
 import { IAssessmentModel } from '../../core/model/assessment-model';
+import { UserRole } from '../../core/enum/user-role';
 import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
 import { AssessmentRepository } from '../../core/repository/assessment-repository';
 import { DashboardRefreshService } from '../../core/service/dashboard-refresh.service';
@@ -54,6 +55,7 @@ export class DashboardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   greeting = this.getGreeting();
+  isAdmin = false;
   availableAssessments: DashboardAssessmentCard[] = [];
   completedAssessments: DashboardAssessmentCard[] = [];
   isAssessmentsLoading = true;
@@ -88,18 +90,20 @@ export class DashboardComponent implements OnInit {
     addIcons({
       trendingUpOutline, checkmarkCircleOutline, timeOutline,
       flashOutline, barChartOutline, calendarOutline,
-      ribbonOutline, arrowForwardOutline, sparklesOutline,
+      ribbonOutline, arrowForwardOutline, sparklesOutline, peopleOutline,
     });
   }
 
   ngOnInit(): void {
     this.greeting = this.getGreeting();
+    this.isAdmin = this.tokenStorageService.decodeToken()?.role === UserRole.ADMIN;
     this.loadAssessments();
 
     this.dashboardRefreshService.refreshRequested$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.greeting = this.getGreeting();
+        this.isAdmin = this.tokenStorageService.decodeToken()?.role === UserRole.ADMIN;
         this.loadAssessments();
       });
   }

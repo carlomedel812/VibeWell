@@ -1,0 +1,225 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="menu-title">Users Management</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="users-management-content">
+  <div class="users-management-wrapper">
+    <div class="users-management-heading vw-section-heading">
+      <h1 class="users-management-title vw-section-title">Users Management</h1>
+      <p class="users-management-subtitle vw-section-subtitle">Review every account, update roles, and control whether users can actively access VibeWell.</p>
+    </div>
+
+    <section class="vw-search-panel vw-surface-card">
+      <div class="vw-search-panel-copy">
+        <span class="module-label">Search</span>
+        <h2 class="vw-search-panel-title">Find users quickly</h2>
+        <p class="vw-search-panel-text">Search users by email, first name, or last name. Firestore-backed search currently matches values that start with your input.</p>
+      </div>
+
+      <div class="vw-search-controls">
+        <label class="vw-search-input-wrap" for="users-search-input">
+          <ion-icon name="search-outline"></ion-icon>
+          <input
+            id="users-search-input"
+            class="vw-search-input"
+            type="search"
+            placeholder="Type to search users"
+            [(ngModel)]="searchText"
+            (keyup.enter)="applySearch()"
+          />
+        </label>
+
+        <ion-select
+          interface="popover"
+          class="vw-search-select"
+          [(ngModel)]="selectedSearchField"
+          (ionChange)="onSearchFieldChange()"
+        >
+          @for (option of searchFieldOptions; track option.value) {
+            <ion-select-option [value]="option.value">{{ option.label }}</ion-select-option>
+          }
+        </ion-select>
+
+        <button class="vw-search-button" type="button" (click)="applySearch()">
+          <ion-icon name="search-outline"></ion-icon>
+          Search
+        </button>
+
+        @if (hasActiveSearch) {
+          <button class="vw-clear-button" type="button" (click)="clearSearch()">
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Clear
+          </button>
+        }
+      </div>
+    </section>
+
+    @if (isLoading) {
+      <div class="users-management-loading vw-surface-card vw-loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p class="vw-loading-text">Loading users...</p>
+      </div>
+    } @else if (loadError) {
+      <div class="users-management-state vw-surface-card vw-empty-state">
+        <h2 class="vw-empty-title">Unable to load users</h2>
+        <p class="vw-empty-text">{{ loadError }}</p>
+        <button class="assessment-primary-btn" type="button" (click)="ngOnInit()">Try again</button>
+      </div>
+    } @else if (!hasActiveSearch && totalUserCount === 0) {
+      <div class="users-management-state vw-surface-card vw-empty-state">
+        <h2 class="vw-empty-title">No users found</h2>
+        <p class="vw-empty-text">User records will appear here once they are created in Firestore.</p>
+      </div>
+    } @else if (userCards.length === 0) {
+      <div class="users-management-state vw-surface-card vw-empty-state">
+        <h2 class="vw-empty-title">No matching users</h2>
+        <p class="vw-empty-text">No users matched your current {{ selectedSearchField === 'email' ? 'email' : selectedSearchField === 'firstName' ? 'first name' : 'last name' }} search for “{{ searchText.trim() }}”.</p>
+      </div>
+    } @else {
+      <div class="users-list">
+        @for (card of userCards; track card.user.id ?? card.user.email) {
+          <article class="user-card vw-surface-card" [class.collapsed]="!card.isExpanded">
+            <button class="user-card-header button-reset" type="button" (click)="toggleCard(card)">
+              <div class="user-card-summary">
+                <div class="user-avatar">
+                  @if (card.user.profilePictureUrl && !card.hasProfileImageError) {
+                    <img
+                      class="user-avatar-image"
+                      [src]="card.user.profilePictureUrl"
+                      [alt]="getDisplayName(card.user) + ' profile picture'"
+                      (error)="onProfileImageError(card)"
+                    />
+                  } @else {
+                    {{ getInitials(card.user) }}
+                  }
+                </div>
+                <div class="user-summary-copy">
+                  <h2 class="user-name">{{ getDisplayName(card.user) }}</h2>
+                  <p class="user-email">{{ card.user.email }}</p>
+                </div>
+              </div>
+
+              <div class="user-card-meta">
+                <span class="user-pill role">{{ card.user.role }}</span>
+                <span class="user-pill" [class.inactive]="!card.user.isActive">{{ card.user.isActive ? 'Active' : 'Inactive' }}</span>
+                <ion-icon [name]="card.isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+              </div>
+            </button>
+
+            @if (card.isExpanded) {
+              <div class="user-card-body">
+                <div class="user-stats-grid">
+                  <div class="user-stat-item">
+                    <span class="user-stat-label">Created</span>
+                    <span class="user-stat-value">{{ formatDate(card.user.createdAt) }}</span>
+                  </div>
+                  <div class="user-stat-item">
+                    <span class="user-stat-label">Last updated</span>
+                    <span class="user-stat-value">{{ formatDate(card.user.updatedAt) }}</span>
+                  </div>
+                </div>
+
+                <div class="user-controls-grid">
+                  <label class="field-group user-control-field">
+                    <span class="field-label">Role</span>
+                    <ion-select
+                      interface="popover"
+                      class="user-role-select"
+                      [(ngModel)]="card.draftRole"
+                      [disabled]="card.isSaving"
+                    >
+                      @for (role of userRoles; track role) {
+                        <ion-select-option [value]="role">{{ role }}</ion-select-option>
+                      }
+                    </ion-select>
+                  </label>
+
+                  <div class="user-active-field">
+                    <span class="field-label">Account Access</span>
+                    <label class="user-active-toggle">
+                      <ion-checkbox [(ngModel)]="card.draftIsActive" [disabled]="card.isSaving"></ion-checkbox>
+                      <div class="user-active-copy">
+                        <span class="user-active-title">User is active</span>
+                        <span class="user-active-subtitle">Inactive users stay in Firestore but should be treated as disabled.</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="user-card-actions">
+                  <button
+                    class="assessment-secondary-btn"
+                    type="button"
+                    (click)="resetCard(card)"
+                    [disabled]="!hasPendingChanges(card) || card.isSaving"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    class="assessment-primary-btn"
+                    type="button"
+                    (click)="saveCard(card)"
+                    [disabled]="!hasPendingChanges(card) || card.isSaving || !card.user.id"
+                  >
+                    {{ card.isSaving ? 'Saving...' : 'Save changes' }}
+                  </button>
+                </div>
+
+                @if (card.errorMessage) {
+                  <p class="user-feedback error">{{ card.errorMessage }}</p>
+                }
+
+                @if (card.successMessage) {
+                  <p class="user-feedback success">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                    {{ card.successMessage }}
+                  </p>
+                }
+              </div>
+            }
+          </article>
+        }
+      </div>
+
+      @if (hasPagination) {
+        <div class="users-pagination vw-surface-card">
+          <div class="users-pagination-summary">
+            Showing <strong>{{ startItemNumber }}</strong>–<strong>{{ endItemNumber }}</strong> of <strong>{{ totalUserCount }}</strong> users
+          </div>
+
+          <div class="users-pagination-controls">
+            <button
+              class="users-pagination-nav"
+              type="button"
+              (click)="goToPreviousPage()"
+              [disabled]="!canJumpToPreviousPage || isLoading"
+            >
+              <ion-icon name="chevron-back-outline"></ion-icon>
+              Previous
+            </button>
+
+            <div class="users-pagination-pages">
+              <span class="users-pagination-page active">{{ currentPage }}</span>
+              <span class="users-pagination-total">of {{ totalPages }}</span>
+            </div>
+
+            <button
+              class="users-pagination-nav"
+              type="button"
+              (click)="goToNextPage()"
+              [disabled]="!hasNextPage || isLoading"
+            >
+              Next
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</ion-content>

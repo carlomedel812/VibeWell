@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { IonSplitPane, IonMenu, IonContent, IonMenuToggle, IonIcon, IonRouterOutlet } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { gridOutline, clipboardOutline, personOutline, logOutOutline, shieldCheckmarkOutline } from 'ionicons/icons';
+import { gridOutline, clipboardOutline, personOutline, logOutOutline, shieldCheckmarkOutline, peopleOutline } from 'ionicons/icons';
 import { TokenStorageService } from '../../core/service/token-storage.service';
 import { Auth, signOut } from '@angular/fire/auth';
 import { ViewWillEnter } from '@ionic/angular';
@@ -39,7 +39,7 @@ export class HomeComponent implements ViewWillEnter {
 
   private readonly adminRolePages = [
     { title: 'Dashboard',       url: '/home/dashboard',       icon: 'grid-outline' },
-    { title: 'Admin',           url: '/home/admin',           icon: 'shield-checkmark-outline' },
+    { title: 'Users',           url: '/home/users-management', icon: 'people-outline' },
     { title: 'Profile',         url: '/home/profile',         icon: 'person-outline' },
   ];
 
@@ -48,7 +48,7 @@ export class HomeComponent implements ViewWillEnter {
     private readonly tokenStorageService: TokenStorageService,
     private readonly auth: Auth,
   ) {
-    addIcons({ gridOutline, shieldCheckmarkOutline, clipboardOutline, personOutline, logOutOutline });
+    addIcons({ gridOutline, shieldCheckmarkOutline, clipboardOutline, personOutline, peopleOutline, logOutOutline });
   }
 
   ionViewWillEnter() {

@@ -340,6 +340,186 @@ body, p, span, ion-label, ion-text {
   opacity: 0.92;
 }
 
+.vw-admin-shortcut-card {
+  padding: 20px;
+  border-color: #243041;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.vw-admin-shortcut-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 580px;
+}
+
+.vw-admin-shortcut-title {
+  margin: 0;
+  color: #f0f4f8;
+  font-size: 22px;
+}
+
+.vw-admin-shortcut-text {
+  margin: 0;
+  color: #8a9bb0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.vw-admin-shortcut-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #50c878;
+  color: #0d1117;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  ion-icon {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background: #62ce86;
+    transform: translateY(-1px);
+  }
+}
+
+.vw-search-panel {
+  padding: 20px;
+  border-color: #243041;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.vw-search-panel-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vw-search-panel-title {
+  margin: 0;
+  color: #f0f4f8;
+  font-size: 22px;
+}
+
+.vw-search-panel-text {
+  margin: 0;
+  color: #8a9bb0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.vw-search-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(220px, 0.9fr) auto auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.vw-search-input-wrap {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vw-search-input-wrap ion-icon {
+  font-size: 18px;
+  color: #8a9bb0;
+  flex-shrink: 0;
+}
+
+.vw-search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #f0f4f8;
+  font-size: 15px;
+  outline: none;
+
+  &::placeholder {
+    color: #5f7084;
+  }
+}
+
+.vw-search-select {
+  --background: #0d1117;
+  --border-radius: 14px;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --color: #f0f4f8;
+  min-height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vw-search-button,
+.vw-clear-button {
+  min-height: 52px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.vw-search-button {
+  background: #50c878;
+  color: #0d1117;
+}
+
+.vw-clear-button {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f0f4f8;
+}
+
+.vw-search-button:hover,
+.vw-clear-button:hover {
+  transform: translateY(-1px);
+}
+
+.vw-search-button ion-icon,
+.vw-clear-button ion-icon {
+  font-size: 18px;
+}
+
+@media (max-width: 640px) {
+  .vw-admin-shortcut-link {
+    width: 100%;
+  }
+
+  .vw-search-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .vw-search-button,
+  .vw-clear-button {
+    width: 100%;
+  }
+}
+
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 

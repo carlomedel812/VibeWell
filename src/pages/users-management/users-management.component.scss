@@ -1,0 +1,389 @@
+ion-toolbar {
+  --background: #0d1117;
+  --color: #f0f4f8;
+  --border-color: transparent;
+}
+
+.users-management-content {
+  --background: #0d1117;
+}
+
+.users-management-wrapper {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.users-management-loading,
+.users-management-state {
+  min-height: 220px;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.users-pagination {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-color: #243041;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.users-pagination-summary {
+  color: #8a9bb0;
+  font-size: 14px;
+
+  strong {
+    color: #f0f4f8;
+    font-weight: 700;
+  }
+}
+
+.users-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.users-pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.users-pagination-nav,
+.users-pagination-page {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f0f4f8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.users-pagination-page {
+  min-width: 42px;
+  padding: 0 12px;
+}
+
+.users-pagination-nav:hover,
+.users-pagination-page:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.users-pagination-page.active {
+  background: #50c878;
+  border-color: transparent;
+  color: #0d1117;
+}
+
+.users-pagination-nav:disabled,
+.users-pagination-page:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.users-pagination-nav ion-icon {
+  font-size: 16px;
+}
+
+.user-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-color: #243041;
+}
+
+.user-card.collapsed {
+  gap: 0;
+}
+
+.user-card-header {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+}
+
+.user-card-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.user-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(80, 200, 120, 0.22), rgba(80, 200, 120, 0.08));
+  color: #62e88d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.user-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.user-summary-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.user-name {
+  margin: 0;
+  color: #f0f4f8;
+  font-size: 19px;
+}
+
+.user-email {
+  margin: 0;
+  color: #8a9bb0;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.user-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8a9bb0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.user-card-meta ion-icon {
+  font-size: 20px;
+  color: #f0f4f8;
+}
+
+.user-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(80, 200, 120, 0.14);
+  color: #62e88d;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.user-pill.role {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f0f4f8;
+}
+
+.user-pill.inactive {
+  background: rgba(232, 112, 112, 0.12);
+  color: #e87070;
+}
+
+.user-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 4px;
+}
+
+.user-stats-grid,
+.user-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.user-stat-item,
+.user-control-field,
+.user-active-field {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(10, 14, 19, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.user-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-stat-label {
+  font-size: 12px;
+  color: #8a9bb0;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.user-stat-value {
+  color: #f0f4f8;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.user-role-select {
+  --background: #0d1117;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --placeholder-color: #8a9bb0;
+  --color: #f0f4f8;
+  min-height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.user-active-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-active-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.user-active-toggle ion-checkbox {
+  --size: 22px;
+  --checkbox-background: #0d1117;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --border-color-checked: #62e88d;
+  --checkbox-background-checked: #62e88d;
+  margin-top: 2px;
+}
+
+.user-active-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-active-title {
+  color: #f0f4f8;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.user-active-subtitle {
+  color: #8a9bb0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.user-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.user-feedback {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-feedback.error {
+  color: #e87070;
+}
+
+.user-feedback.success {
+  color: #62e88d;
+}
+
+.user-feedback.success ion-icon {
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .users-pagination {
+    align-items: stretch;
+  }
+
+  .users-pagination-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .users-pagination-pages {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .user-card {
+    padding: 18px;
+  }
+
+  .user-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-card-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .user-card-actions {
+    justify-content: stretch;
+  }
+
+  .user-card-actions button {
+    width: 100%;
+  }
+}

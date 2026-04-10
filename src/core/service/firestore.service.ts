@@ -1,11 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import {
+  DocumentData,
   Firestore,
   QueryConstraint,
+  QueryDocumentSnapshot,
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   query,
@@ -13,6 +16,11 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { Observable, from, map } from 'rxjs';
+
+export interface IFirestorePageResult<T> {
+  items: T[];
+  lastVisible: QueryDocumentSnapshot<DocumentData> | null;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -83,6 +91,34 @@ export class FirestoreService {
         id: docSnapshot.id,
         ...docSnapshot.data(),
       } as T))),
+    );
+  }
+
+  getPageByQuery<T>(path: string, constraints: QueryConstraint[] = []): Observable<IFirestorePageResult<T>> {
+    const collectionRef = collection(this.firestore, path);
+    const queryRef = constraints.length > 0
+      ? query(collectionRef, ...constraints)
+      : query(collectionRef);
+
+    return from(getDocs(queryRef)).pipe(
+      map((snapshot) => ({
+        items: snapshot.docs.map((docSnapshot) => ({
+          id: docSnapshot.id,
+          ...docSnapshot.data(),
+        } as T)),
+        lastVisible: snapshot.docs.length > 0 ? snapshot.docs[snapshot.docs.length - 1] : null,
+      })),
+    );
+  }
+
+  getCountByQuery(path: string, constraints: QueryConstraint[] = []): Observable<number> {
+    const collectionRef = collection(this.firestore, path);
+    const queryRef = constraints.length > 0
+      ? query(collectionRef, ...constraints)
+      : query(collectionRef);
+
+    return from(getCountFromServer(queryRef)).pipe(
+      map((snapshot) => snapshot.data().count),
     );
   }
 

@@ -2,7 +2,10 @@
 // --------------------------------------------------
 
 .login-content {
-  --background: #0d1117;
+  --background:
+    radial-gradient(circle at top left, rgba(98, 232, 141, 0.18) 0%, rgba(98, 232, 141, 0) 34%),
+    radial-gradient(circle at top right, rgba(80, 200, 120, 0.12) 0%, rgba(80, 200, 120, 0) 28%),
+    linear-gradient(180deg, #101812 0%, #0d1117 42%, #090c10 100%);
 }
 
 .login-wrapper {
@@ -12,6 +15,7 @@
   justify-content: center;
   min-height: 100%;
   padding: 32px 20px;
+  position: relative;
 }
 
 // Brand / Logo
@@ -27,10 +31,12 @@
 .login-card {
   width: 100%;
   max-width: 400px;
-  background: #131920;
+  background: rgba(19, 25, 32, 0.9);
+  backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 16px;
   padding: 32px 28px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
 // Error banner

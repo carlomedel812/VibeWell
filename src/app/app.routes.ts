@@ -42,10 +42,10 @@ export const routes: Routes = [
           import('../pages/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
       {
-        path: 'admin',
+        path: 'users-management',
         data: { roles: [UserRole.ADMIN] },
         loadComponent: () =>
-          import('../pages/admin/admin.component').then((m) => m.AdminComponent),
+          import('../pages/users-management/users-management.component').then((m) => m.UsersManagementComponent),
       },
       {
         path: 'profile',
