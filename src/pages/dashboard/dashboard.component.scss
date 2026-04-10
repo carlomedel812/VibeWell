@@ -78,27 +78,6 @@ ion-toolbar {
   gap: 24px;
 }
 
-.section-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.section-title {
-  margin: 0;
-  font-family: var(--vibewell-font-headline);
-  font-size: 22px;
-  font-weight: 700;
-  color: #f0f4f8;
-}
-
-.section-subtitle {
-  margin: 0;
-  font-family: var(--vibewell-font-body);
-  font-size: 14px;
-  color: #8a9bb0;
-}
-
 .assessment-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 220px));
@@ -199,57 +178,11 @@ ion-toolbar {
   &:active { background: #46b06a; }
 }
 
-.assessment-empty-state {
-  background: #131920;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
-  padding: 24px 20px;
-}
-
 .assessment-loading-state {
   min-height: 220px;
-  background: #131920;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-
-  ion-spinner {
-    --color: #50C878;
-    transform: scale(1.15);
-  }
-}
-
-.assessment-loading-text {
-  margin: 0;
-  font-family: var(--vibewell-font-body);
-  font-size: 14px;
-  color: #8a9bb0;
-}
-
-.assessment-empty-title {
-  margin: 0 0 8px;
-  font-family: var(--vibewell-font-headline);
-  font-size: 18px;
-  font-weight: 700;
-  color: #f0f4f8;
-}
-
-.assessment-empty-text {
-  margin: 0;
-  font-family: var(--vibewell-font-body);
-  font-size: 14px;
-  color: #8a9bb0;
 }
 
 .stat-card {
-  background: #131920;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 14px;
   padding: 12px 14px;
   display: flex;
   align-items: flex-start;
@@ -312,46 +245,6 @@ ion-toolbar {
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
   }
-}
-
-// Shared panel
-.panel {
-  background: #131920;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 14px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.panel-title {
-  font-family: var(--vibewell-font-body);
-  font-size: 14px;
-  font-weight: 700;
-  color: #f0f4f8;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.panel-link {
-  font-family: var(--vibewell-font-body);
-  font-size: 12px;
-  color: #50C878;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  ion-icon { font-size: 13px; }
-  &:hover { text-decoration: underline; }
 }
 
 // Skill progress

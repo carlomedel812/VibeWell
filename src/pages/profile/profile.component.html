@@ -10,9 +10,9 @@
 <ion-content [fullscreen]="true" class="profile-content">
   <div class="profile-wrapper">
     @if (isLoading) {
-      <div class="profile-loading-state">
+      <div class="profile-loading-state vw-surface-card vw-loading-state">
         <ion-spinner name="crescent"></ion-spinner>
-        <p class="profile-loading-text">Loading your profile...</p>
+        <p class="profile-loading-text vw-loading-text">Loading your profile...</p>
       </div>
     } @else {
       <section class="profile-hero-card">
@@ -54,10 +54,10 @@
       }
 
       @if (isEditing) {
-        <section class="profile-edit-card">
-          <div class="profile-edit-header">
-            <h2 class="profile-edit-title">Edit Profile</h2>
-            <p class="profile-edit-subtitle">Update your account details below.</p>
+        <section class="profile-edit-card vw-surface-card">
+          <div class="profile-edit-header vw-section-heading">
+            <h2 class="profile-edit-title vw-section-title">Edit Profile</h2>
+            <p class="profile-edit-subtitle vw-section-subtitle">Update your account details below.</p>
           </div>
 
           <div class="profile-form-grid">
@@ -100,10 +100,10 @@
         <div class="profile-status-message error">{{ passwordError }}</div>
       }
 
-      <section class="profile-edit-card">
-        <div class="profile-edit-header">
-          <h2 class="profile-edit-title">Update Password</h2>
-          <p class="profile-edit-subtitle">Use your current password to set a new one.</p>
+      <section class="profile-edit-card vw-surface-card">
+        <div class="profile-edit-header vw-section-heading">
+          <h2 class="profile-edit-title vw-section-title">Update Password</h2>
+          <p class="profile-edit-subtitle vw-section-subtitle">Use your current password to set a new one.</p>
         </div>
 
         <div class="profile-form-grid profile-password-form-grid">
@@ -165,7 +165,7 @@
       </section>
 
       <section class="profile-details-grid">
-        <article class="profile-detail-card">
+        <article class="profile-detail-card vw-surface-card">
           <div class="detail-icon-wrap">
             <ion-icon name="mail-outline"></ion-icon>
           </div>
@@ -175,7 +175,7 @@
           </div>
         </article>
 
-        <article class="profile-detail-card">
+        <article class="profile-detail-card vw-surface-card">
           <div class="detail-icon-wrap">
             <ion-icon name="shield-checkmark-outline"></ion-icon>
           </div>
@@ -185,7 +185,7 @@
           </div>
         </article>
 
-        <article class="profile-detail-card">
+        <article class="profile-detail-card vw-surface-card">
           <div class="detail-icon-wrap">
             <ion-icon name="calendar-outline"></ion-icon>
           </div>

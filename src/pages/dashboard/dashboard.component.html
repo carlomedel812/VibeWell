@@ -22,7 +22,7 @@
     <!-- Stat Cards -->
     <div class="stat-grid">
       @for (stat of stats; track stat.label) {
-        <div class="stat-card">
+        <div class="stat-card vw-surface-card">
           <div class="stat-icon-wrap">
             <ion-icon [name]="stat.icon"></ion-icon>
           </div>
@@ -36,15 +36,15 @@
     </div>
 
     <section class="assessment-section">
-      <div class="section-heading">
-        <h2 class="section-title">Available assessments you can start</h2>
-        <p class="section-subtitle">Choose an assessment and begin your next session.</p>
+      <div class="section-heading vw-section-heading">
+        <h2 class="section-title vw-section-title">Available assessments you can start</h2>
+        <p class="section-subtitle vw-section-subtitle">Choose an assessment and begin your next session.</p>
       </div>
 
       @if (isAssessmentsLoading) {
-        <div class="assessment-loading-state">
+        <div class="assessment-loading-state vw-surface-card vw-loading-state">
           <ion-spinner name="crescent"></ion-spinner>
-          <p class="assessment-loading-text">Loading assessments...</p>
+          <p class="assessment-loading-text vw-loading-text">Loading assessments...</p>
         </div>
       } @else if (assessments.length > 0) {
         <div class="assessment-grid">
@@ -66,9 +66,9 @@
           }
         </div>
       } @else {
-        <div class="assessment-empty-state">
-          <h3 class="assessment-empty-title">No assessments available yet</h3>
-          <p class="assessment-empty-text">Check back later for new assessments to start.</p>
+        <div class="assessment-empty-state vw-surface-card vw-empty-state">
+          <h3 class="assessment-empty-title vw-empty-title">No assessments available yet</h3>
+          <p class="assessment-empty-text vw-empty-text">Check back later for new assessments to start.</p>
         </div>
       }
     </section>
@@ -77,10 +77,10 @@
     <div class="lower-grid">
 
       <!-- Skill Progress -->
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">Skill Progress</span>
-          <a class="panel-link">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
+      <div class="panel vw-surface-card vw-panel">
+        <div class="panel-header vw-panel-header">
+          <span class="panel-title vw-panel-title">Skill Progress</span>
+          <a class="panel-link vw-panel-link">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
         </div>
         <div class="skill-list">
           @for (skill of skills; track skill.label) {
@@ -99,10 +99,10 @@
       </div>
 
       <!-- Recent Activity -->
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">Recent Activity</span>
-          <a class="panel-link" routerLink="/home/past-assessment">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
+      <div class="panel vw-surface-card vw-panel">
+        <div class="panel-header vw-panel-header">
+          <span class="panel-title vw-panel-title">Recent Activity</span>
+          <a class="panel-link vw-panel-link" routerLink="/home/past-assessment">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
         </div>
         <div class="activity-list">
           @for (item of recentActivity; track item.title) {

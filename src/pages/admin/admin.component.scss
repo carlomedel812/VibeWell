@@ -10,22 +10,19 @@
 }
 
 .admin-title {
-  margin: 0;
   font-size: 1.75rem;
-  font-weight: 700;
 }
 
 .admin-subtitle {
-  margin-top: 0.5rem;
   color: #9aa5b1;
 }
 
+.admin-heading {
+  margin-bottom: 1.25rem;
+}
+
 .admin-card {
-  margin-top: 1.25rem;
-  padding: 1.25rem;
-  border-radius: 14px;
-  background: #131920;
-  border: 1px solid #243041;
+  border-color: #243041;
 }
 
 .admin-card h2 {
