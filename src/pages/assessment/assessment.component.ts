@@ -35,6 +35,7 @@ import { AssessmentLayerType } from '../../core/enum/assessment-layer-type';
 import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
 import { AssessmentLayerRepository } from '../../core/repository/assessment-layer-repository';
 import { AssessmentRepository } from '../../core/repository/assessment-repository';
+import { DashboardRefreshService } from '../../core/service/dashboard-refresh.service';
 import { TokenStorageService } from '../../core/service/token-storage.service';
 import { DateValue, formatDate } from '../../core/utils/date.util';
 import { BigFivePersonalityLayerComponent } from './components/big-five-personality-layer/big-five-personality-layer.component';
@@ -79,6 +80,7 @@ export class AssessmentComponent implements OnInit {
     private readonly assessmentAnswerRepository: AssessmentAnswerRepository,
     private readonly assessmentRepository: AssessmentRepository,
     private readonly assessmentLayerRepository: AssessmentLayerRepository,
+    private readonly dashboardRefreshService: DashboardRefreshService,
     private readonly tokenStorageService: TokenStorageService,
   ) {
     addIcons({
@@ -234,6 +236,10 @@ export class AssessmentComponent implements OnInit {
           this.resetAssessmentState('Unable to load this assessment right now.');
         },
       });
+  }
+
+  ionViewDidLeave(): void {
+    this.dashboardRefreshService.requestRefresh();
   }
 
   formatDate(value?: DateValue): string {

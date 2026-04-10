@@ -9,10 +9,16 @@ import { addIcons } from 'ionicons';
 import {
   trendingUpOutline, checkmarkCircleOutline, timeOutline,
   flashOutline, barChartOutline, calendarOutline,
-  ribbonOutline, arrowForwardOutline,
+  ribbonOutline, arrowForwardOutline, sparklesOutline,
 } from 'ionicons/icons';
+import { forkJoin, of } from 'rxjs';
+
+import { IAssessmentAnswerModel } from '../../core/model/assessment-answer-model';
 import { IAssessmentModel } from '../../core/model/assessment-model';
+import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
 import { AssessmentRepository } from '../../core/repository/assessment-repository';
+import { DashboardRefreshService } from '../../core/service/dashboard-refresh.service';
+import { TokenStorageService } from '../../core/service/token-storage.service';
 
 interface StatCard {
   label: string;
@@ -29,6 +35,14 @@ interface RecentActivity {
   icon: string;
 }
 
+type AssessmentProgressState = 'new' | 'resume' | 'completed';
+
+interface DashboardAssessmentCard {
+  assessment: IAssessmentModel;
+  status: AssessmentProgressState;
+  answer?: IAssessmentAnswerModel;
+}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -40,7 +54,8 @@ export class DashboardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   greeting = this.getGreeting();
-  assessments: IAssessmentModel[] = [];
+  availableAssessments: DashboardAssessmentCard[] = [];
+  completedAssessments: DashboardAssessmentCard[] = [];
   isAssessmentsLoading = true;
 
   stats: StatCard[] = [
@@ -64,29 +79,98 @@ export class DashboardComponent implements OnInit {
     { title: 'Logic Puzzle',        date: 'Apr 5, 8:45 AM',       score: 85, icon: 'flash-outline'             },
   ];
 
-  constructor(private readonly assessmentRepository: AssessmentRepository) {
+  constructor(
+    private readonly assessmentAnswerRepository: AssessmentAnswerRepository,
+    private readonly assessmentRepository: AssessmentRepository,
+    private readonly dashboardRefreshService: DashboardRefreshService,
+    private readonly tokenStorageService: TokenStorageService,
+  ) {
     addIcons({
       trendingUpOutline, checkmarkCircleOutline, timeOutline,
       flashOutline, barChartOutline, calendarOutline,
-      ribbonOutline, arrowForwardOutline,
+      ribbonOutline, arrowForwardOutline, sparklesOutline,
     });
   }
 
   ngOnInit(): void {
-    this.assessmentRepository.getEnabledAssessments()
+    this.greeting = this.getGreeting();
+    this.loadAssessments();
+
+    this.dashboardRefreshService.refreshRequested$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((assessments) => {
-        this.assessments = assessments;
-        this.isAssessmentsLoading = false;
-      }, () => {
-        this.isAssessmentsLoading = false;
+      .subscribe(() => {
+        this.greeting = this.getGreeting();
+        this.loadAssessments();
       });
+  }
+
+  get hasCompletedAssessments(): boolean {
+    return this.completedAssessments.length > 0;
+  }
+
+  getAssessmentChipLabel(status: AssessmentProgressState): string {
+    switch (status) {
+      case 'resume':
+        return 'Resume';
+      case 'completed':
+        return 'Completed';
+      default:
+        return 'New';
+    }
+  }
+
+  getAssessmentChipIcon(status: AssessmentProgressState): string {
+    switch (status) {
+      case 'resume':
+        return 'time-outline';
+      case 'completed':
+        return 'checkmark-circle-outline';
+      default:
+        return 'sparkles-outline';
+    }
+  }
+
+  getAssessmentActionLabel(status: AssessmentProgressState): string {
+    switch (status) {
+      case 'resume':
+        return 'Open';
+      case 'completed':
+        return 'View';
+      default:
+        return 'Start';
+    }
   }
 
   scoreColor(score: number): string {
     if (score >= 80) return '#50C878';
     if (score >= 60) return '#f4d47c';
     return '#e87070';
+  }
+
+  private loadAssessments(): void {
+    const userId = this.tokenStorageService.getCurrentUserUid();
+    this.isAssessmentsLoading = true;
+
+    forkJoin({
+      assessments: this.assessmentRepository.getEnabledAssessments(),
+      answers: userId
+        ? this.assessmentAnswerRepository.getAssessmentAnswersByUserId(userId)
+        : of([]),
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ assessments, answers }) => {
+          const dashboardCards = this.buildAssessmentCards(assessments, answers);
+          this.availableAssessments = dashboardCards.filter((card) => card.status !== 'completed');
+          this.completedAssessments = dashboardCards.filter((card) => card.status === 'completed');
+          this.isAssessmentsLoading = false;
+        },
+        error: () => {
+          this.availableAssessments = [];
+          this.completedAssessments = [];
+          this.isAssessmentsLoading = false;
+        },
+      });
   }
 
   private getGreeting(date = new Date()): string {
@@ -101,5 +185,52 @@ export class DashboardComponent implements OnInit {
     }
 
     return 'Good evening';
+  }
+
+  private buildAssessmentCards(
+    assessments: IAssessmentModel[],
+    answers: IAssessmentAnswerModel[],
+  ): DashboardAssessmentCard[] {
+    const latestAnswersByAssessmentId = new Map<string, IAssessmentAnswerModel>();
+
+    for (const answer of answers) {
+      const existingAnswer = latestAnswersByAssessmentId.get(answer.assessmentId);
+      if (!existingAnswer || this.getAnswerTimestamp(answer) > this.getAnswerTimestamp(existingAnswer)) {
+        latestAnswersByAssessmentId.set(answer.assessmentId, answer);
+      }
+    }
+
+    return assessments.map((assessment) => {
+      const answer = assessment.id ? latestAnswersByAssessmentId.get(assessment.id) : undefined;
+      return {
+        assessment,
+        answer,
+        status: answer?.completed ? 'completed' : answer ? 'resume' : 'new',
+      } satisfies DashboardAssessmentCard;
+    });
+  }
+
+  private getAnswerTimestamp(answer: IAssessmentAnswerModel): number {
+    return this.getDateValue(answer.completedAt)
+      || this.getDateValue((answer as { updatedAt?: unknown }).updatedAt)
+      || this.getDateValue((answer as { createdAt?: unknown }).createdAt)
+      || 0;
+  }
+
+  private getDateValue(value: unknown): number {
+    if (value instanceof Date) {
+      return value.getTime();
+    }
+
+    if (typeof value === 'number') {
+      return value;
+    }
+
+    if (typeof value === 'string') {
+      const parsed = Date.parse(value);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
+
+    return 0;
   }
 }

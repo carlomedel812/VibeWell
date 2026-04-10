@@ -302,6 +302,44 @@ body, p, span, ion-label, ion-text {
   }
 }
 
+.vw-chip-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vw-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f0f4f8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+
+  ion-icon {
+    font-size: 14px;
+  }
+
+  &.resume {
+    background: rgba(244, 212, 124, 0.14);
+    color: #f4d47c;
+  }
+
+  &.completed {
+    background: rgba(80, 200, 120, 0.14);
+    color: #50c878;
+  }
+}
+
+.vw-card-muted {
+  opacity: 0.92;
+}
+
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 

@@ -38,7 +38,7 @@
     <section class="assessment-section">
       <div class="section-heading vw-section-heading">
         <h2 class="section-title vw-section-title">Available assessments you can start</h2>
-        <p class="section-subtitle vw-section-subtitle">Choose an assessment and begin your next session.</p>
+        <p class="section-subtitle vw-section-subtitle">Choose an assessment and begin a new session or continue where you left off.</p>
       </div>
 
       @if (isAssessmentsLoading) {
@@ -46,32 +46,74 @@
           <ion-spinner name="crescent"></ion-spinner>
           <p class="assessment-loading-text vw-loading-text">Loading assessments...</p>
         </div>
-      } @else if (assessments.length > 0) {
+      } @else if (availableAssessments.length > 0) {
         <div class="assessment-grid">
-          @for (assessment of assessments; track assessment.id) {
+          @for (dashboardCard of availableAssessments; track dashboardCard.assessment.id) {
             <article
               class="assessment-card"
-              [style.background-image]="assessment.thumbnailUrl ? 'linear-gradient(180deg, rgba(13, 17, 23, 0.18) 0%, rgba(13, 17, 23, 0.88) 70%, rgba(13, 17, 23, 0.98) 100%), url(' + assessment.thumbnailUrl + ')' : 'linear-gradient(180deg, rgba(24, 34, 48, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%)'"
+              [style.background-image]="dashboardCard.assessment.thumbnailUrl ? 'linear-gradient(180deg, rgba(13, 17, 23, 0.18) 0%, rgba(13, 17, 23, 0.88) 70%, rgba(13, 17, 23, 0.98) 100%), url(' + dashboardCard.assessment.thumbnailUrl + ')' : 'linear-gradient(180deg, rgba(24, 34, 48, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%)'"
             >
               <div class="assessment-card-top">
-                <span class="assessment-badge">Assessment</span>
-                <button class="assessment-go-btn" type="button" [routerLink]="['/home/assessment', assessment.id]">Go</button>
+                <div class="assessment-chip-group vw-chip-group">
+                  <span class="assessment-status-chip vw-status-chip" [class.resume]="dashboardCard.status === 'resume'">
+                    <ion-icon [name]="getAssessmentChipIcon(dashboardCard.status)"></ion-icon>
+                    {{ getAssessmentChipLabel(dashboardCard.status) }}
+                  </span>
+                </div>
+                <button class="assessment-go-btn" type="button" [routerLink]="['/home/assessment', dashboardCard.assessment.id]">
+                  {{ getAssessmentActionLabel(dashboardCard.status) }}
+                </button>
               </div>
 
               <div class="assessment-card-body">
-                <h3 class="assessment-title">{{ assessment.title }}</h3>
-                <p class="assessment-description">{{ assessment.description }}</p>
+                <h3 class="assessment-title">{{ dashboardCard.assessment.title }}</h3>
+                <p class="assessment-description">{{ dashboardCard.assessment.description }}</p>
               </div>
             </article>
           }
         </div>
       } @else {
         <div class="assessment-empty-state vw-surface-card vw-empty-state">
-          <h3 class="assessment-empty-title vw-empty-title">No assessments available yet</h3>
-          <p class="assessment-empty-text vw-empty-text">Check back later for new assessments to start.</p>
+          <h3 class="assessment-empty-title vw-empty-title">No assessments available right now</h3>
+          <p class="assessment-empty-text vw-empty-text">Check back later for new assessments to start or resume.</p>
         </div>
       }
     </section>
+
+    @if (!isAssessmentsLoading && hasCompletedAssessments) {
+      <section class="assessment-section">
+        <div class="section-heading vw-section-heading">
+          <h2 class="section-title vw-section-title">Completed assessment</h2>
+          <p class="section-subtitle vw-section-subtitle">Review the assessments you’ve already finished.</p>
+        </div>
+
+        <div class="assessment-grid">
+          @for (dashboardCard of completedAssessments; track dashboardCard.assessment.id) {
+            <article
+              class="assessment-card completed-card vw-card-muted"
+              [style.background-image]="dashboardCard.assessment.thumbnailUrl ? 'linear-gradient(180deg, rgba(13, 17, 23, 0.28) 0%, rgba(13, 17, 23, 0.9) 70%, rgba(13, 17, 23, 0.98) 100%), url(' + dashboardCard.assessment.thumbnailUrl + ')' : 'linear-gradient(180deg, rgba(24, 34, 48, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%)'"
+            >
+              <div class="assessment-card-top">
+                <div class="assessment-chip-group vw-chip-group">
+                  <span class="assessment-status-chip vw-status-chip completed">
+                    <ion-icon [name]="getAssessmentChipIcon(dashboardCard.status)"></ion-icon>
+                    {{ getAssessmentChipLabel(dashboardCard.status) }}
+                  </span>
+                </div>
+                <button class="assessment-go-btn" type="button" [routerLink]="['/home/assessment', dashboardCard.assessment.id]">
+                  {{ getAssessmentActionLabel(dashboardCard.status) }}
+                </button>
+              </div>
+
+              <div class="assessment-card-body">
+                <h3 class="assessment-title">{{ dashboardCard.assessment.title }}</h3>
+                <p class="assessment-description">{{ dashboardCard.assessment.description }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
 
     <!-- Two-column lower section -->
     <div class="lower-grid">

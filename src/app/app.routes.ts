@@ -58,13 +58,7 @@ export const routes: Routes = [
         data: { roles: [UserRole.ADMIN, UserRole.USER] },
         loadComponent: () =>
           import('../pages/assessment/assessment.component').then((m) => m.AssessmentComponent),
-      },
-      {
-        path: ':id',
-        data: { roles: [UserRole.ADMIN, UserRole.USER] },
-        loadComponent: () =>
-          import('../pages/home/components/folder/folder.page').then((m) => m.FolderPage),
-      },
+      }
     ],
   },
 ];

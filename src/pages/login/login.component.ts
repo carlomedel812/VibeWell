@@ -75,6 +75,11 @@ export class LoginComponent implements ViewWillEnter {
         return;
       }
 
+      if (!user.isActive) {
+        this.errorMessage = 'Your account is inactive. Please contact support.';
+        return
+      }
+
       this.tokenStorageService.createToken(credential.user.uid, user);
       this.router.navigateByUrl('/home');
     } catch (error: unknown) { 

@@ -34,14 +34,12 @@ export class HomeComponent implements ViewWillEnter {
 
   private readonly userRolePages = [
     { title: 'Dashboard',       url: '/home/dashboard',       icon: 'grid-outline' },
-    { title: 'Past Assessment', url: '/home/past-assessment', icon: 'clipboard-outline' },
     { title: 'Profile',         url: '/home/profile',         icon: 'person-outline' },
   ];
 
   private readonly adminRolePages = [
     { title: 'Dashboard',       url: '/home/dashboard',       icon: 'grid-outline' },
     { title: 'Admin',           url: '/home/admin',           icon: 'shield-checkmark-outline' },
-    { title: 'Past Assessment', url: '/home/past-assessment', icon: 'clipboard-outline' },
     { title: 'Profile',         url: '/home/profile',         icon: 'person-outline' },
   ];
 
