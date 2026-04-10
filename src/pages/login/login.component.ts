@@ -77,8 +77,7 @@ export class LoginComponent implements ViewWillEnter {
 
       this.tokenStorageService.createToken(credential.user.uid, user);
       this.router.navigateByUrl('/home');
-    } catch (error: unknown) {
-      console.log('Login error:', error);  
+    } catch (error: unknown) { 
       this.errorMessage = this.parseAuthError(error);
     } finally {
       this.isLoading = false;

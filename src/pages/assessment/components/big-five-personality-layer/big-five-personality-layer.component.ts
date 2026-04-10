@@ -3,6 +3,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IonSpinner } from '@ionic/angular/standalone';
 
 import { IAssessmentLayerModel } from '../../../../core/model/assessment-layer-model';
+import {
+  IAssessmentLayerAnswerBigFivePersonalityModel,
+  IAssessmentLayerAnswerBigFivePersonalityOption,
+} from '../../../../core/model/assessment-answer-model';
 import { IBigFivePersonalityQuestionModel } from '../../../../core/model/big-five-personality-question';
 import { BigFivePersonalityQuestionRepository } from '../../../../core/repository/big-five-personality-question-repository';
 
@@ -19,10 +23,12 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
   private readonly destroyRef = inject(DestroyRef);
 
   @Input({ required: true }) layer!: AssessmentLayerRecord;
+  @Input() initialSelectedOptions: IAssessmentLayerAnswerBigFivePersonalityOption[] = [];
   @Input() displayTitle = 'Layer';
   @Input() layerTypeLabel = 'Big Five Personality Trait';
   @Output() back = new EventEmitter<void>();
-  @Output() next = new EventEmitter<void>();
+  @Output() answerChange = new EventEmitter<IAssessmentLayerAnswerBigFivePersonalityModel>();
+  @Output() next = new EventEmitter<IAssessmentLayerAnswerBigFivePersonalityModel>();
 
   readonly scaleOptions = [1, 2, 3, 4, 5];
 
@@ -81,6 +87,11 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['layer']?.currentValue) {
       this.loadQuestions();
+      return;
+    }
+
+    if (changes['initialSelectedOptions']) {
+      this.applyInitialSelections();
     }
   }
 
@@ -103,11 +114,14 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
       return;
     }
 
+    const answerPayload = this.buildAnswerPayload();
+
     if (this.isLastQuestion) {
-      this.next.emit();
+      this.next.emit(answerPayload);
       return;
     }
 
+    this.answerChange.emit(answerPayload);
     this.currentQuestionIndex += 1;
   }
 
@@ -134,7 +148,7 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
       .subscribe({
         next: (questions) => {
           this.questions = [...questions];
-          this.currentQuestionIndex = 0;
+          this.applyInitialSelections();
           this.isLoading = false;
           this.loadError = questions.length === 0 ? 'No questions are configured for this layer yet.' : '';
         },
@@ -145,5 +159,44 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
           this.loadError = 'Unable to load this question set right now.';
         },
       });
+  }
+
+  private applyInitialSelections(): void {
+    const nextResponses = new Map<number, number>();
+
+    this.questions.forEach((question, index) => {
+      const questionId = question.id;
+      if (!questionId) {
+        return;
+      }
+
+      const savedOption = this.initialSelectedOptions.find((option) => option.questionId === questionId);
+      if (savedOption) {
+        nextResponses.set(index, savedOption.score);
+      }
+    });
+
+    this.questionResponses = nextResponses;
+
+    const firstUnansweredIndex = this.questions.findIndex((_, index) => !this.questionResponses.has(index));
+    this.currentQuestionIndex = firstUnansweredIndex >= 0 ? firstUnansweredIndex : 0;
+  }
+
+  private buildAnswerPayload(): IAssessmentLayerAnswerBigFivePersonalityModel {
+    return {
+      selectedOption: this.questions
+        .map((question, index) => {
+          const score = this.questionResponses.get(index);
+          if (!question.id || score === undefined) {
+            return null;
+          }
+
+          return {
+            questionId: question.id,
+            score,
+          } satisfies IAssessmentLayerAnswerBigFivePersonalityOption;
+        })
+        .filter((option): option is IAssessmentLayerAnswerBigFivePersonalityOption => option !== null),
+    };
   }
 }

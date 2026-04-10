@@ -78,6 +78,20 @@ export class TokenStorageService {
     };
   }
 
+  getCurrentUserUid(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    const payload = this.decodePayload(token);
+    if (!payload || this.isTokenExpired()) {
+      return null;
+    }
+
+    return payload.uid;
+  }
+
   // ── Token ────────────────────────────────────────────────────────────────
 
   saveToken(token: string): void {

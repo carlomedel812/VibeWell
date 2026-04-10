@@ -1,6 +1,7 @@
+import { IFirestoreDocumentModel } from "./firestore-document-model";
 import { UserRole } from "../enum/user-role";
 
-export interface IUserModel {
+export interface IUserModel extends IFirestoreDocumentModel {
     email: string;
     firstName: string;
     lastName: string;

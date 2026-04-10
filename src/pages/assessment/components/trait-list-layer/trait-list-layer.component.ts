@@ -5,6 +5,7 @@ import { addIcons } from 'ionicons';
 import { arrowForwardOutline } from 'ionicons/icons';
 
 import { IAssessmentLayerModel } from '../../../../core/model/assessment-layer-model';
+import { IAssessmentLayerAnswerTraitListModel } from '../../../../core/model/assessment-answer-model';
 import { ITraitListAdjectiveModel } from '../../../../core/model/trait-list-adjective-model';
 import { ITraitListConfigModel } from '../../../../core/model/trait-list-config-model';
 import { TraitListAdjectiveRepository } from '../../../../core/repository/trait-list-adjective-repository';
@@ -22,12 +23,14 @@ export class TraitListLayerComponent implements OnChanges {
   private readonly destroyRef = inject(DestroyRef);
 
   @Input({ required: true }) layer!: AssessmentLayerRecord;
+  @Input() initialSelectedTraits: ITraitListAdjectiveModel[] = [];
   @Input() displayTitle = 'Layer';
   @Output() back = new EventEmitter<void>();
-  @Output() next = new EventEmitter<void>();
+  @Output() answerChange = new EventEmitter<IAssessmentLayerAnswerTraitListModel>();
+  @Output() next = new EventEmitter<IAssessmentLayerAnswerTraitListModel>();
 
   traitListOptions: ITraitListAdjectiveModel[] = [];
-  selectedTraitAdjectives = new Set<string>();
+  selectedTraitIds = new Set<string>();
   isLoading = false;
   loadError = '';
 
@@ -40,7 +43,7 @@ export class TraitListLayerComponent implements OnChanges {
   }
 
   get selectedTraitCount(): number {
-    return this.selectedTraitAdjectives.size;
+    return this.selectedTraitIds.size;
   }
 
   get selectionTarget(): number {
@@ -71,27 +74,34 @@ export class TraitListLayerComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['layer']?.currentValue) {
       this.loadTraitOptions();
+      return;
+    }
+
+    if (changes['initialSelectedTraits']) {
+      this.applyInitialSelections();
     }
   }
 
   toggleTraitSelection(option: ITraitListAdjectiveModel): void {
-    const nextSelections = new Set(this.selectedTraitAdjectives);
+    const nextSelections = new Set(this.selectedTraitIds);
+    const selectionKey = this.getOptionKey(option);
 
-    if (nextSelections.has(option.adjective)) {
-      nextSelections.delete(option.adjective);
+    if (nextSelections.has(selectionKey)) {
+      nextSelections.delete(selectionKey);
     } else {
       if (!this.canSelectMore(option)) {
         return;
       }
 
-      nextSelections.add(option.adjective);
+      nextSelections.add(selectionKey);
     }
 
-    this.selectedTraitAdjectives = nextSelections;
+    this.selectedTraitIds = nextSelections;
+    this.answerChange.emit(this.buildAnswerPayload());
   }
 
   isTraitSelected(option: ITraitListAdjectiveModel): boolean {
-    return this.selectedTraitAdjectives.has(option.adjective);
+    return this.selectedTraitIds.has(this.getOptionKey(option));
   }
 
   onBack(): void {
@@ -103,12 +113,12 @@ export class TraitListLayerComponent implements OnChanges {
       return;
     }
 
-    this.next.emit();
+    this.next.emit(this.buildAnswerPayload());
   }
 
   private loadTraitOptions(): void {
     this.traitListOptions = [];
-    this.selectedTraitAdjectives = new Set<string>();
+    this.selectedTraitIds = new Set<string>();
     this.loadError = '';
 
     const layerId = this.layer?.id;
@@ -124,6 +134,7 @@ export class TraitListLayerComponent implements OnChanges {
       .subscribe({
         next: (options) => {
           this.traitListOptions = [...options].sort((left, right) => left.adjective.localeCompare(right.adjective));
+          this.applyInitialSelections();
           this.isLoading = false;
         },
         error: (error) => {
@@ -133,5 +144,29 @@ export class TraitListLayerComponent implements OnChanges {
           this.loadError = 'Unable to load this layer choices right now.';
         },
       });
+  }
+
+  private applyInitialSelections(): void {
+    if (this.traitListOptions.length === 0) {
+      return;
+    }
+
+    const nextSelections = new Set(
+      this.initialSelectedTraits
+        .map((trait) => this.getOptionKey(trait))
+        .filter((selectionKey) => !!selectionKey),
+    );
+
+    this.selectedTraitIds = nextSelections;
+  }
+
+  private buildAnswerPayload(): IAssessmentLayerAnswerTraitListModel {
+    return {
+      selectedTraits: this.traitListOptions.filter((option) => this.selectedTraitIds.has(this.getOptionKey(option))),
+    };
+  }
+
+  private getOptionKey(option: ITraitListAdjectiveModel): string {
+    return option.id || option.adjective;
   }
 }
