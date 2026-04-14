@@ -3,7 +3,10 @@
 // -------------------------------------------------------
 
 $dark-bg: #0d1117;
+$card-bg: #12171f;
+$green: #50c878;
 $border: #1e252f;
+$text-muted: #7a8290;
 
 ion-toolbar {
   --background: #{$dark-bg};
@@ -14,4 +17,58 @@ ion-toolbar {
 .result-content {
   --background: #{$dark-bg};
   --color: #ffffff;
+}
+
+// ---- Sticky Layer Tabs ----
+.layer-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  background: $dark-bg;
+  border-bottom: 1px solid $border;
+  justify-content: center;
+
+  .layer-tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid $border;
+    background: $card-bg;
+    color: $text-muted;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+
+    &:hover {
+      color: #ffffff;
+      border-color: rgba($green, 0.4);
+    }
+
+    &.active {
+      background: rgba($green, 0.15);
+      color: $green;
+      border-color: $green;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .layer-tabs {
+    gap: 6px;
+    padding: 10px 12px;
+
+    .layer-tab {
+      padding: 6px 14px;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// ---- Layer Section Scroll Offset ----
+[id^="layer-"] {
+  scroll-margin-top: 80px;
 }

@@ -133,7 +133,7 @@ export class TraitListLayerComponent implements OnChanges {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (options) => {
-          this.traitListOptions = [...options].sort((left, right) => left.adjective.localeCompare(right.adjective));
+          this.traitListOptions = this.samplePerAttribute(options, this.config?.maxTraitPerAttribute ?? 4);
           this.applyInitialSelections();
           this.isLoading = false;
         },
@@ -144,6 +144,35 @@ export class TraitListLayerComponent implements OnChanges {
           this.loadError = 'Unable to load this layer choices right now.';
         },
       });
+  }
+
+  private samplePerAttribute(options: ITraitListAdjectiveModel[], countPerAttribute: number): ITraitListAdjectiveModel[] {
+    const grouped = new Map<string, ITraitListAdjectiveModel[]>();
+
+    for (const option of options) {
+      const key = option.attribute ?? 'NONE';
+      if (!grouped.has(key)) {
+        grouped.set(key, []);
+      }
+      grouped.get(key)!.push(option);
+    }
+
+    const sampled: ITraitListAdjectiveModel[] = [];
+
+    for (const group of grouped.values()) {
+      this.shuffleArray(group);
+      sampled.push(...group.slice(0, countPerAttribute));
+    }
+
+    this.shuffleArray(sampled);
+    return sampled;
+  }
+
+  private shuffleArray<T>(array: T[]): void {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
 
   private applyInitialSelections(): void {

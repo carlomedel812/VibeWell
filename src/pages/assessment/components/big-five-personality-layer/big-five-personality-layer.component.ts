@@ -8,6 +8,7 @@ import {
   IAssessmentLayerAnswerBigFivePersonalityOption,
 } from '../../../../core/model/assessment-answer-model';
 import { IBigFivePersonalityQuestionModel } from '../../../../core/model/big-five-personality-question';
+import { IBigFivePersonalityTraitConfigModel } from '../../../../core/model/big-five-personality-trait-config-model';
 import { BigFivePersonalityQuestionRepository } from '../../../../core/repository/big-five-personality-question-repository';
 
 type AssessmentLayerRecord = IAssessmentLayerModel & { id?: string };
@@ -39,6 +40,10 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
   loadError = '';
 
   constructor(private readonly bigFivePersonalityQuestionRepository: BigFivePersonalityQuestionRepository) {}
+
+  get config(): IBigFivePersonalityTraitConfigModel {
+    return this.layer.config as IBigFivePersonalityTraitConfigModel;
+  }
 
   get totalQuestions(): number {
     return this.questions.length;
@@ -147,10 +152,15 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (questions) => {
-          this.questions = [...questions];
+          const shuffled = [...questions];
+          this.shuffleArray(shuffled);
+
+          const maxQuestions = this.config?.maxQuestionsToShow;
+          this.questions = maxQuestions && maxQuestions > 0 ? shuffled.slice(0, maxQuestions) : shuffled;
+
           this.applyInitialSelections();
           this.isLoading = false;
-          this.loadError = questions.length === 0 ? 'No questions are configured for this layer yet.' : '';
+          this.loadError = this.questions.length === 0 ? 'No questions are configured for this layer yet.' : '';
         },
         error: (error) => {
           console.log('Error loading Big Five questions:', error);
@@ -159,6 +169,13 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
           this.loadError = 'Unable to load this question set right now.';
         },
       });
+  }
+
+  private shuffleArray<T>(array: T[]): void {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
 
   private applyInitialSelections(): void {

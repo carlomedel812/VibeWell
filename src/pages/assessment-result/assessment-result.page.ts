@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild, inject, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
 import { AssessmentOutcomeRepository } from '../../core/repository/assessment-outcome-repository';
@@ -32,6 +32,7 @@ import { BigTraitOutcomeComponent } from './compoenents/big-trait-outcome/big-tr
 export class AssessmentResultPage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
+  private readonly ngZone = inject(NgZone);
   private readonly assessmentAnswerRepository = inject(AssessmentAnswerRepository);
   private readonly assessmentOutcomeRepository = inject(AssessmentOutcomeRepository);
   private readonly traitListOutcomeRepository = inject(TraitListOutcomeRepository);
@@ -45,9 +46,46 @@ export class AssessmentResultPage implements OnInit {
   bigFiveLayerOutcome: IBigFiveLayerOutcome | null = null;
   isLoading = true;
   loadError = '';
+  activeTabIndex = 0;
+
+  @ViewChild('resultContent', { static: false }) resultContent!: IonContent;
 
   constructor() {
     addIcons({ arrowBack });
+  }
+
+  scrollToLayer(index: number): void {
+    this.activeTabIndex = index;
+    const target = document.getElementById('layer-' + index);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  onContentScroll(): void {
+    const layerCount = this.assessmentOutcome?.layerOutcomes?.length ?? 0;
+    if (layerCount === 0) return;
+
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    for (let i = 0; i < layerCount; i++) {
+      const el = document.getElementById('layer-' + i);
+      if (!el) continue;
+
+      const rect = el.getBoundingClientRect();
+      const distance = Math.abs(rect.top);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = i;
+      }
+    }
+
+    if (this.activeTabIndex !== closestIndex) {
+      this.ngZone.run(() => {
+        this.activeTabIndex = closestIndex;
+      });
+    }
   }
 
   ngOnInit() {

@@ -9,16 +9,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="result-content">
-  <ng-container *ngFor="let layer of assessmentOutcome?.layerOutcomes">
-    <ng-container [ngSwitch]="layer.layerType">
-      <app-trait-list-outcome *ngSwitchCase="AssessmentLayerType.TRAIT_LIST"
-        [outcome]="traitListOutcome">
-      </app-trait-list-outcome>
-      <app-big-trait-outcome *ngSwitchCase="AssessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT"
-        [outcome]="bigFiveOutcome"
-        [layerOutcome]="bigFiveLayerOutcome">
-      </app-big-trait-outcome>
-    </ng-container>
+<ion-content [fullscreen]="true" class="result-content" #resultContent [scrollEvents]="true" (ionScroll)="onContentScroll()">
+  <!-- Sticky Layer Tabs -->
+  <div class="layer-tabs" *ngIf="assessmentOutcome?.layerOutcomes?.length">
+    <button
+      *ngFor="let layer of assessmentOutcome!.layerOutcomes; let i = index"
+      class="layer-tab"
+      [class.active]="activeTabIndex === i"
+      (click)="scrollToLayer(i)">
+      Layer {{ i + 1 }}
+    </button>
+  </div>
+
+  <ng-container *ngFor="let layer of assessmentOutcome?.layerOutcomes; let i = index">
+    <div [id]="'layer-' + i">
+      <ng-container [ngSwitch]="layer.layerType">
+        <app-trait-list-outcome *ngSwitchCase="AssessmentLayerType.TRAIT_LIST"
+          [outcome]="traitListOutcome">
+        </app-trait-list-outcome>
+        <app-big-trait-outcome *ngSwitchCase="AssessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT"
+          [outcome]="bigFiveOutcome"
+          [layerOutcome]="bigFiveLayerOutcome">
+        </app-big-trait-outcome>
+      </ng-container>
+    </div>
   </ng-container>
 </ion-content>
