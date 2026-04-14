@@ -74,12 +74,9 @@
 						</div>
 					</article>
 				} @else if (layerView === 'complete') {
-					<div class="assessment-empty-state">
-						<h2 class="assessment-empty-title">Assessment complete</h2>
-						<p class="assessment-empty-text">
-							You’ve finished all configured layers for {{ assessment.title }}. Hang tight while we process your results.
-						</p>
-						<a class="assessment-primary-btn" routerLink="/home/dashboard">Return to dashboard</a>
+					<div class="assessment-loading-state">
+						<ion-spinner name="crescent"></ion-spinner>
+						<p class="assessment-loading-text">Please wait while we generate your result</p>
 					</div>
 				} @else {
 					@switch (activeLayer.type) {

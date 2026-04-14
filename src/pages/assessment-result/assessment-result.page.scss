@@ -1,0 +1,17 @@
+// -------------------------------------------------------
+// Assessment Result Page
+// -------------------------------------------------------
+
+$dark-bg: #0d1117;
+$border: #1e252f;
+
+ion-toolbar {
+  --background: #{$dark-bg};
+  --color: #ffffff;
+  --border-color: #{$border};
+}
+
+.result-content {
+  --background: #{$dark-bg};
+  --color: #ffffff;
+}

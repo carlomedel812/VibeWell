@@ -1,0 +1,543 @@
+// -------------------------------------------------------
+// Big Trait Outcome Component
+// -------------------------------------------------------
+
+$dark-bg: #0d1117;
+$card-bg: #12171f;
+$card-surface: #1a1f28;
+$green: #50c878;
+$orange: #e89550;
+$red: #e87070;
+$text-muted: #7a8290;
+$text-light: #c8cdd6;
+$border: #1e252f;
+
+:host {
+  display: block;
+}
+
+.outcome-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+// ---- Layer Banner ----
+.layer-banner {
+  padding: 28px 0 20px;
+  text-align: left;
+
+  .layer-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+
+    .highlight {
+      color: $green;
+    }
+  }
+
+  .layer-subtitle {
+    font-size: 1.1rem;
+    color: $text-muted;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+// ---- Top Section (Big Five + Synthesis) ----
+.top-section {
+  display: flex;
+  gap: 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+// ---- Big Five Card ----
+.big-five-card {
+  flex: 1.4;
+  background: $card-bg;
+  border-radius: 14px;
+  border: 1px solid $border;
+  padding: 20px;
+
+  .big-five-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .big-five-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.06em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .verified-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $green;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba($green, 0.4);
+    border-radius: 20px;
+    padding: 3px 10px;
+    text-transform: uppercase;
+  }
+
+  .big-five-subtitle {
+    font-size: 0.9rem;
+    color: $text-muted;
+    margin: 0 0 20px;
+  }
+}
+
+// ---- Bar Chart ----
+.big-five-bars {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  .bar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .bar-track {
+    width: 100%;
+    max-width: 48px;
+    height: 240px;
+    background: rgba($green, 0.08);
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .bar-fill {
+    width: 100%;
+    background: linear-gradient(180deg, $green, rgba($green, 0.5));
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 6px;
+    transition: height 0.6s ease;
+
+    .bar-icon {
+      font-size: 1rem;
+      color: #ffffff;
+      opacity: 0.9;
+    }
+  }
+
+  .bar-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $text-muted;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .bar-value {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: $green;
+    margin-top: 2px;
+  }
+}
+
+.big-five-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid $border;
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.52rem;
+    font-weight: 700;
+    color: $green;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: $green;
+      box-shadow: 0 0 6px rgba($green, 0.6);
+    }
+  }
+
+  .confidence-label {
+    font-size: 0.52rem;
+    font-weight: 700;
+    color: $text-muted;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}
+
+// ---- Cognitive & Behavioral Synthesis ----
+.synthesis-card {
+  flex: 1;
+  background: $card-bg;
+  border-radius: 14px;
+  border: 1px solid $border;
+  padding: 20px;
+
+  .synthesis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+
+    .synthesis-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.06em;
+      margin: 0;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    .info-icon {
+      font-size: 1.1rem;
+      color: $green;
+      flex-shrink: 0;
+    }
+  }
+
+  .synthesis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .synthesis-item {
+    background: $card-surface;
+    border-radius: 10px;
+    border: 1px solid $border;
+    padding: 14px;
+
+    .synthesis-icon {
+      font-size: 1.2rem;
+      color: $green;
+      margin-bottom: 8px;
+    }
+
+    .synthesis-item-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+      margin: 0 0 4px;
+      text-transform: uppercase;
+    }
+
+    .synthesis-item-desc {
+      font-size: 0.85rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+// ---- Baseline Cards ----
+.baseline-cards {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 24px;
+
+  .baseline-card {
+    flex: 1;
+    background: $card-surface;
+    border-radius: 12px;
+    border: 1px solid $border;
+    padding: 14px;
+
+    .baseline-card-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+
+      .baseline-icon {
+        font-size: 1rem;
+        color: $green;
+      }
+
+      .baseline-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: $green;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    }
+
+    .baseline-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 6px;
+    }
+
+    .baseline-card-desc {
+      font-size: 0.88rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.55;
+    }
+  }
+}
+
+// ---- Bottom Section (Toxic Trigger + Manager) ----
+.bottom-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+// ---- Toxic Trigger Card ----
+.toxic-trigger-card {
+  flex: 1;
+  background: $card-bg;
+  border-radius: 14px;
+  border: 1px solid $border;
+  padding: 20px;
+
+  .toxic-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    .toxic-icon {
+      font-size: 1.2rem;
+      color: $orange;
+    }
+
+    .toxic-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: $orange;
+      letter-spacing: 0.06em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .toxic-body {
+    background: $card-surface;
+    border-radius: 10px;
+    border: 1px solid $border;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+
+  .toxic-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $text-muted;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .toxic-quote {
+    font-size: 0.95rem;
+    color: $text-light;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .toxic-footer {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+
+    .toxic-footer-icon {
+      font-size: 1rem;
+      color: $text-muted;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .toxic-impact {
+      font-size: 0.68rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+// ---- Ideal Manager Card ----
+.manager-card {
+  flex: 1;
+  background: $card-bg;
+  border-radius: 14px;
+  border: 1px solid $border;
+  padding: 20px;
+
+  .manager-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    .manager-icon {
+      font-size: 1.2rem;
+      color: $green;
+    }
+
+    .manager-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: $green;
+      letter-spacing: 0.06em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .manager-body {
+    background: $card-surface;
+    border-radius: 10px;
+    border: 1px solid $border;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+
+  .manager-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $text-muted;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .manager-desc {
+    font-size: 0.95rem;
+    color: $text-light;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .manager-traits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .manager-trait {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: $text-light;
+
+    .trait-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: $green;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ---- Mobile Responsive ----
+@media (max-width: 768px) {
+  .top-section {
+    flex-direction: column;
+    gap: 16px;
+
+    .big-five-card,
+    .synthesis-card {
+      flex: none;
+      width: 100%;
+    }
+  }
+
+  .big-five-bars {
+    gap: 6px;
+
+    .bar-track {
+      height: 160px;
+      max-width: 40px;
+    }
+
+    .bar-label {
+      font-size: 0.6rem;
+    }
+
+    .bar-value {
+      font-size: 0.7rem;
+    }
+  }
+
+  .synthesis-card .synthesis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .baseline-cards {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+
+    &::-webkit-scrollbar { display: none; }
+
+    .baseline-card {
+      flex: 0 0 70%;
+      min-width: 220px;
+      scroll-snap-align: start;
+    }
+  }
+
+  .bottom-section {
+    flex-direction: row;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+
+    &::-webkit-scrollbar { display: none; }
+
+    .toxic-trigger-card,
+    .manager-card {
+      flex: 0 0 85%;
+      min-width: 280px;
+      scroll-snap-align: start;
+    }
+  }
+}

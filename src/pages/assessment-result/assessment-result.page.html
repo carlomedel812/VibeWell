@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home/dashboard" routerDirection="root">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Assessment Result</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="result-content">
+  <ng-container *ngFor="let layer of assessmentOutcome?.layerOutcomes">
+    <ng-container [ngSwitch]="layer.layerType">
+      <app-trait-list-outcome *ngSwitchCase="AssessmentLayerType.TRAIT_LIST"
+        [outcome]="traitListOutcome">
+      </app-trait-list-outcome>
+      <app-big-trait-outcome *ngSwitchCase="AssessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT"
+        [outcome]="bigFiveOutcome"
+        [layerOutcome]="bigFiveLayerOutcome">
+      </app-big-trait-outcome>
+    </ng-container>
+  </ng-container>
+</ion-content>

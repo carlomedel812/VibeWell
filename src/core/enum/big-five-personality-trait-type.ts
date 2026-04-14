@@ -1,4 +1,4 @@
-export enum IBigFivePersonalityTraitType {
+export enum BigFivePersonalityTraitType {
     OPENNESS = 'OPENNESS',
     CONSCIENTIOUSNESS = 'CONSCIENTIOUSNESS',
     EXTRAVERSION = 'EXTRAVERSION',

@@ -1,0 +1,79 @@
+<div class="outcome-wrapper" *ngIf="outcome">
+
+  <!-- Layer Banner -->
+  <div class="layer-banner">
+    <h1 class="layer-title">LAYER 1: <span class="highlight">YOUR PROFESSIONAL MASK</span></h1>
+    <p class="layer-subtitle">How you operate, execute, and survive in the workplace environment.</p>
+  </div>
+
+  <!-- Hero Profile Card -->
+  <div class="hero-card">
+    <div class="hero-inner">
+      <div class="hero-icon">
+        <ion-icon name="shield-checkmark"></ion-icon>
+      </div>
+      <div class="hero-info">
+        <h2 class="archetype-name">{{ outcome.archetypeName | uppercase }}</h2>
+        <p class="archetype-traits">(Primary: {{ outcome.primaryAnimal }} &nbsp;|&nbsp; Secondary: {{ outcome.secondaryAnimal }})</p>
+        <p class="archetype-description">{{ outcome.executiveSummary }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strengths & Blind Spots -->
+  <div class="two-col-section">
+
+    <!-- Signature Strengths -->
+    <div class="col-card strengths-card">
+      <h3 class="col-title strengths-title">Signature Strengths</h3>
+      <ul class="trait-list">
+        <li class="trait-item" *ngFor="let strength of toArray(outcome.signatureStrengths)">
+          <ion-icon name="checkmark-circle" class="trait-icon success"></ion-icon>
+          <div>
+            <p>{{ strength }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Operational Blind Spots -->
+    <div class="col-card blindspots-card">
+      <h3 class="col-title blindspots-title">Operational Blind Spots</h3>
+      <ul class="trait-list">
+        <li class="trait-item" *ngFor="let blindSpot of toArray(outcome.operationalBlindSpots)">
+          <ion-icon name="warning" class="trait-icon danger"></ion-icon>
+          <div>
+            <p>{{ blindSpot }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Operational Dynamics Cards -->
+  <div class="behavior-cards">
+    <div class="behavior-card" *ngFor="let dynamic of toArray(outcome.operationalDynamics)">
+      <div class="behavior-card-header">
+        <ion-icon name="flash" class="behavior-icon"></ion-icon>
+      </div>
+      <p class="behavior-card-desc">{{ dynamic }}</p>
+    </div>
+  </div>
+
+  <!-- In Good Company -->
+  <div class="good-company-section" *ngIf="toArray(outcome.inGoodCompany).length">
+    <h3 class="good-company-title">In Good Company</h3>
+    <div class="good-company-grid">
+      <div class="person-card" *ngFor="let person of toArray(outcome.inGoodCompany)">
+        <div class="person-avatar">
+          <ion-icon name="person-circle" class="avatar-placeholder"></ion-icon>
+        </div>
+        <h5 class="person-name">{{ person.name }}</h5>
+        <span class="person-archetype">{{ person.title }}</span>
+        <p class="person-quote">{{ person.descritption }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

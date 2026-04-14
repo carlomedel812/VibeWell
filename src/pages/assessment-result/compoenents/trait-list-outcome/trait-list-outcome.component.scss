@@ -1,0 +1,412 @@
+// -------------------------------------------------------
+// Trait List Outcome Component
+// -------------------------------------------------------
+
+$dark-bg: #0d1117;
+$card-bg: #12171f;
+$card-surface: #1a1f28;
+$green: #50c878;
+$orange: #e89550;
+$red: #e87070;
+$text-muted: #7a8290;
+$text-light: #c8cdd6;
+$border: #1e252f;
+
+:host {
+  display: block;
+}
+
+.outcome-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+// ---- Layer Banner ----
+.layer-banner {
+  padding: 28px 0 20px;
+  text-align: left;
+
+  .layer-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+
+    .highlight {
+      color: $green;
+    }
+  }
+
+  .layer-subtitle {
+    font-size: 1.1rem;
+    color: $text-muted;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+// ---- Hero Card ----
+.hero-card {
+  background: $card-bg;
+  margin: 24px 0;
+  border-radius: 14px;
+  border: 1px solid $border;
+  padding: 20px;
+
+  .hero-inner {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .hero-icon {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(145deg, #1e4d2e, #0f2a19);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba($green, 0.3);
+
+    ion-icon {
+      font-size: 2.4rem;
+      color: $green;
+    }
+  }
+
+  .hero-info {
+    flex: 1;
+
+    .archetype-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.06em;
+      margin: 0 0 4px;
+      text-transform: uppercase;
+    }
+
+    .archetype-traits {
+      font-size: 1rem;
+      color: $green;
+      margin: 0 0 12px;
+      font-weight: 600;
+    }
+
+    .archetype-description {
+      font-size: 1.05rem;
+      color: $text-light;
+      line-height: 1.6;
+      margin: 0;
+      border-left: 2px solid $green;
+      padding-left: 10px;
+    }
+  }
+}
+
+// ---- Two-Column Section ----
+.two-col-section {
+  display: flex;
+  gap: 20px;
+  margin: 0 0 24px;
+
+  .col-card {
+    flex: 1;
+    background: $card-bg;
+    border-radius: 12px;
+    border: 1px solid $border;
+    padding: 16px;
+  }
+
+  .col-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .strengths-title { color: $green; }
+  .blindspots-title { color: $orange; }
+
+  .trait-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .trait-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+
+    .trait-icon {
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+
+      &.success { color: $green; }
+      &.danger  { color: $orange; }
+    }
+
+    strong {
+      display: block;
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+// ---- Behavior Cards ----
+.behavior-cards {
+  display: flex;
+  gap: 18px;
+  margin: 0 0 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  &::-webkit-scrollbar { display: none; }
+
+  .behavior-card {
+    flex: 1;
+    min-width: 140px;
+    background: $card-surface;
+    border-radius: 12px;
+    border: 1px solid $border;
+    padding: 14px;
+
+    .behavior-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+
+      .behavior-icon {
+        font-size: 1.3rem;
+        color: $green;
+      }
+
+      .behavior-tag {
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: $green;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+    }
+
+    .behavior-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 6px;
+    }
+
+    .behavior-card-desc {
+      font-size: 0.95rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.55;
+    }
+  }
+}
+
+// ---- Friction Card ----
+.friction-card {
+  margin: 0 0 24px;
+  background: $card-surface;
+  border-radius: 12px;
+  border: 1px solid $border;
+  padding: 16px;
+
+  .friction-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+
+    .friction-icon {
+      font-size: 1.4rem;
+      color: $green;
+      flex-shrink: 0;
+    }
+
+    .friction-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 4px;
+    }
+
+    .friction-desc {
+      font-size: 0.72rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+
+  .friction-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .friction-bar {
+      flex: 1;
+      height: 6px;
+      background: $border;
+      border-radius: 4px;
+      overflow: hidden;
+
+      .friction-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, $green, #2e9e58);
+        border-radius: 4px;
+        transition: width 0.6s ease;
+      }
+    }
+
+    .friction-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: $green;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+  }
+}
+
+// ---- In Good Company ----
+.good-company-section {
+  background: $dark-bg;
+  padding: 28px 0 32px;
+  margin-top: 8px;
+
+  .good-company-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 0 20px;
+  }
+
+  .good-company-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .person-card {
+    background: $card-bg;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: left;
+    border: 1px solid $border;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+
+    .person-avatar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #1a1f28;
+      height: 120px;
+      align-items: center;
+
+      .avatar-placeholder {
+        font-size: 5rem;
+        color: #3a4050;
+      }
+    }
+
+    .person-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 2px;
+    }
+
+    .person-archetype {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $green;
+      margin-bottom: 6px;
+    }
+
+    .person-quote {
+      font-size: 0.9rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.5;
+      font-style: italic;
+    }
+  }
+}
+
+// ---- Mobile Responsive ----
+@media (max-width: 768px) {
+  .two-col-section {
+    flex-direction: row;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+
+    &::-webkit-scrollbar { display: none; }
+
+    .col-card {
+      flex: 0 0 80%;
+      min-width: 260px;
+      scroll-snap-align: start;
+    }
+  }
+
+  .behavior-cards {
+    flex-wrap: nowrap;
+
+    .behavior-card {
+      flex: 0 0 70%;
+      min-width: 220px;
+    }
+  }
+
+  .good-company-section {
+    .good-company-grid {
+      display: flex;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      gap: 12px;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 4px;
+
+      &::-webkit-scrollbar { display: none; }
+    }
+
+    .person-card {
+      flex: 0 0 70%;
+      min-width: 200px;
+      scroll-snap-align: start;
+    }
+  }
+}

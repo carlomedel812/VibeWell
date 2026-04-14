@@ -26,7 +26,9 @@ export const routes: Routes = [
     path: 'forgot-password',
     canActivate: [guestGuard],
     loadComponent: () =>
-      import('../pages/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent),
+      import('../pages/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent,
+      ),
   },
   {
     path: 'home',
@@ -45,26 +47,42 @@ export const routes: Routes = [
         path: 'dashboard',
         data: { roles: [UserRole.ADMIN, UserRole.USER] },
         loadComponent: () =>
-          import('../pages/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('../pages/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent,
+          ),
       },
       {
         path: 'users-management',
         data: { roles: [UserRole.ADMIN] },
         loadComponent: () =>
-          import('../pages/users-management/users-management.component').then((m) => m.UsersManagementComponent),
+          import('../pages/users-management/users-management.component').then(
+            (m) => m.UsersManagementComponent,
+          ),
       },
       {
         path: 'profile',
         data: { roles: [UserRole.ADMIN, UserRole.USER] },
         loadComponent: () =>
-          import('../pages/profile/profile.component').then((m) => m.ProfileComponent),
+          import('../pages/profile/profile.component').then(
+            (m) => m.ProfileComponent,
+          ),
       },
       {
         path: 'assessment/:id',
         data: { roles: [UserRole.ADMIN, UserRole.USER] },
         loadComponent: () =>
-          import('../pages/assessment/assessment.component').then((m) => m.AssessmentComponent),
-      }
+          import('../pages/assessment/assessment.component').then(
+            (m) => m.AssessmentComponent,
+          ),
+      },
+      {
+        path: 'assessment-result/:id',
+        data: { roles: [UserRole.ADMIN, UserRole.USER] },
+        loadComponent: () =>
+          import('../pages/assessment-result/assessment-result.page').then(
+            (m) => m.AssessmentResultPage,
+          ),
+      },
     ],
   },
 ];

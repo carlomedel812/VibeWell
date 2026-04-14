@@ -1,6 +1,6 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   IonBackButton,
   IonButtons,
@@ -21,7 +21,7 @@ import {
   sparklesOutline,
   timeOutline,
 } from 'ionicons/icons';
-import { forkJoin, from, map, of, switchMap } from 'rxjs';
+import { forkJoin, from, map, of, switchMap, firstValueFrom } from 'rxjs';
 
 import {
   IAssessmentAnswerModel,
@@ -34,8 +34,10 @@ import { IAssessmentLayerModel } from '../../core/model/assessment-layer-model';
 import { AssessmentLayerType } from '../../core/enum/assessment-layer-type';
 import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
 import { AssessmentLayerRepository } from '../../core/repository/assessment-layer-repository';
+import { AssessmentOutcomeRepository } from '../../core/repository/assessment-outcome-repository';
 import { AssessmentRepository } from '../../core/repository/assessment-repository';
 import { DashboardRefreshService } from '../../core/service/dashboard-refresh.service';
+import { AssessmentOutcomeGeneratorService } from '../../core/service/assessment-score-generator.service';
 import { TokenStorageService } from '../../core/service/token-storage.service';
 import { DateValue, formatDate } from '../../core/utils/date.util';
 import { BigFivePersonalityLayerComponent } from './components/big-five-personality-layer/big-five-personality-layer.component';
@@ -81,7 +83,10 @@ export class AssessmentComponent implements OnInit {
     private readonly assessmentRepository: AssessmentRepository,
     private readonly assessmentLayerRepository: AssessmentLayerRepository,
     private readonly dashboardRefreshService: DashboardRefreshService,
+    private readonly assessmentOutcomeGeneratorService: AssessmentOutcomeGeneratorService,
     private readonly tokenStorageService: TokenStorageService,
+    private readonly assessmentOutcomeRepository: AssessmentOutcomeRepository,
+    private readonly router: Router,
   ) {
     addIcons({
       arrowForwardOutline,
@@ -228,7 +233,11 @@ export class AssessmentComponent implements OnInit {
           this.assessmentLayers = result.layers ?? [];
           this.currentAssessmentAnswer = result.assessmentAnswer ?? null;
           this.configureAssessmentState();
-          this.isLoading = false;
+
+          if (!this.currentAssessmentAnswer?.completed) {
+            this.isLoading = false;
+          }
+
           this.loadError = result.assessment ? '' : 'Assessment not found.';
         },
         error: (error) => {
@@ -318,8 +327,8 @@ export class AssessmentComponent implements OnInit {
     }
 
     if (this.currentAssessmentAnswer?.completed) {
-      this.activeLayer = this.assessmentLayers[this.assessmentLayers.length - 1] ?? null;
-      this.layerView = 'complete';
+      this.isLoading = true;
+      this.navigateToResults(0);
       return;
     }
 
@@ -384,6 +393,7 @@ export class AssessmentComponent implements OnInit {
 
     if (updatedAssessmentAnswer.completed) {
       this.layerView = 'complete';
+      this.navigateToResults();
       return;
     }
 
@@ -401,6 +411,7 @@ export class AssessmentComponent implements OnInit {
     const existingLayerAnswer = this.getLayerAnswer(this.activeLayer);
     const updatedLayerAnswer: IAssessmentLayerAnswerModel = {
       layerId: this.activeLayer.id,
+      layer: this.activeLayer.layer,
       type: this.activeLayer.type,
       completed,
       completedAt: completed ? new Date() : existingLayerAnswer?.completedAt,
@@ -430,6 +441,37 @@ export class AssessmentComponent implements OnInit {
     };
 
     return this.currentAssessmentAnswer;
+  }
+
+  private navigateToResults(delay = 2000): void {
+    const assessmentId = this.route.snapshot.paramMap.get('id');
+    const assessmentAnswerId = this.currentAssessmentAnswer?.id;
+    if (!assessmentId || !assessmentAnswerId) {
+      return;
+    }
+
+    const navigate = async (): Promise<void> => {
+      const outcomes = await firstValueFrom(
+        this.assessmentOutcomeRepository.getAssessmentOutcomesByAnswerId(assessmentAnswerId),
+      );
+      const outcome = outcomes[0];
+
+      if (outcome && outcome.generationComplete) {
+        void this.router.navigate(['/home/assessment-result', assessmentId]);
+      } else {
+        await this.assessmentOutcomeGeneratorService.generateOutcomesForAssessment(
+          this.currentAssessmentAnswer!,
+          outcome ?? null,
+        );
+        void this.router.navigate(['/home/assessment-result', assessmentId]);
+      }
+    };
+
+    if (delay > 0) {
+      setTimeout(() => navigate(), delay);
+    } else {
+      void navigate();
+    }
   }
 
   private resetAssessmentState(message: string): void {

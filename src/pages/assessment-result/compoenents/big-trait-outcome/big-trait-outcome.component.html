@@ -1,0 +1,178 @@
+<div class="outcome-wrapper" *ngIf="outcome">
+
+  <!-- Layer Banner -->
+  <div class="layer-banner">
+    <h1 class="layer-title">LAYER 2: <span class="highlight">YOUR INTERNAL ENGINE</span></h1>
+    <p class="layer-subtitle">The hardwired biological temperament that fuels your professional execution.</p>
+  </div>
+
+  <!-- Big Five + Cognitive Synthesis Row -->
+  <div class="top-section">
+
+    <!-- Big Five Baseline -->
+    <div class="big-five-card">
+      <div class="big-five-header">
+        <h2 class="big-five-title">THE BIG FIVE BASELINE</h2>
+        <span class="verified-badge">VERIFIED PROFILE</span>
+      </div>
+      <p class="big-five-subtitle">Fundamental biological drives and behavioral anchors.</p>
+
+      <div class="big-five-bars" *ngIf="layerOutcome">
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="layerOutcome.opennesPercentile">
+              <ion-icon name="bulb" class="bar-icon"></ion-icon>
+            </div>
+          </div>
+          <span class="bar-label">OPENNESS</span>
+          <span class="bar-value">{{ layerOutcome.opennesPercentile }}%</span>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="layerOutcome.conscientiousnessPercentile">
+              <ion-icon name="hand-left" class="bar-icon"></ion-icon>
+            </div>
+          </div>
+          <span class="bar-label">CONSCIENTIOUS</span>
+          <span class="bar-value">{{ layerOutcome.conscientiousnessPercentile }}%</span>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="layerOutcome.extraversionPercentile">
+              <ion-icon name="flash" class="bar-icon"></ion-icon>
+            </div>
+          </div>
+          <span class="bar-label">EXTRAVERSION</span>
+          <span class="bar-value">{{ layerOutcome.extraversionPercentile }}%</span>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="layerOutcome.agreeablenessPercentile">
+              <ion-icon name="heart" class="bar-icon"></ion-icon>
+            </div>
+          </div>
+          <span class="bar-label">AGREEABLE</span>
+          <span class="bar-value">{{ layerOutcome.agreeablenessPercentile }}%</span>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="layerOutcome.neuroticismPercentile">
+              <ion-icon name="shield" class="bar-icon"></ion-icon>
+            </div>
+          </div>
+          <span class="bar-label">NEUROTICISM</span>
+          <span class="bar-value">{{ layerOutcome.neuroticismPercentile }}%</span>
+        </div>
+      </div>
+
+      <div class="big-five-footer">
+        <span class="status-pill active">
+          <span class="status-dot"></span> SYNTHESIS ENGINE ACTIVE
+        </span>
+        <span class="confidence-label">PROFILE: {{ outcome.oceanProfile }}</span>
+      </div>
+    </div>
+
+    <!-- Cognitive & Behavioral Synthesis -->
+    <div class="synthesis-card">
+      <div class="synthesis-header">
+        <h2 class="synthesis-title">COGNITIVE &amp; BEHAVIORAL SYNTHESIS</h2>
+        <ion-icon name="information-circle" class="info-icon"></ion-icon>
+      </div>
+
+      <div class="synthesis-grid">
+        <div class="synthesis-item">
+          <ion-icon name="bar-chart" class="synthesis-icon"></ion-icon>
+          <h4 class="synthesis-item-title">INFLUENCE ENGINE</h4>
+          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.influenceEngine }}</p>
+        </div>
+        <div class="synthesis-item">
+          <ion-icon name="sparkles" class="synthesis-icon"></ion-icon>
+          <h4 class="synthesis-item-title">INFO PROCESSING STYLE</h4>
+          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.infoProcessingStyle }}</p>
+        </div>
+        <div class="synthesis-item">
+          <ion-icon name="calculator" class="synthesis-icon"></ion-icon>
+          <h4 class="synthesis-item-title">DECISION VELOCITY</h4>
+          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.decisionVelocity }}</p>
+        </div>
+        <div class="synthesis-item">
+          <ion-icon name="people" class="synthesis-icon"></ion-icon>
+          <h4 class="synthesis-item-title">FEEDBACK RECEPTIVITY</h4>
+          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.feedbackReceptivity }}</p>
+        </div>
+        <div class="synthesis-item">
+          <ion-icon name="flash" class="synthesis-icon"></ion-icon>
+          <h4 class="synthesis-item-title">RISK TOLERANCE</h4>
+          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.riskTolerance }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Core Baseline Cards -->
+  <div class="baseline-cards">
+    <div class="baseline-card">
+      <div class="baseline-card-header">
+        <ion-icon name="battery-half" class="baseline-icon"></ion-icon>
+        <span class="baseline-tag">ENERGY BATTERY</span>
+      </div>
+      <p class="baseline-card-desc">{{ outcome.coreBaselines?.energyBattery }}</p>
+    </div>
+
+    <div class="baseline-card">
+      <div class="baseline-card-header">
+        <ion-icon name="flash" class="baseline-icon"></ion-icon>
+        <span class="baseline-tag">EXECUTION &amp; WORK ETHIC</span>
+      </div>
+      <p class="baseline-card-desc">{{ outcome.coreBaselines?.executionAndWorkEthic }}</p>
+    </div>
+
+    <div class="baseline-card">
+      <div class="baseline-card-header">
+        <ion-icon name="people" class="baseline-icon"></ion-icon>
+        <span class="baseline-tag">TRUST BASELINE</span>
+      </div>
+      <p class="baseline-card-desc">{{ outcome.coreBaselines?.trustBaseline }}</p>
+    </div>
+
+    <div class="baseline-card">
+      <div class="baseline-card-header">
+        <ion-icon name="shield" class="baseline-icon"></ion-icon>
+        <span class="baseline-tag">STRESS BASELINE</span>
+      </div>
+      <p class="baseline-card-desc">{{ outcome.coreBaselines?.stressBaseline }}</p>
+    </div>
+  </div>
+
+  <!-- Toxic Trigger + Ideal Manager Row -->
+  <div class="bottom-section">
+
+    <!-- The Toxic Trigger -->
+    <div class="toxic-trigger-card">
+      <div class="toxic-header">
+        <ion-icon name="warning" class="toxic-icon"></ion-icon>
+        <h3 class="toxic-title">THE TOXIC TRIGGER</h3>
+      </div>
+      <div class="toxic-body">
+        <span class="toxic-label">ENVIRONMENT TO AVOID</span>
+        <blockquote class="toxic-quote">{{ outcome.environmentalFit?.toxicEnvironmentTrigger }}</blockquote>
+      </div>
+    </div>
+
+    <!-- Ideal Manager Profile -->
+    <div class="manager-card">
+      <div class="manager-header">
+        <ion-icon name="checkmark-circle" class="manager-icon"></ion-icon>
+        <h3 class="manager-title">IDEAL MANAGER PROFILE</h3>
+      </div>
+      <div class="manager-body">
+        <span class="manager-label">LEADERSHIP SYNERGY</span>
+        <p class="manager-desc">{{ outcome.environmentalFit?.idealManagerProfile }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>

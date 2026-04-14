@@ -193,7 +193,8 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
 
           return {
             questionId: question.id,
-            score,
+            score: question.scoringTypePositive ? score : 6 - score,
+            trait: question.trait,
           } satisfies IAssessmentLayerAnswerBigFivePersonalityOption;
         })
         .filter((option): option is IAssessmentLayerAnswerBigFivePersonalityOption => option !== null),
