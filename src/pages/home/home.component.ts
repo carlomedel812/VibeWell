@@ -1,11 +1,13 @@
 
 
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { IonSplitPane, IonMenu, IonContent, IonMenuToggle, IonIcon, IonRouterOutlet } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { gridOutline, clipboardOutline, personOutline, logOutOutline, shieldCheckmarkOutline, peopleOutline } from 'ionicons/icons';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TokenStorageService } from '../../core/service/token-storage.service';
+import { UserRepository } from '../../core/repository/user-repository';
 import { Auth, signOut } from '@angular/fire/auth';
 import { ViewWillEnter } from '@ionic/angular';
 import { UserRole } from '../../core/enum/user-role';
@@ -21,7 +23,10 @@ import { IUserModel } from '../../core/model/user-model';
 
 })
 
-export class HomeComponent implements ViewWillEnter {
+export class HomeComponent implements ViewWillEnter, OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly userRepository = inject(UserRepository);
+
   public currentUser: Partial<IUserModel> = {
     firstName: 'Jane',
     lastName: 'Doe',
@@ -52,6 +57,10 @@ export class HomeComponent implements ViewWillEnter {
     addIcons({ gridOutline, shieldCheckmarkOutline, clipboardOutline, personOutline, peopleOutline, logOutOutline });
   }
 
+  ngOnInit(): void {
+    this.checkAccountActive();
+  }
+
   ionViewWillEnter() {
     this.setMenuByRole();
   }
@@ -65,6 +74,7 @@ export class HomeComponent implements ViewWillEnter {
       this.currentUser.profilePictureUrl = user.profilePictureUrl ?? null;
       this.currentUser.role = user.role;
       this.hasProfileImageError = false;
+
       if (user.role === UserRole.ADMIN) {
         this.appPages = this.adminRolePages;
       } else {
@@ -84,5 +94,22 @@ export class HomeComponent implements ViewWillEnter {
 
   onProfileImageError(): void {
     this.hasProfileImageError = true;
+  }
+
+  private checkAccountActive(): void {
+    const currentUser = this.tokenStorageService.decodeToken();
+
+    if (!currentUser) return;
+
+    const uid = this.tokenStorageService.getCurrentUserUid();
+    if (!uid) return;
+
+    this.userRepository.getUserById(uid)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((user) => {
+        if (!user || !user.isActive || user.role !== currentUser.role) {
+          this.logout();
+        }
+      });
   }
 }

@@ -38,6 +38,7 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
   currentQuestionIndex = 0;
   isLoading = false;
   loadError = '';
+  private userHasInteracted = false;
 
   constructor(private readonly bigFivePersonalityQuestionRepository: BigFivePersonalityQuestionRepository) {}
 
@@ -91,16 +92,18 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['layer']?.currentValue) {
+      this.userHasInteracted = false;
       this.loadQuestions();
       return;
     }
 
-    if (changes['initialSelectedOptions']) {
+    if (changes['initialSelectedOptions'] && !this.userHasInteracted) {
       this.applyInitialSelections();
     }
   }
 
   selectScaleValue(value: number): void {
+    this.userHasInteracted = true;
     this.questionResponses.set(this.currentQuestionIndex, value);
     this.questionResponses = new Map(this.questionResponses);
   }
@@ -152,11 +155,21 @@ export class BigFivePersonalityLayerComponent implements OnChanges {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (questions) => {
-          const shuffled = [...questions];
-          this.shuffleArray(shuffled);
+          // Collect IDs of previously answered questions so they're always included
+          const answeredIds = new Set(
+            this.initialSelectedOptions.map((o) => o.questionId).filter(Boolean),
+          );
+
+          const pinned = questions.filter((q) => q.id && answeredIds.has(q.id));
+          const rest = questions.filter((q) => !q.id || !answeredIds.has(q.id));
+          this.shuffleArray(rest);
 
           const maxQuestions = this.config?.maxQuestionsToShow;
-          this.questions = maxQuestions && maxQuestions > 0 ? shuffled.slice(0, maxQuestions) : shuffled;
+          const remaining = maxQuestions && maxQuestions > 0
+            ? Math.max(0, maxQuestions - pinned.length)
+            : rest.length;
+
+          this.questions = [...pinned, ...rest.slice(0, remaining)];
 
           this.applyInitialSelections();
           this.isLoading = false;

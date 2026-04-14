@@ -30,22 +30,46 @@
         <p class="empty-text">There are no assessments to manage right now.</p>
       </div>
     } @else {
-      <div class="assessment-grid">
+      <div class="assessment-list">
         @for (assessment of assessments; track assessment.id) {
-          <article
-            class="assessment-card"
-            [routerLink]="['/home/manage-assessment', assessment.id, 'profiles']"
-            [style.background-image]="assessment.thumbnailUrl ? 'linear-gradient(180deg, rgba(13, 17, 23, 0.18) 0%, rgba(13, 17, 23, 0.88) 70%, rgba(13, 17, 23, 0.98) 100%), url(' + assessment.thumbnailUrl + ')' : 'linear-gradient(180deg, rgba(24, 34, 48, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%)'"
-          >
-            <div class="assessment-card-top">
-              <span class="assessment-status-chip" [class.enabled]="assessment.enabled" [class.disabled]="!assessment.enabled">
-                {{ assessment.enabled ? 'Active' : 'Disabled' }}
-              </span>
+          <article class="assessment-card">
+            @if (assessment.thumbnailUrl) {
+              <div class="assessment-thumbnail" [style.background-image]="'url(' + assessment.thumbnailUrl + ')'"></div>
+            }
+
+            <div class="assessment-card-content">
+              <div class="assessment-card-header">
+                <h3 class="assessment-title">{{ assessment.title }}</h3>
+              </div>
+
+              <p class="assessment-description">{{ assessment.description }}</p>
+
+              <div class="assessment-card-meta">
+                <span class="meta-item">
+                  <span class="meta-label">Created</span>
+                  <span class="meta-value">{{ assessment.createdAt | date:'MMM d, yyyy' }}</span>
+                </span>
+                <span class="meta-item">
+                  <span class="meta-label">Status</span>
+                  <button
+                    class="status-toggle"
+                    [class.enabled]="assessment.enabled"
+                    [class.disabled]="!assessment.enabled"
+                    (click)="toggleStatus(assessment)"
+                  >
+                    <span class="status-dot"></span>
+                    {{ assessment.enabled ? 'Enabled' : 'Disabled' }}
+                  </button>
+                </span>
+              </div>
+
+              @if (!assessment.enabled) {
+                <p class="disabled-hint">Users can no longer take this assessment.</p>
+              }
             </div>
 
-            <div class="assessment-card-body">
-              <h3 class="assessment-title">{{ assessment.title }}</h3>
-              <p class="assessment-description">{{ assessment.description }}</p>
+            <div class="assessment-card-action">
+              <a class="view-results-btn" [routerLink]="['/home/manage-assessment', assessment.id, 'profiles']">View Results</a>
             </div>
           </article>
         }

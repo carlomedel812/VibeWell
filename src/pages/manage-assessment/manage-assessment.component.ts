@@ -42,6 +42,12 @@ export class ManageAssessmentComponent implements OnInit {
   isLoading = true;
   loadError = '';
 
+  toggleStatus(assessment: IAssessmentModel): void {
+    const newEnabled = !assessment.enabled;
+    assessment.enabled = newEnabled;
+    this.assessmentRepository.updateAssessment(assessment.id, { enabled: newEnabled });
+  }
+
   ngOnInit(): void {
     this.assessmentRepository.getAllAssessments()
       .pipe(takeUntilDestroyed(this.destroyRef))

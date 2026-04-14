@@ -214,6 +214,11 @@ ion-toolbar {
 .user-pill.role {
   background: rgba(255, 255, 255, 0.08);
   color: #f0f4f8;
+
+  &.admin {
+    background: rgba(245, 200, 66, 0.14);
+    color: #f5c842;
+  }
 }
 
 .user-pill.inactive {

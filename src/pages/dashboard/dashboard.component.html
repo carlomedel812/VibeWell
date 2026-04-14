@@ -19,22 +19,6 @@
       </div>
     </div>
 
-    <!-- Stat Cards -->
-    <div class="stat-grid">
-      @for (stat of stats; track stat.label) {
-        <div class="stat-card vw-surface-card">
-          <div class="stat-icon-wrap">
-            <ion-icon [name]="stat.icon"></ion-icon>
-          </div>
-          <div class="stat-body">
-            <span class="stat-value">{{ stat.value }}</span>
-            <span class="stat-label">{{ stat.label }}</span>
-            <span class="stat-sub" [class.up]="stat.trend === 'up'">{{ stat.sub }}</span>
-          </div>
-        </div>
-      }
-    </div>
-
     <section class="assessment-section">
       <div class="section-heading vw-section-heading">
         <h2 class="section-title vw-section-title">Available assessments you can start</h2>
@@ -115,8 +99,24 @@
       </section>
     }
 
+    <!-- Stat Cards -->
+    <div class="stat-grid" *ngIf="false">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-card vw-surface-card">
+          <div class="stat-icon-wrap">
+            <ion-icon [name]="stat.icon"></ion-icon>
+          </div>
+          <div class="stat-body">
+            <span class="stat-value">{{ stat.value }}</span>
+            <span class="stat-label">{{ stat.label }}</span>
+            <span class="stat-sub" [class.up]="stat.trend === 'up'">{{ stat.sub }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
     <!-- Two-column lower section -->
-    <div class="lower-grid">
+    <div class="lower-grid" *ngIf="false">
 
       <!-- Skill Progress -->
       <div class="panel vw-surface-card vw-panel">

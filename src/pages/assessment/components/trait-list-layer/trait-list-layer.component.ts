@@ -33,9 +33,14 @@ export class TraitListLayerComponent implements OnChanges {
   selectedTraitIds = new Set<string>();
   isLoading = false;
   loadError = '';
+  private userHasInteracted = false;
 
   constructor(private readonly traitListAdjectiveRepository: TraitListAdjectiveRepository) {
     addIcons({ arrowForwardOutline });
+  }
+
+  ngOnInit(): void {
+    console.log(this.initialSelectedTraits);
   }
 
   get config(): ITraitListConfigModel {
@@ -73,16 +78,18 @@ export class TraitListLayerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['layer']?.currentValue) {
+      this.userHasInteracted = false;
       this.loadTraitOptions();
       return;
     }
 
-    if (changes['initialSelectedTraits']) {
+    if (changes['initialSelectedTraits'] && !this.userHasInteracted) {
       this.applyInitialSelections();
     }
   }
 
   toggleTraitSelection(option: ITraitListAdjectiveModel): void {
+    this.userHasInteracted = true;
     const nextSelections = new Set(this.selectedTraitIds);
     const selectionKey = this.getOptionKey(option);
 
@@ -147,6 +154,11 @@ export class TraitListLayerComponent implements OnChanges {
   }
 
   private samplePerAttribute(options: ITraitListAdjectiveModel[], countPerAttribute: number): ITraitListAdjectiveModel[] {
+    // Collect keys of previously selected traits so they're always included
+    const initialKeys = new Set(
+      this.initialSelectedTraits.map((t) => this.getOptionKey(t)).filter(Boolean),
+    );
+
     const grouped = new Map<string, ITraitListAdjectiveModel[]>();
 
     for (const option of options) {
@@ -160,8 +172,15 @@ export class TraitListLayerComponent implements OnChanges {
     const sampled: ITraitListAdjectiveModel[] = [];
 
     for (const group of grouped.values()) {
-      this.shuffleArray(group);
-      sampled.push(...group.slice(0, countPerAttribute));
+      // Separate previously selected traits from the rest
+      const pinned = group.filter((o) => initialKeys.has(this.getOptionKey(o)));
+      const rest = group.filter((o) => !initialKeys.has(this.getOptionKey(o)));
+
+      this.shuffleArray(rest);
+
+      // Always include pinned, fill remaining slots from shuffled rest
+      const remaining = Math.max(0, countPerAttribute - pinned.length);
+      sampled.push(...pinned, ...rest.slice(0, remaining));
     }
 
     this.shuffleArray(sampled);
