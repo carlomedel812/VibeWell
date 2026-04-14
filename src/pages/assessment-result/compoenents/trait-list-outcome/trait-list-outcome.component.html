@@ -52,12 +52,28 @@
   </div>
 
   <!-- Operational Dynamics Cards -->
+  <!-- Operational Dynamics Cards -->
   <div class="behavior-cards">
-    <div class="behavior-card" *ngFor="let dynamic of toArray(outcome.operationalDynamics)">
-      <div class="behavior-card-header">
-        <ion-icon name="flash" class="behavior-icon"></ion-icon>
+    <div class="behavior-card" *ngFor="let card of dynamicsCards">
+      <div class="behavior-card-top">
+        <ion-icon [name]="card.icon" class="behavior-icon"></ion-icon>
+        <span class="behavior-tag" *ngIf="card.tag">{{ card.tag }}</span>
       </div>
-      <p class="behavior-card-desc">{{ dynamic }}</p>
+      <h4 class="behavior-card-title">{{ card.title }}</h4>
+      <p class="behavior-card-desc">{{ card.value }}</p>
+    </div>
+  </div>
+
+  <!-- Friction Point Card -->
+  <div class="friction-card" *ngIf="frictionPoint">
+    <div class="friction-header">
+      <div class="friction-icon-wrap">
+        <ion-icon name="flash" class="friction-icon"></ion-icon>
+      </div>
+      <div class="friction-info">
+        <h4 class="friction-title">{{ frictionPoint.title }}</h4>
+        <p class="friction-desc">{{ frictionPoint.value }}</p>
+      </div>
     </div>
   </div>
 

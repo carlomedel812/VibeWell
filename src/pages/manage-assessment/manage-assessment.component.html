@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Assessment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="manage-assessment-content">
+  <div class="manage-assessment-page">
+    <div class="section-heading">
+      <h2 class="section-title">Manage Assessment</h2>
+      <p class="section-subtitle">View users who have taken the assessments.</p>
+    </div>
+
+    @if (isLoading) {
+      <div class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p class="loading-text">Loading assessments...</p>
+      </div>
+    } @else if (loadError) {
+      <div class="empty-state">
+        <h3 class="empty-title">Something went wrong</h3>
+        <p class="empty-text">{{ loadError }}</p>
+      </div>
+    } @else if (assessments.length === 0) {
+      <div class="empty-state">
+        <h3 class="empty-title">No assessments yet</h3>
+        <p class="empty-text">There are no assessments to manage right now.</p>
+      </div>
+    } @else {
+      <div class="assessment-grid">
+        @for (assessment of assessments; track assessment.id) {
+          <article
+            class="assessment-card"
+            [routerLink]="['/home/manage-assessment', assessment.id, 'profiles']"
+            [style.background-image]="assessment.thumbnailUrl ? 'linear-gradient(180deg, rgba(13, 17, 23, 0.18) 0%, rgba(13, 17, 23, 0.88) 70%, rgba(13, 17, 23, 0.98) 100%), url(' + assessment.thumbnailUrl + ')' : 'linear-gradient(180deg, rgba(24, 34, 48, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%)'"
+          >
+            <div class="assessment-card-top">
+              <span class="assessment-status-chip" [class.enabled]="assessment.enabled" [class.disabled]="!assessment.enabled">
+                {{ assessment.enabled ? 'Active' : 'Disabled' }}
+              </span>
+            </div>
+
+            <div class="assessment-card-body">
+              <h3 class="assessment-title">{{ assessment.title }}</h3>
+              <p class="assessment-description">{{ assessment.description }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</ion-content>

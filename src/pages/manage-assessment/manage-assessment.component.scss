@@ -1,0 +1,173 @@
+$dark-bg: #0d1117;
+$border: #1e252f;
+$text-muted: #7a8290;
+$green: #50c878;
+
+ion-toolbar {
+  --background: #{$dark-bg};
+  --color: #ffffff;
+  --border-color: #{$border};
+}
+
+.manage-assessment-content {
+  --background: #{$dark-bg};
+  --color: #ffffff;
+}
+
+.manage-assessment-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// ---- Section Heading ----
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f0f4f8;
+  margin: 0;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: $text-muted;
+  margin: 0;
+}
+
+// ---- Loading & Empty States ----
+.loading-state,
+.empty-state {
+  min-height: 220px;
+  border-radius: 14px;
+  background: #131920;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+
+  ion-spinner {
+    --color: #{$green};
+    transform: scale(1.15);
+  }
+}
+
+.loading-text,
+.empty-text {
+  margin: 0;
+  color: $text-muted;
+  font-size: 14px;
+}
+
+.empty-title {
+  margin: 0;
+  color: #f0f4f8;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+// ---- Assessment Grid ----
+.assessment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 220px));
+  gap: 14px;
+  justify-content: start;
+
+  @media (max-width: 540px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.assessment-card {
+  width: 220px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #131920;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: rgba($green, 0.3);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 540px) {
+    width: 100%;
+  }
+}
+
+.assessment-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.assessment-status-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  &.enabled {
+    background: rgba($green, 0.12);
+    color: $green;
+  }
+
+  &.disabled {
+    background: rgba(255, 255, 255, 0.06);
+    color: $text-muted;
+  }
+}
+
+.assessment-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assessment-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f4f8;
+}
+
+.assessment-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(240, 244, 248, 0.8);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

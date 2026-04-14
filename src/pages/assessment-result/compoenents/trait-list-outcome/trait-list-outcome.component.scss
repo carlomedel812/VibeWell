@@ -176,7 +176,7 @@ $border: #1e252f;
 .behavior-cards {
   display: flex;
   gap: 18px;
-  margin: 0 0 24px;
+  margin: 0 0 18px;
   overflow-x: auto;
   padding-bottom: 4px;
 
@@ -184,20 +184,20 @@ $border: #1e252f;
 
   .behavior-card {
     flex: 1;
-    min-width: 140px;
+    min-width: 190px;
     background: $card-surface;
     border-radius: 12px;
     border: 1px solid $border;
-    padding: 14px;
+    padding: 18px;
 
-    .behavior-card-header {
+    .behavior-card-top {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
+      justify-content: space-between;
+      margin-bottom: 14px;
 
       .behavior-icon {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         color: $green;
       }
 
@@ -214,11 +214,11 @@ $border: #1e252f;
       font-size: 1.05rem;
       font-weight: 700;
       color: #ffffff;
-      margin: 0 0 6px;
+      margin: 0 0 8px;
     }
 
     .behavior-card-desc {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       color: $text-muted;
       margin: 0;
       line-height: 1.55;
@@ -232,61 +232,45 @@ $border: #1e252f;
   background: $card-surface;
   border-radius: 12px;
   border: 1px solid $border;
-  padding: 16px;
+  padding: 18px 20px;
 
   .friction-header {
     display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    margin-bottom: 14px;
-
-    .friction-icon {
-      font-size: 1.4rem;
-      color: $green;
-      flex-shrink: 0;
-    }
-
-    .friction-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin: 0 0 4px;
-    }
-
-    .friction-desc {
-      font-size: 0.72rem;
-      color: $text-muted;
-      margin: 0;
-      line-height: 1.5;
-    }
-  }
-
-  .friction-bar-wrap {
-    display: flex;
+    gap: 14px;
     align-items: center;
-    gap: 12px;
 
-    .friction-bar {
-      flex: 1;
-      height: 6px;
-      background: $border;
-      border-radius: 4px;
-      overflow: hidden;
+    .friction-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba($green, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
 
-      .friction-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, $green, #2e9e58);
-        border-radius: 4px;
-        transition: width 0.6s ease;
+      .friction-icon {
+        font-size: 1.4rem;
+        color: $green;
       }
     }
 
-    .friction-label {
-      font-size: 0.6rem;
-      font-weight: 700;
-      color: $green;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
+    .friction-info {
+      flex: 1;
+
+      .friction-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 4px;
+      }
+
+      .friction-desc {
+        font-size: 0.88rem;
+        color: $text-muted;
+        margin: 0;
+        line-height: 1.5;
+      }
     }
   }
 }

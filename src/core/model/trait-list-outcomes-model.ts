@@ -6,12 +6,19 @@ export interface ITraitListOutcomesModel extends IFirestoreDocumentModel{
     executiveSummary: string;
     inGoodCompany: IInGoodCompanyModel[];
     operationalBlindSpots: string[];
-    operationalDynamics: string[];
+    operationalDynamics: IOperationDynamicsModel;
     primaryAnimal: string;
     primaryTrait: TraitAttribute;
     secondaryAnimal: string;
     secondaryTrait: TraitAttribute;
     signatureStrengths: string[];
+}
+
+export interface IOperationDynamicsModel {
+    conflictAndMeetingStyle: string;
+    delegationProfile: string;
+    frictionPoint: string;
+    optimalWorkEnvironment: string;
 }
 
 export interface IInGoodCompanyModel {

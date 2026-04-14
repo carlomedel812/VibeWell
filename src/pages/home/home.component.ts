@@ -38,9 +38,10 @@ export class HomeComponent implements ViewWillEnter {
   ];
 
   private readonly adminRolePages = [
-    { title: 'Dashboard',       url: '/home/dashboard',       icon: 'grid-outline' },
-    { title: 'Users',           url: '/home/users-management', icon: 'people-outline' },
-    { title: 'Profile',         url: '/home/profile',         icon: 'person-outline' },
+    { title: 'Dashboard',       url: '/home/dashboard',            icon: 'grid-outline' },
+    { title: 'Manage Assessment', url: '/home/manage-assessment',  icon: 'clipboard-outline' },
+    { title: 'Users',           url: '/home/users-management',     icon: 'people-outline' },
+    { title: 'Profile',         url: '/home/profile',              icon: 'person-outline' },
   ];
 
   constructor(

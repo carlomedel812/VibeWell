@@ -48,4 +48,14 @@ export class BigTraitOutcomeComponent {
       sparkles,
     });
   }
+
+  barHeight(value: number): number {
+    return Math.min(Math.abs(value), 100);
+  }
+
+  barLevel(value: number): string {
+    if (value > 66) return 'high';
+    if (value >= 34) return 'med';
+    return 'low';
+  }
 }

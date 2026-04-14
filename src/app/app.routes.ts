@@ -83,6 +83,22 @@ export const routes: Routes = [
             (m) => m.AssessmentResultPage,
           ),
       },
+      {
+        path: 'manage-assessment',
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () =>
+          import('../pages/manage-assessment/manage-assessment.component').then(
+            (m) => m.ManageAssessmentComponent,
+          ),
+      },
+      {
+        path: 'manage-assessment/:id/profiles',
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () =>
+          import('../pages/manage-assessment/assessment-profiles/assessment-profiles.component').then(
+            (m) => m.AssessmentProfilesComponent,
+          ),
+      },
     ],
   },
 ];

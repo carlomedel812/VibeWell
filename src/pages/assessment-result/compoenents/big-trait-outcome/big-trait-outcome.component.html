@@ -20,48 +20,43 @@
       <div class="big-five-bars" *ngIf="layerOutcome">
         <div class="bar-col">
           <div class="bar-track">
-            <div class="bar-fill" [style.height.%]="layerOutcome.opennesPercentile">
-              <ion-icon name="bulb" class="bar-icon"></ion-icon>
-            </div>
+            <div class="bar-fill" [ngClass]="barLevel(layerOutcome.opennesPercentile)" [style.height.%]="barHeight(layerOutcome.opennesPercentile)"></div>
           </div>
+          <div class="bar-icon-circle" [ngClass]="barLevel(layerOutcome.opennesPercentile)"><ion-icon name="bulb" class="bar-icon"></ion-icon></div>
           <span class="bar-label">OPENNESS</span>
-          <span class="bar-value">{{ layerOutcome.opennesPercentile }}%</span>
+          <span class="bar-value" [ngClass]="barLevel(layerOutcome.opennesPercentile)">{{ layerOutcome.opennesPercentile }}%</span>
         </div>
         <div class="bar-col">
           <div class="bar-track">
-            <div class="bar-fill" [style.height.%]="layerOutcome.conscientiousnessPercentile">
-              <ion-icon name="hand-left" class="bar-icon"></ion-icon>
-            </div>
+            <div class="bar-fill" [ngClass]="barLevel(layerOutcome.conscientiousnessPercentile)" [style.height.%]="barHeight(layerOutcome.conscientiousnessPercentile)"></div>
           </div>
+          <div class="bar-icon-circle" [ngClass]="barLevel(layerOutcome.conscientiousnessPercentile)"><ion-icon name="hand-left" class="bar-icon"></ion-icon></div>
           <span class="bar-label">CONSCIENTIOUS</span>
-          <span class="bar-value">{{ layerOutcome.conscientiousnessPercentile }}%</span>
+          <span class="bar-value" [ngClass]="barLevel(layerOutcome.conscientiousnessPercentile)">{{ layerOutcome.conscientiousnessPercentile }}%</span>
         </div>
         <div class="bar-col">
           <div class="bar-track">
-            <div class="bar-fill" [style.height.%]="layerOutcome.extraversionPercentile">
-              <ion-icon name="flash" class="bar-icon"></ion-icon>
-            </div>
+            <div class="bar-fill" [ngClass]="barLevel(layerOutcome.extraversionPercentile)" [style.height.%]="barHeight(layerOutcome.extraversionPercentile)"></div>
           </div>
+          <div class="bar-icon-circle" [ngClass]="barLevel(layerOutcome.extraversionPercentile)"><ion-icon name="flash" class="bar-icon"></ion-icon></div>
           <span class="bar-label">EXTRAVERSION</span>
-          <span class="bar-value">{{ layerOutcome.extraversionPercentile }}%</span>
+          <span class="bar-value" [ngClass]="barLevel(layerOutcome.extraversionPercentile)">{{ layerOutcome.extraversionPercentile }}%</span>
         </div>
         <div class="bar-col">
           <div class="bar-track">
-            <div class="bar-fill" [style.height.%]="layerOutcome.agreeablenessPercentile">
-              <ion-icon name="heart" class="bar-icon"></ion-icon>
-            </div>
+            <div class="bar-fill" [ngClass]="barLevel(layerOutcome.agreeablenessPercentile)" [style.height.%]="barHeight(layerOutcome.agreeablenessPercentile)"></div>
           </div>
+          <div class="bar-icon-circle" [ngClass]="barLevel(layerOutcome.agreeablenessPercentile)"><ion-icon name="heart" class="bar-icon"></ion-icon></div>
           <span class="bar-label">AGREEABLE</span>
-          <span class="bar-value">{{ layerOutcome.agreeablenessPercentile }}%</span>
+          <span class="bar-value" [ngClass]="barLevel(layerOutcome.agreeablenessPercentile)">{{ layerOutcome.agreeablenessPercentile }}%</span>
         </div>
         <div class="bar-col">
           <div class="bar-track">
-            <div class="bar-fill" [style.height.%]="layerOutcome.neuroticismPercentile">
-              <ion-icon name="shield" class="bar-icon"></ion-icon>
-            </div>
+            <div class="bar-fill" [ngClass]="barLevel(layerOutcome.neuroticismPercentile)" [style.height.%]="barHeight(layerOutcome.neuroticismPercentile)"></div>
           </div>
+          <div class="bar-icon-circle" [ngClass]="barLevel(layerOutcome.neuroticismPercentile)"><ion-icon name="shield" class="bar-icon"></ion-icon></div>
           <span class="bar-label">NEUROTICISM</span>
-          <span class="bar-value">{{ layerOutcome.neuroticismPercentile }}%</span>
+          <span class="bar-value" [ngClass]="barLevel(layerOutcome.neuroticismPercentile)">{{ layerOutcome.neuroticismPercentile }}%</span>
         </div>
       </div>
 
@@ -84,27 +79,27 @@
         <div class="synthesis-item">
           <ion-icon name="bar-chart" class="synthesis-icon"></ion-icon>
           <h4 class="synthesis-item-title">INFLUENCE ENGINE</h4>
-          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.influenceEngine }}</p>
+          <p class="synthesis-item-desc">{{ outcome.synthesizedDynamics?.influenceEngine }}</p>
         </div>
         <div class="synthesis-item">
           <ion-icon name="sparkles" class="synthesis-icon"></ion-icon>
           <h4 class="synthesis-item-title">INFO PROCESSING STYLE</h4>
-          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.infoProcessingStyle }}</p>
+          <p class="synthesis-item-desc">{{ outcome.synthesizedDynamics?.infoProcessingStyle }}</p>
         </div>
         <div class="synthesis-item">
           <ion-icon name="calculator" class="synthesis-icon"></ion-icon>
           <h4 class="synthesis-item-title">DECISION VELOCITY</h4>
-          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.decisionVelocity }}</p>
+          <p class="synthesis-item-desc">{{ outcome.synthesizedDynamics?.decisionVelocity }}</p>
         </div>
         <div class="synthesis-item">
           <ion-icon name="people" class="synthesis-icon"></ion-icon>
           <h4 class="synthesis-item-title">FEEDBACK RECEPTIVITY</h4>
-          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.feedbackReceptivity }}</p>
+          <p class="synthesis-item-desc">{{ outcome.synthesizedDynamics?.feedbackReceptivity }}</p>
         </div>
         <div class="synthesis-item">
           <ion-icon name="flash" class="synthesis-icon"></ion-icon>
           <h4 class="synthesis-item-title">RISK TOLERANCE</h4>
-          <p class="synthesis-item-desc">{{ outcome.synthesizeDynamics?.riskTolerance }}</p>
+          <p class="synthesis-item-desc">{{ outcome.synthesizedDynamics?.riskTolerance }}</p>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ export interface IBigFivePersonalityTraitOutcomeModel extends IFirestoreDocument
     coreBaselines: ICoreBaselineModel;
     environmentalFit: IEnvironmentalFitModel;
     oceanProfile: String;
-    synthesizeDynamics: ISynthesizeDynamicsModel
+    synthesizedDynamics: ISynthesizeDynamicsModel
     traitScores: ITraitScoreModel;
 }
 

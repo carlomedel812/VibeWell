@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { shieldCheckmark, checkmarkCircle, warning, business, gitMerge, people, flash, personCircle } from 'ionicons/icons';
+import { shieldCheckmark, checkmarkCircle, warning, business, construct, people, flash, personCircle } from 'ionicons/icons';
 import { ITraitListOutcomesModel } from '../../../../core/model/trait-list-outcomes-model';
 
 @Component({
@@ -12,11 +12,33 @@ import { ITraitListOutcomesModel } from '../../../../core/model/trait-list-outco
   standalone: true,
   imports: [CommonModule, IonIcon]
 })
-export class TraitListOutcomeComponent {
+export class TraitListOutcomeComponent implements OnChanges {
   @Input() outcome: ITraitListOutcomesModel | null = null;
 
+  dynamicsCards: { icon: string; tag: string; title: string; value: string }[] = [];
+  frictionPoint: { title: string; value: string } | null = null;
+
+  private readonly fieldConfig: Record<string, { icon: string; tag: string; title: string }> = {
+    optimalWorkEnvironment: { icon: 'business', tag: 'ENVIRONMENT', title: 'Optimal Work Environment' },
+    conflictAndMeetingStyle: { icon: 'construct', tag: '', title: 'Conflict Style' },
+    delegationProfile: { icon: 'people', tag: '', title: 'Delegation' },
+  };
+
   constructor() {
-    addIcons({ shieldCheckmark, checkmarkCircle, warning, business, gitMerge, people, flash, personCircle });
+    addIcons({ shieldCheckmark, checkmarkCircle, warning, business, construct, people, flash, personCircle });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['outcome'] && this.outcome?.operationalDynamics) {
+      const dyn = this.outcome.operationalDynamics;
+      this.dynamicsCards = Object.keys(this.fieldConfig).filter(k => (dyn as any)[k]).map(k => ({
+        ...this.fieldConfig[k],
+        value: (dyn as any)[k] as string
+      }));
+      this.frictionPoint = dyn.frictionPoint
+        ? { title: 'Friction Point', value: dyn.frictionPoint }
+        : null;
+    }
   }
 
   toArray(value: any): any[] {

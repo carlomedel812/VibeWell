@@ -1,0 +1,98 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/manage-assessment"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ assessment?.title || 'Assessment Profiles' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profiles-content">
+  <div class="profiles-page">
+
+    @if (assessment) {
+      <div class="assessment-header">
+        @if (assessment.thumbnailUrl) {
+          <div class="assessment-header-image">
+            <img [src]="assessment.thumbnailUrl" [alt]="assessment.title" />
+          </div>
+        }
+        <div class="assessment-header-info">
+          <h2 class="assessment-header-title">{{ assessment.title }}</h2>
+          <p class="assessment-header-description">{{ assessment.description }}</p>
+        </div>
+      </div>
+    }
+
+    <div class="section-heading">
+      <h3 class="section-title">User Profiles</h3>
+      <p class="section-subtitle">View who has taken this assessment and their progress.</p>
+    </div>
+
+    @if (isLoading) {
+      <div class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p class="loading-text">Loading users...</p>
+      </div>
+    } @else if (loadError) {
+      <div class="empty-state">
+        <h3 class="empty-title">Something went wrong</h3>
+        <p class="empty-text">{{ loadError }}</p>
+      </div>
+    } @else if (userProfiles.length === 0) {
+      <div class="empty-state">
+        <h3 class="empty-title">No users found</h3>
+        <p class="empty-text">There are no users to display.</p>
+      </div>
+    } @else {
+      <div class="user-list">
+        @for (row of userProfiles; track row.user.id) {
+          <div class="user-row" [class.disabled-row]="row.status === 'not-taken'">
+            <div class="user-info">
+              <div class="user-avatar">
+                @if (row.user.profilePictureUrl) {
+                  <img [src]="row.user.profilePictureUrl" [alt]="row.user.firstName" />
+                } @else {
+                  <span class="avatar-initials">{{ row.user.firstName?.charAt(0) }}{{ row.user.lastName?.charAt(0) }}</span>
+                }
+              </div>
+              <div class="user-details">
+                <span class="user-name">{{ row.user.firstName }} {{ row.user.lastName }}</span>
+                <span class="user-email">{{ row.user.email }}</span>
+              </div>
+            </div>
+
+            <div class="user-action">
+              @if (row.status === 'completed') {
+                <a class="view-result-btn" [routerLink]="['/home/assessment-result', row.answer?.assessmentId]" [queryParams]="{ ref: 'admin' }">
+                  <ion-icon name="eye-outline"></ion-icon>
+                  View Result
+                </a>
+              } @else if (row.status === 'in-progress') {
+                <span class="status-chip in-progress">
+                  <ion-icon name="time-outline"></ion-icon>
+                  In Progress
+                </span>
+              } @else {
+                <span class="status-chip not-taken">
+                  <ion-icon name="remove-circle-outline"></ion-icon>
+                  Not taken yet
+                </span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (hasMore) {
+        <div class="load-more-wrap">
+          @if (isLoadingMore) {
+            <ion-spinner name="crescent" class="load-more-spinner"></ion-spinner>
+          } @else {
+            <button class="load-more-btn" (click)="loadMore()">Load More</button>
+          }
+        </div>
+      }
+    }
+  </div>
+</ion-content>

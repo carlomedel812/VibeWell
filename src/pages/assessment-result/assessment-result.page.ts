@@ -1,5 +1,6 @@
 import { Component, DestroyRef, OnInit, ViewChild, inject, NgZone } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
 import { AssessmentOutcomeRepository } from '../../core/repository/assessment-outcome-repository';
 import { TraitListOutcomeRepository } from '../../core/repository/trait-list-outcome-repository';
@@ -33,6 +34,8 @@ export class AssessmentResultPage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly ngZone = inject(NgZone);
+  private readonly router = inject(Router);
+  private readonly location = inject(Location);
   private readonly assessmentAnswerRepository = inject(AssessmentAnswerRepository);
   private readonly assessmentOutcomeRepository = inject(AssessmentOutcomeRepository);
   private readonly traitListOutcomeRepository = inject(TraitListOutcomeRepository);
@@ -52,6 +55,15 @@ export class AssessmentResultPage implements OnInit {
 
   constructor() {
     addIcons({ arrowBack });
+  }
+
+  goBack(): void {
+    const ref = this.route.snapshot.queryParamMap.get('ref');
+    if (ref === 'admin') {
+      this.location.back();
+    } else {
+      this.router.navigate(['/home/dashboard']);
+    }
   }
 
   scrollToLayer(index: number): void {
