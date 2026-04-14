@@ -29,6 +29,51 @@
       <p class="section-subtitle">View who has taken this assessment and their progress.</p>
     </div>
 
+    <section class="vw-search-panel vw-surface-card">
+      <div class="vw-search-panel-copy">
+        <span class="module-label">Search</span>
+        <h2 class="vw-search-panel-title">Find users quickly</h2>
+        <p class="vw-search-panel-text">Search users by email, first name, or last name. Matches values that start with your input.</p>
+      </div>
+
+      <div class="vw-search-controls">
+        <label class="vw-search-input-wrap" for="profiles-search-input">
+          <ion-icon name="search-outline"></ion-icon>
+          <input
+            id="profiles-search-input"
+            class="vw-search-input"
+            type="search"
+            placeholder="Type to search users"
+            [(ngModel)]="searchText"
+            (keyup.enter)="applySearch()"
+          />
+        </label>
+
+        <ion-select
+          interface="popover"
+          class="vw-search-select"
+          [(ngModel)]="selectedSearchField"
+          (ionChange)="onSearchFieldChange()"
+        >
+          @for (option of searchFieldOptions; track option.value) {
+            <ion-select-option [value]="option.value">{{ option.label }}</ion-select-option>
+          }
+        </ion-select>
+
+        <button class="vw-search-button" type="button" (click)="applySearch()">
+          <ion-icon name="search-outline"></ion-icon>
+          Search
+        </button>
+
+        @if (hasActiveSearch) {
+          <button class="vw-clear-button" type="button" (click)="clearSearch()">
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Clear
+          </button>
+        }
+      </div>
+    </section>
+
     @if (isLoading) {
       <div class="loading-state">
         <ion-spinner name="crescent"></ion-spinner>
@@ -39,10 +84,15 @@
         <h3 class="empty-title">Something went wrong</h3>
         <p class="empty-text">{{ loadError }}</p>
       </div>
-    } @else if (userProfiles.length === 0) {
+    } @else if (userProfiles.length === 0 && !hasActiveSearch) {
       <div class="empty-state">
         <h3 class="empty-title">No users found</h3>
         <p class="empty-text">There are no users to display.</p>
+      </div>
+    } @else if (userProfiles.length === 0) {
+      <div class="empty-state">
+        <h3 class="empty-title">No matching users</h3>
+        <p class="empty-text">No users matched your current {{ selectedSearchField === 'email' ? 'email' : selectedSearchField === 'firstName' ? 'first name' : 'last name' }} search for "{{ searchText.trim() }}".</p>
       </div>
     } @else {
       <div class="user-list">
@@ -68,11 +118,17 @@
                   <ion-icon name="eye-outline"></ion-icon>
                   View Result
                 </a>
+                <button class="delete-btn" type="button" (click)="confirmDelete(row)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
               } @else if (row.status === 'in-progress') {
                 <span class="status-chip in-progress">
                   <ion-icon name="time-outline"></ion-icon>
                   In Progress
                 </span>
+                <button class="delete-btn" type="button" (click)="confirmDelete(row)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
               } @else {
                 <span class="status-chip not-taken">
                   <ion-icon name="remove-circle-outline"></ion-icon>
@@ -95,4 +151,28 @@
       }
     }
   </div>
+
+  @if (deleteTarget) {
+    <div class="dialog-overlay" (click)="cancelDelete()">
+      <div class="dialog-card" (click)="$event.stopPropagation()">
+        <h3 class="dialog-title">Delete Assessment Data</h3>
+        <p class="dialog-text">
+          Are you sure you want to delete the assessment data for
+          <strong>{{ deleteTarget.user.firstName }} {{ deleteTarget.user.lastName }}</strong>?
+          This will permanently remove their result and answer records.
+        </p>
+
+        @if (deleteError) {
+          <p class="dialog-error">{{ deleteError }}</p>
+        }
+
+        <div class="dialog-actions">
+          <button class="dialog-btn cancel" type="button" (click)="cancelDelete()" [disabled]="isDeleting">Cancel</button>
+          <button class="dialog-btn confirm" type="button" (click)="executeDelete()" [disabled]="isDeleting">
+            {{ isDeleting ? 'Deleting...' : 'Delete' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </ion-content>

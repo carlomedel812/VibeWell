@@ -217,9 +217,14 @@ ion-toolbar {
   text-overflow: ellipsis;
 }
 
+$red: #e85050;
+
 // ---- Actions ----
 .user-action {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .view-result-btn {
@@ -291,6 +296,113 @@ ion-toolbar {
 
 .load-more-spinner {
   --color: #{$green};
+}
+
+// ---- Delete Button ----
+.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba($red, 0.1);
+  color: $red;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  ion-icon { font-size: 16px; }
+
+  &:hover {
+    background: rgba($red, 0.22);
+  }
+}
+
+// ---- Confirm Dialog ----
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.dialog-card {
+  background: $card-bg;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 28px 24px 22px;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f4f8;
+}
+
+.dialog-text {
+  margin: 0;
+  font-size: 14px;
+  color: $text-muted;
+  line-height: 1.6;
+
+  strong { color: #f0f4f8; }
+}
+
+.dialog-error {
+  margin: 0;
+  font-size: 13px;
+  color: $red;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.dialog-btn {
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.cancel {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f0f4f8;
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &.confirm {
+    background: $red;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: darken($red, 6%);
+    }
+  }
 }
 
 // ---- Mobile ----

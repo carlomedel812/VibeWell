@@ -32,15 +32,15 @@ export class UserRepository {
   constructor(private readonly firestoreService: FirestoreService) {}
 
   createUser(user: IUserModel): Promise<string> {
-    return this.firestoreService.create<IUserModel>(this.collectionPath, user);
+    return this.firestoreService.create<IUserModel>(this.collectionPath, this.normalizeFields(user));
   }
 
   setUser(userId: string, user: Partial<IUserModel>): Promise<void> {
-    return this.firestoreService.set<Partial<IUserModel>>(this.collectionPath, userId, user);
+    return this.firestoreService.set<Partial<IUserModel>>(this.collectionPath, userId, this.normalizeFields(user));
   }
 
   updateUser(userId: string, updates: Partial<IUserModel>): Promise<void> {
-    return this.firestoreService.update<IUserModel>(this.collectionPath, userId, updates);
+    return this.firestoreService.update<IUserModel>(this.collectionPath, userId, this.normalizeFields(updates));
   }
 
   deleteUser(userId: string): Promise<void> {
@@ -107,7 +107,7 @@ export class UserRepository {
 
   private buildFilterConstraints(options: Pick<IUserPageOptions, 'searchField' | 'searchText'>): QueryConstraint[] {
     const searchField = options.searchField ?? 'email';
-    const trimmedSearchText = options.searchText?.trim() ?? '';
+    const trimmedSearchText = options.searchText?.trim().toLowerCase() ?? '';
     const constraints: QueryConstraint[] = [orderBy(searchField)];
 
     if (trimmedSearchText) {
@@ -116,5 +116,19 @@ export class UserRepository {
     }
 
     return constraints;
+  }
+
+  private normalizeFields<T extends Partial<IUserModel>>(data: T): T {
+    const normalized = { ...data };
+    if (normalized.email != null) {
+      normalized.email = normalized.email.toLowerCase();
+    }
+    if (normalized.firstName != null) {
+      normalized.firstName = normalized.firstName.toLowerCase();
+    }
+    if (normalized.lastName != null) {
+      normalized.lastName = normalized.lastName.toLowerCase();
+    }
+    return normalized;
   }
 }

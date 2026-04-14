@@ -251,7 +251,7 @@ export class UsersManagementComponent implements OnInit {
     const totalCount$ = refreshCount
       ? this.userRepository.getUsersCount({
           searchField: this.selectedSearchField,
-          searchText: this.searchText,
+          searchText: this.searchText.toLowerCase(),
         })
       : null;
 
@@ -301,7 +301,7 @@ export class UsersManagementComponent implements OnInit {
       pageSize: this.pageSize,
       cursor: this.pageCursors.get(page) ?? null,
       searchField: this.selectedSearchField,
-      searchText: this.searchText,
+      searchText: this.searchText.toLowerCase(),
     };
   }
 
