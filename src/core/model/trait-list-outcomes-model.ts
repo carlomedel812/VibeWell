@@ -22,7 +22,7 @@ export interface IOperationDynamicsModel {
 }
 
 export interface IInGoodCompanyModel {
-    descritption: string;
+    description: string;
     name: string;
     title: string;
 }
