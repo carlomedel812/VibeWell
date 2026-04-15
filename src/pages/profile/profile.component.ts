@@ -175,6 +175,7 @@ export class ProfileComponent implements OnInit {
           updatedAt: new Date(),
           isActive: this.profile.isActive ?? true,
           role: this.profile.role,
+          acceptedTermsAndPrivacyAgreement: true
         });
       }
 

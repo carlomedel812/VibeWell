@@ -9,6 +9,8 @@ export interface IAssessmentAnswerModel extends IFirestoreDocumentModel {
     assessmentId: string;
     completed: boolean;
     completedAt?: Date;
+    createdAt?: number;
+    updatedAt?: number;
     layerAnswers: IAssessmentLayerAnswerModel[];
 }
 

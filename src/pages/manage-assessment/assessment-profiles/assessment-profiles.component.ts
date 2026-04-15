@@ -103,6 +103,14 @@ export class AssessmentProfilesComponent implements OnInit {
   private allAnswers: IAssessmentAnswerModel[] = [];
   private answeredUserIds = new Set<string>();
 
+  toDate(value: unknown): Date | null {
+    if (!value) return null;
+    if (value instanceof Date) return value;
+    if (typeof value === 'number') return new Date(value);
+    if (typeof (value as any)?.toDate === 'function') return (value as any).toDate();
+    return null;
+  }
+
   constructor() {
     addIcons({ checkmarkCircleOutline, timeOutline, removeCircleOutline, eyeOutline, searchOutline, closeCircleOutline, trashOutline });
   }

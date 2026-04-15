@@ -75,6 +75,7 @@ export class TokenStorageService {
       isActive: true,
       createdAt: new Date(),
       updatedAt: new Date(),
+      acceptedTermsAndPrivacyAgreement: true,
     };
   }
 

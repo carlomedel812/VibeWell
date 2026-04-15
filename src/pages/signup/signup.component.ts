@@ -34,6 +34,7 @@ export class SignupComponent implements ViewWillEnter {
 
   showPassword = false;
   showConfirmPassword = false;
+  acceptPrivacy = false;
   isLoading = false;
   errorMessage = '';
 
@@ -91,6 +92,11 @@ export class SignupComponent implements ViewWillEnter {
       return;
     }
 
+    if (!this.acceptPrivacy) {
+      this.errorMessage = 'Please accept the Privacy Policy and Terms of Service.';
+      return;
+    }
+
     this.errorMessage = '';
     this.isLoading = true;
 
@@ -110,6 +116,7 @@ export class SignupComponent implements ViewWillEnter {
         role: UserRole.USER,
         createdAt: now,
         updatedAt: now,
+        acceptedTermsAndPrivacyAgreement: true,
       });
 
       const user = await firstValueFrom(this.userRepository.getUserById(credential.user.uid));

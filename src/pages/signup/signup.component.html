@@ -5,7 +5,7 @@
         <ion-icon name="person-outline"></ion-icon>
       </div>
       <h1 class="brand-name">Create Account</h1>
-      <p class="brand-tagline">Join VibeWell and begin your journey.</p>
+      <p class="brand-tagline">Join OgmentorID and begin your journey.</p>
     </div>
 
     <div class="signup-card">
@@ -109,7 +109,12 @@
           </div>
         </div>
 
-        <button type="submit" class="signup-btn" [disabled]="isLoading">
+        <label class="privacy-check">
+          <input type="checkbox" [(ngModel)]="acceptPrivacy" name="acceptPrivacy" />
+          <span class="privacy-check-text">I accept the <a href="javascript:void(0)" class="privacy-link">Privacy Policy</a> and <a href="javascript:void(0)" class="privacy-link">Terms of Service</a></span>
+        </label>
+
+        <button type="submit" class="signup-btn" [disabled]="isLoading || !acceptPrivacy">
           @if (isLoading) {
             <ion-spinner name="crescent" class="btn-spinner"></ion-spinner>
           } @else {

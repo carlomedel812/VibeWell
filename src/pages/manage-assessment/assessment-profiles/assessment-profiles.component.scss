@@ -217,6 +217,19 @@ ion-toolbar {
   text-overflow: ellipsis;
 }
 
+.user-date-info {
+  font-size: 11px;
+  font-weight: 600;
+
+  &.completed {
+    color: $green;
+  }
+
+  &.in-progress {
+    color: #f5c842;
+  }
+}
+
 $red: #e85050;
 
 // ---- Actions ----

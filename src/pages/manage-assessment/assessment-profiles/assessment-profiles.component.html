@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home/manage-assessment"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ assessment?.title || 'Assessment Profiles' }}</ion-title>
+    <ion-title>
+      <div class="toolbar-brand">
+        <img src="assets/icon/ic-ogmentorid-logo.png" alt="OgmentorID" class="toolbar-brand-logo" />
+        <span class="toolbar-brand-name">OgmentorID</span>
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -109,6 +114,11 @@
               <div class="user-details">
                 <span class="user-name">{{ capitalize(row.user.firstName) }} {{ capitalize(row.user.lastName) }}</span>
                 <span class="user-email">{{ row.user.email }}</span>
+                @if (row.status === 'completed' && row.answer?.completedAt) {
+                  <span class="user-date-info completed">Completed on: {{ toDate(row.answer?.completedAt) | date:'MMM d, yyyy' }}</span>
+                } @else if (row.status === 'in-progress' && row.answer?.createdAt) {
+                  <span class="user-date-info in-progress">Started on: {{ toDate(row.answer?.createdAt) | date:'MMM d, yyyy' }}</span>
+                }
               </div>
             </div>
 

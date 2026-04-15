@@ -10,4 +10,5 @@ export interface IUserModel extends IFirestoreDocumentModel {
     updatedAt: Date;
     isActive: boolean;
     role: UserRole;
+    acceptedTermsAndPrivacyAgreement: boolean;
 }

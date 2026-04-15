@@ -85,6 +85,34 @@ body, p, span, ion-label, ion-text {
   font-size: 18px;
 }
 
+// Toolbar branding (logo + app name in page headers)
+.toolbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-brand-logo {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.toolbar-brand-name {
+  font-family: var(--vibewell-font-headline);
+  font-size: 16px;
+  font-weight: 700;
+  color: #f0f4f8;
+  letter-spacing: -0.01em;
+}
+
+.brand-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
 .brand-icon {
   width: 64px;
   height: 64px;
