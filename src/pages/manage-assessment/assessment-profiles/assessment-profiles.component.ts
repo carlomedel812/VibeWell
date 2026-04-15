@@ -35,6 +35,7 @@ import { UserRepository } from '../../../core/repository/user-repository';
 import { AssessmentAnswerRepository } from '../../../core/repository/assessment-answer-repository';
 import { AssessmentRepository } from '../../../core/repository/assessment-repository';
 import { AssessmentOutcomeRepository } from '../../../core/repository/assessment-outcome-repository';
+import { capitalize } from '../../../core/utils/string.util';
 
 type ProfileStatus = 'completed' | 'in-progress' | 'not-taken';
 type UserSearchField = 'email' | 'firstName' | 'lastName';
@@ -97,6 +98,8 @@ export class AssessmentProfilesComponent implements OnInit {
 
   private readonly pageSize = 10;
   private lastCursor: QueryDocumentSnapshot<DocumentData> | null = null;
+
+  readonly capitalize = capitalize;
   private allAnswers: IAssessmentAnswerModel[] = [];
   private answeredUserIds = new Set<string>();
 

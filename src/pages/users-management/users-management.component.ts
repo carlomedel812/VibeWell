@@ -1,5 +1,6 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { capitalize } from '../../core/utils/string.util';
 import {
   IonButtons,
   IonCheckbox,
@@ -212,7 +213,9 @@ export class UsersManagementComponent implements OnInit {
   }
 
   getDisplayName(user: IUserModel): string {
-    const fullName = `${user.firstName} ${user.lastName}`.trim();
+    const first = capitalize(user.firstName);
+    const last = capitalize(user.lastName);
+    const fullName = `${first} ${last}`.trim();
     return fullName || user.email;
   }
 

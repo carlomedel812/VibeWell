@@ -107,7 +107,7 @@
                 }
               </div>
               <div class="user-details">
-                <span class="user-name">{{ row.user.firstName }} {{ row.user.lastName }}</span>
+                <span class="user-name">{{ capitalize(row.user.firstName) }} {{ capitalize(row.user.lastName) }}</span>
                 <span class="user-email">{{ row.user.email }}</span>
               </div>
             </div>
@@ -158,7 +158,7 @@
         <h3 class="dialog-title">Delete Assessment Data</h3>
         <p class="dialog-text">
           Are you sure you want to delete the assessment data for
-          <strong>{{ deleteTarget.user.firstName }} {{ deleteTarget.user.lastName }}</strong>?
+          <strong>{{ capitalize(deleteTarget.user.firstName) }} {{ capitalize(deleteTarget.user.lastName) }}</strong>?
           This will permanently remove their result and answer records.
         </p>
 
