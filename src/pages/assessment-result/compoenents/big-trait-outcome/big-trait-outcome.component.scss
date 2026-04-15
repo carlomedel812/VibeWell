@@ -540,6 +540,20 @@ $border: #1e252f;
     }
   }
 
+  .big-five-card {
+    .big-five-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  .big-five-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
   .synthesis-card .synthesis-grid {
     grid-template-columns: 1fr;
   }
@@ -577,5 +591,45 @@ $border: #1e252f;
       min-width: 280px;
       scroll-snap-align: start;
     }
+  }
+}
+
+@media (max-width: 420px) {
+  .big-five-bars {
+    gap: 2px;
+
+    .bar-col {
+      min-width: 0;
+    }
+
+    .bar-track {
+      max-width: 30px;
+      min-height: 60px;
+    }
+
+    .bar-icon-circle {
+      width: 24px;
+      height: 24px;
+
+      .bar-icon {
+        font-size: 0.75rem;
+      }
+    }
+
+    .bar-label {
+      font-size: 0.45rem;
+    }
+
+    .bar-value {
+      font-size: 0.6rem;
+    }
+  }
+
+  .layer-banner .layer-title {
+    font-size: 1.6rem;
+  }
+
+  .layer-banner .layer-subtitle {
+    font-size: 0.9rem;
   }
 }
