@@ -56,15 +56,15 @@
                 </span>
                 <span class="meta-item">
                   <span class="meta-label">Status</span>
-                  <button
-                    class="status-toggle"
-                    [class.enabled]="assessment.enabled"
-                    [class.disabled]="!assessment.enabled"
-                    (click)="toggleStatus(assessment)"
-                  >
-                    <span class="status-dot"></span>
-                    {{ assessment.enabled ? 'Enabled' : 'Disabled' }}
-                  </button>
+                  <label class="ios-switch" (click)="toggleStatus(assessment); $event.preventDefault()">
+                    <input type="checkbox" [checked]="assessment.enabled" />
+                    <span class="ios-switch-track">
+                      <span class="ios-switch-thumb"></span>
+                    </span>
+                    <span class="ios-switch-label" [class.enabled]="assessment.enabled">
+                      {{ assessment.enabled ? 'Enabled' : 'Disabled' }}
+                    </span>
+                  </label>
                 </span>
               </div>
 
