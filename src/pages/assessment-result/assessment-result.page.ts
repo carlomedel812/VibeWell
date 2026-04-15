@@ -107,7 +107,7 @@ export class AssessmentResultPage implements OnInit {
       )
       .subscribe(params => {
         const assessmentId = params.get('id');
-        const userId = this.tokenStorageService.getCurrentUserUid();
+        const userId = this.route.snapshot.queryParamMap.get('userId') || this.tokenStorageService.getCurrentUserUid();
         if (!assessmentId || !userId) {
           this.loadError = 'Assessment or user not found.';
           this.isLoading = false;

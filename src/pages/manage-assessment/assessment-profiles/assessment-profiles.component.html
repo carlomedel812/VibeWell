@@ -114,7 +114,7 @@
 
             <div class="user-action">
               @if (row.status === 'completed') {
-                <a class="view-result-btn" [routerLink]="['/home/assessment-result', row.answer?.assessmentId]" [queryParams]="{ ref: 'admin' }">
+                <a class="view-result-btn" [routerLink]="['/home/assessment-result', row.answer?.assessmentId]" [queryParams]="{ ref: 'admin', userId: row.user.id }">
                   <ion-icon name="eye-outline"></ion-icon>
                   View Result
                 </a>
