@@ -102,6 +102,15 @@
   color: #f0f4f8;
 }
 
+.trait-count-desc {
+  color: #8a9bb0;
+  font-weight: 500;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
 .trait-guidance,
 .layer-muted-text {
   margin: 0;
