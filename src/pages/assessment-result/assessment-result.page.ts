@@ -12,7 +12,7 @@ import { ITraitListOutcomesModel } from '../../core/model/trait-list-outcomes-mo
 import { IBigFivePersonalityTraitOutcomeModel } from '../../core/model/big-five-outcomes-model';
 import { AssessmentLayerType } from '../../core/enum/assessment-layer-type';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, forkJoin, of, switchMap } from 'rxjs';
+import { Observable, forkJoin, from, of, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon } from '@ionic/angular/standalone';
@@ -21,6 +21,7 @@ import { addIcons } from 'ionicons';
 import { arrowBack } from 'ionicons/icons';
 import { TraitListOutcomeComponent } from './compoenents/trait-list-outcome/trait-list-outcome.component';
 import { BigTraitOutcomeComponent } from './compoenents/big-trait-outcome/big-trait-outcome.component';
+import { AssessmentOutcomeGeneratorService } from '../../core/service/assessment-score-generator.service';
 
 @Component({
   selector: 'app-assessment-result',
@@ -41,6 +42,7 @@ export class AssessmentResultPage implements OnInit {
   private readonly traitListOutcomeRepository = inject(TraitListOutcomeRepository);
   private readonly bigFiveOutcomeRepository = inject(BigFiveOutcomeRepository);
   private readonly tokenStorageService = inject(TokenStorageService);
+  private readonly assessmentOutcomeGeneratorService = inject(AssessmentOutcomeGeneratorService);
   readonly AssessmentLayerType = AssessmentLayerType;
   assessmentAnswer: IAssessmentAnswerModel | null = null;
   assessmentOutcome: IAssessmentOutcomeModel | null = null;
@@ -126,31 +128,19 @@ export class AssessmentResultPage implements OnInit {
             }),
             switchMap((outcomes: IAssessmentOutcomeModel[] | null) => {
               this.assessmentOutcome = outcomes?.[0] ?? null;
-              if (!this.assessmentOutcome) {
-                return of([]);
-              }
-              const layerOutcomes = this.assessmentOutcome.layerOutcomes ?? [];
-              const fetches: Record<string, Observable<any>> = {};
 
-              for (const layer of layerOutcomes) {
-                if (layer.layerType === AssessmentLayerType.TRAIT_LIST) {
-                  const traitOutcome = layer.outcome as ITraitListLayerOutcome;
-                  if (traitOutcome.traitListOutcomeId) {
-                    fetches['traitList'] = this.traitListOutcomeRepository.getTraitListOutcomeById(traitOutcome.traitListOutcomeId);
-                  }
-                } else if (layer.layerType === AssessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT) {
-                  const bigFiveOutcome = layer.outcome as IBigFiveLayerOutcome;
-                  this.bigFiveLayerOutcome = bigFiveOutcome;
-                  if (bigFiveOutcome.bigFiveTraitOutcomeId) {
-                    fetches['bigFive'] = this.bigFiveOutcomeRepository.getBigFiveOutcomeById(bigFiveOutcome.bigFiveTraitOutcomeId);
-                  }
-                }
+              if (!this.assessmentOutcome && this.assessmentAnswer?.completed) {
+                return from(
+                  this.assessmentOutcomeGeneratorService.generateOutcomesForAssessment(this.assessmentAnswer),
+                ).pipe(
+                  switchMap((generated) => {
+                    this.assessmentOutcome = generated;
+                    return this.fetchLayerOutcomes();
+                  }),
+                );
               }
 
-              if (Object.keys(fetches).length === 0) {
-                return of({});
-              }
-              return forkJoin(fetches);
+              return this.fetchLayerOutcomes();
             }),
           )
           .subscribe({
@@ -169,5 +159,34 @@ export class AssessmentResultPage implements OnInit {
             }
           });
       });
+  }
+
+  private fetchLayerOutcomes(): Observable<Record<string, any>> {
+    if (!this.assessmentOutcome) {
+      return of({});
+    }
+
+    const layerOutcomes = this.assessmentOutcome.layerOutcomes ?? [];
+    const fetches: Record<string, Observable<any>> = {};
+
+    for (const layer of layerOutcomes) {
+      if (layer.layerType === AssessmentLayerType.TRAIT_LIST) {
+        const traitOutcome = layer.outcome as ITraitListLayerOutcome;
+        if (traitOutcome.traitListOutcomeId) {
+          fetches['traitList'] = this.traitListOutcomeRepository.getTraitListOutcomeById(traitOutcome.traitListOutcomeId);
+        }
+      } else if (layer.layerType === AssessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT) {
+        const bigFiveOutcome = layer.outcome as IBigFiveLayerOutcome;
+        this.bigFiveLayerOutcome = bigFiveOutcome;
+        if (bigFiveOutcome.bigFiveTraitOutcomeId) {
+          fetches['bigFive'] = this.bigFiveOutcomeRepository.getBigFiveOutcomeById(bigFiveOutcome.bigFiveTraitOutcomeId);
+        }
+      }
+    }
+
+    if (Object.keys(fetches).length === 0) {
+      return of({});
+    }
+    return forkJoin(fetches);
   }
 }
