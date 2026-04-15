@@ -111,7 +111,7 @@
 
         <label class="privacy-check">
           <input type="checkbox" [(ngModel)]="acceptPrivacy" name="acceptPrivacy" />
-          <span class="privacy-check-text">I accept the <a href="javascript:void(0)" class="privacy-link">Privacy Policy</a> and <a href="javascript:void(0)" class="privacy-link">Terms of Service</a></span>
+          <span class="privacy-check-text">I accept the <a href="assets/docs/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" class="privacy-link">Privacy Policy</a> and <a href="assets/docs/terms-of-service.pdf" target="_blank" rel="noopener noreferrer" class="privacy-link">Terms of Service</a></span>
         </label>
 
         <button type="submit" class="signup-btn" [disabled]="isLoading || !acceptPrivacy">

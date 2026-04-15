@@ -26,8 +26,13 @@
 
     <section class="assessment-section">
       <div class="section-heading vw-section-heading">
-        <h2 class="section-title vw-section-title">Available assessments you can start</h2>
-        <p class="section-subtitle vw-section-subtitle">Choose an assessment and begin a new session or continue where you left off.</p>
+        <div class="section-icon-wrap available">
+          <ion-icon name="rocket-outline"></ion-icon>
+        </div>
+        <div>
+          <h2 class="section-title vw-section-title">Available assessments you can start</h2>
+          <p class="section-subtitle vw-section-subtitle">Choose an assessment and begin a new session or continue where you left off.</p>
+        </div>
       </div>
 
       @if (isAssessmentsLoading) {
@@ -62,7 +67,10 @@
           }
         </div>
       } @else {
-        <div class="assessment-empty-state vw-surface-card vw-empty-state">
+        <div class="assessment-empty-state vw-surface-card">
+          <div class="empty-icon-wrap">
+            <ion-icon name="clipboard-outline"></ion-icon>
+          </div>
           <h3 class="assessment-empty-title vw-empty-title">No assessments available right now</h3>
           <p class="assessment-empty-text vw-empty-text">Check back later for new assessments to start or resume.</p>
         </div>
@@ -72,8 +80,13 @@
     @if (!isAssessmentsLoading && hasCompletedAssessments) {
       <section class="assessment-section">
         <div class="section-heading vw-section-heading">
-          <h2 class="section-title vw-section-title">Completed assessment</h2>
-          <p class="section-subtitle vw-section-subtitle">Review the assessments you’ve already finished.</p>
+          <div class="section-icon-wrap completed">
+            <ion-icon name="trophy-outline"></ion-icon>
+          </div>
+          <div>
+            <h2 class="section-title vw-section-title">Completed assessment</h2>
+            <p class="section-subtitle vw-section-subtitle">Review the assessments you've already finished.</p>
+          </div>
         </div>
 
         <div class="assessment-grid">

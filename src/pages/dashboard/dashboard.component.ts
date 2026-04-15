@@ -10,6 +10,7 @@ import {
   trendingUpOutline, checkmarkCircleOutline, timeOutline,
   flashOutline, barChartOutline, calendarOutline,
   ribbonOutline, arrowForwardOutline, sparklesOutline, peopleOutline,
+  rocketOutline, clipboardOutline, trophyOutline, leafOutline,
 } from 'ionicons/icons';
 import { forkJoin, of } from 'rxjs';
 
@@ -91,6 +92,7 @@ export class DashboardComponent implements OnInit {
       trendingUpOutline, checkmarkCircleOutline, timeOutline,
       flashOutline, barChartOutline, calendarOutline,
       ribbonOutline, arrowForwardOutline, sparklesOutline, peopleOutline,
+      rocketOutline, clipboardOutline, trophyOutline, leafOutline,
     });
   }
 
