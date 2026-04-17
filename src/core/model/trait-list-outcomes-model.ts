@@ -12,6 +12,7 @@ export interface ITraitListOutcomesModel extends IFirestoreDocumentModel{
     secondaryAnimal: string;
     secondaryTrait: TraitAttribute;
     signatureStrengths: string[];
+    animalPictureUrl: string;
 }
 
 export interface IOperationDynamicsModel {

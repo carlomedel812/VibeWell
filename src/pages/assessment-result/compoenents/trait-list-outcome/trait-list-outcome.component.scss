@@ -65,16 +65,33 @@ $border: #1e252f;
 
   .hero-icon {
     flex-shrink: 0;
-    width: 200px;
+    width: 280px;
+    min-height: 280px;
     background: linear-gradient(145deg, #1e4d2e, #0f2a19);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid rgba($green, 0.3);
 
     ion-icon {
       font-size: 4rem;
       color: $green;
+    }
+
+    .img-spinner {
+      color: $green;
+      width: 48px;
+      height: 48px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+
+      &.hidden {
+        display: none;
+      }
     }
   }
 
@@ -354,7 +371,7 @@ $border: #1e252f;
 
     .hero-icon {
       width: 100%;
-      height: 80px;
+      min-height: 200px;
       border-right: none;
       border-bottom: 1px solid rgba($green, 0.3);
       border-radius: 14px 14px 0 0;

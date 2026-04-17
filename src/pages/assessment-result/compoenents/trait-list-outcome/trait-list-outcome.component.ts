@@ -1,20 +1,22 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonIcon } from '@ionic/angular/standalone';
+import { IonIcon, IonSpinner } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { shieldCheckmark, checkmarkCircle, warning, business, construct, people, flash, personCircle } from 'ionicons/icons';
 import { ITraitListOutcomesModel } from '../../../../core/model/trait-list-outcomes-model';
+import { GdriveImgPipe } from '../../../../core/utils/gdrive-img.pipe';
 
 @Component({
   selector: 'app-trait-list-outcome',
   templateUrl: './trait-list-outcome.component.html',
   styleUrls: ['./trait-list-outcome.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonIcon]
+  imports: [CommonModule, IonIcon, IonSpinner, GdriveImgPipe]
 })
 export class TraitListOutcomeComponent implements OnChanges {
   @Input() outcome: ITraitListOutcomesModel | null = null;
 
+  imageLoading = true;
   dynamicsCards: { icon: string; tag: string; title: string; value: string }[] = [];
   frictionPoint: { title: string; value: string } | null = null;
 
@@ -30,6 +32,7 @@ export class TraitListOutcomeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['outcome'] && this.outcome?.operationalDynamics) {
+      this.imageLoading = !!this.outcome.animalPictureUrl;
       const dyn = this.outcome.operationalDynamics;
       this.dynamicsCards = Object.keys(this.fieldConfig).filter(k => (dyn as any)[k]).map(k => ({
         ...this.fieldConfig[k],

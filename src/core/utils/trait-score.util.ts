@@ -26,6 +26,21 @@ function getTopTraitAttributes(scores: TraitScoreMap): { primary: TraitAttribute
     .filter(([key]) => key !== TraitAttribute.NONE)
     .sort((a, b) => b[1] - a[1]);
 
+  const topScore = sorted[0]?.[1] ?? 0;
+
+  if (topScore === 4) {
+    const rest = sorted.slice(1).map(([, score]) => score).filter(s => s > 0);
+    const isAllOnes = rest.length === 6 && rest.every(s => s === 1);
+    const isAllTwos = rest.length === 3 && rest.every(s => s === 2);
+
+    if (isAllOnes || isAllTwos) {
+      return {
+        primary: sorted[0][0] as TraitAttribute,
+        secondary: TraitAttribute.NONE,
+      };
+    }
+  }
+
   return {
     primary: sorted[0]?.[0] as TraitAttribute ?? TraitAttribute.NONE,
     secondary: sorted[1]?.[0] as TraitAttribute ?? TraitAttribute.NONE,

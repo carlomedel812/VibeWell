@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Manage Outcomes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (loading) {
+    <ion-spinner name="crescent"></ion-spinner>
+  } @else {
+    <ion-list>
+      @for (outcome of outcomes; track outcome.id) {
+        <ion-item>
+          <ion-label>
+            <h2>{{ outcome.primaryAnimal }} / {{ outcome.secondaryAnimal }}</h2>
+            <ion-input
+              label="Animal Picture URL"
+              labelPlacement="stacked"
+              [(ngModel)]="urlMap[outcome.id!]"
+              placeholder="Enter image URL"
+            ></ion-input>
+            <ion-button size="small" (click)="saveUrl(outcome)">Save</ion-button>
+          </ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  }
+</ion-content>

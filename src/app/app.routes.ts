@@ -92,6 +92,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'manage-outcomes',
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () =>
+          import('../pages/manage-outcomes/manage-outcomes.component').then(
+            (m) => m.ManageOutcomesComponent,
+          ),
+      },
+      {
         path: 'manage-assessment/:id/profiles',
         data: { roles: [UserRole.ADMIN] },
         loadComponent: () =>

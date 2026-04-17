@@ -10,7 +10,16 @@
   <div class="hero-card">
     <div class="hero-inner">
       <div class="hero-icon">
-        <ion-icon name="shield-checkmark"></ion-icon>
+        <ng-container *ngIf="outcome?.animalPictureUrl; else fallbackIcon">
+          <ion-spinner *ngIf="imageLoading" name="crescent" class="img-spinner"></ion-spinner>
+          <img [src]="outcome.animalPictureUrl | gdriveImg" [alt]="outcome.archetypeName"
+               [class.hidden]="imageLoading"
+               (load)="imageLoading = false"
+               (error)="imageLoading = false" />
+        </ng-container>
+        <ng-template #fallbackIcon>
+          <ion-icon name="shield-checkmark"></ion-icon>
+        </ng-template>
       </div>
       <div class="hero-info">
         <h2 class="archetype-name">{{ outcome.archetypeName | uppercase }}</h2>
