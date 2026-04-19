@@ -71,6 +71,7 @@ $border: #1e252f;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 
     ion-icon {
       font-size: 4rem;
@@ -88,6 +89,7 @@ $border: #1e252f;
       height: 100%;
       object-fit: cover;
       display: block;
+      transform: scale(1.2);
 
       &.hidden {
         display: none;
