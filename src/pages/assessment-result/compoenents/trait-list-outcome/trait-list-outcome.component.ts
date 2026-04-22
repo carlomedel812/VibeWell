@@ -22,7 +22,7 @@ export class TraitListOutcomeComponent implements OnChanges {
 
   private readonly fieldConfig: Record<string, { icon: string; tag: string; title: string }> = {
     optimalWorkEnvironment: { icon: 'business', tag: 'ENVIRONMENT', title: 'Optimal Work Environment' },
-    conflictAndMeetingStyle: { icon: 'construct', tag: '', title: 'Conflict Style' },
+    conflictAndMeetingStyle: { icon: 'construct', tag: '', title: 'Friction Management' },
     delegationProfile: { icon: 'people', tag: '', title: 'Delegation' },
   };
 
