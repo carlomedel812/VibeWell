@@ -19,6 +19,60 @@ ion-toolbar {
   --color: #ffffff;
 }
 
+// ---- Hire CTA Banner ----
+.hire-cta-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+.hire-cta {
+  padding: 76px 32px;
+  background: linear-gradient(135deg, #0d2018 0%, #122b1e 40%, #1a3d28 100%);
+  border: 1px solid rgba(80, 200, 120, 0.2);
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 40px rgba(80, 200, 120, 0.12);
+}
+
+.hire-cta-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f0f4ff;
+  margin: 0;
+}
+
+.hire-cta-sub {
+  font-size: 0.9rem;
+  color: $text-muted;
+  margin: 0;
+}
+
+.hire-cta-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 0.7rem 1.75rem;
+  background: $green;
+  color: #0b0f17;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.85; }
+}
+
+.download-btn {
+  --color: #50c878;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 // ---- Sticky Layer Tabs ----
 .layer-tabs {
   position: sticky;

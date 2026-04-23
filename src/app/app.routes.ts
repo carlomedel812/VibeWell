@@ -7,8 +7,8 @@ import { guestGuard } from '../core/guards/guest.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    loadComponent: () =>
+      import('../pages/landing/landing.component').then((m) => m.LandingComponent),
   },
   {
     path: 'login',

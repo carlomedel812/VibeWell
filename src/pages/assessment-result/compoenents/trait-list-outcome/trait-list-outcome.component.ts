@@ -6,6 +6,7 @@ import { shieldCheckmark, checkmarkCircle, warning, business, construct, people,
 import { ITraitListOutcomesModel } from '../../../../core/model/trait-list-outcomes-model';
 import { GdriveImgPipe } from '../../../../core/utils/gdrive-img.pipe';
 
+
 @Component({
   selector: 'app-trait-list-outcome',
   templateUrl: './trait-list-outcome.component.html',

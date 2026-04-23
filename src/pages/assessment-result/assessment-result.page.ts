@@ -22,6 +22,8 @@ import { arrowBack } from 'ionicons/icons';
 import { TraitListOutcomeComponent } from './compoenents/trait-list-outcome/trait-list-outcome.component';
 import { BigTraitOutcomeComponent } from './compoenents/big-trait-outcome/big-trait-outcome.component';
 import { AssessmentOutcomeGeneratorService } from '../../core/service/assessment-score-generator.service';
+import { AssessmentPdfService } from '../../core/service/assessment-pdf.service';
+import { downloadOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-assessment-result',
@@ -43,6 +45,7 @@ export class AssessmentResultPage implements OnInit {
   private readonly bigFiveOutcomeRepository = inject(BigFiveOutcomeRepository);
   private readonly tokenStorageService = inject(TokenStorageService);
   private readonly assessmentOutcomeGeneratorService = inject(AssessmentOutcomeGeneratorService);
+  private readonly assessmentPdfService = inject(AssessmentPdfService);
   readonly AssessmentLayerType = AssessmentLayerType;
   assessmentAnswer: IAssessmentAnswerModel | null = null;
   assessmentOutcome: IAssessmentOutcomeModel | null = null;
@@ -56,11 +59,16 @@ export class AssessmentResultPage implements OnInit {
   @ViewChild('resultContent', { static: false }) resultContent!: IonContent;
 
   constructor() {
-    addIcons({ arrowBack });
+    addIcons({ arrowBack, downloadOutline });
   }
 
-  goBack(): void {
-    const ref = this.route.snapshot.queryParamMap.get('ref');
+  downloadPdf(): void {
+    const user = this.tokenStorageService.decodeToken();
+    const userName = user ? `${user.firstName} ${user.lastName}`.trim() : undefined;
+    this.assessmentPdfService.generate(this.traitListOutcome, this.bigFiveOutcome, this.bigFiveLayerOutcome, userName);
+  }
+
+  goBack(): void {    const ref = this.route.snapshot.queryParamMap.get('ref');
     if (ref === 'admin') {
       this.location.back();
     } else {

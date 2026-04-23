@@ -7,10 +7,16 @@
     </ion-buttons>
     <ion-title>
       <div class="toolbar-brand">
-        <img src="assets/icon/ic-ogmentorid-logo.png" alt="OpenKeyID" class="toolbar-brand-logo" />
+        <img src="assets/icon/ic-ogmentorid-logo.png" alt="OpenKeyID" class="toolbar-brand-logo" width="26" height="26" />
         <span class="toolbar-brand-name">OpenKeyID</span>
       </div>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="downloadPdf()" [disabled]="isLoading" class="download-btn">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        Download PDF
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -39,4 +45,19 @@
       </ng-container>
     </div>
   </ng-container>
+
+  <!-- CTA Banner -->
+  <div class="hire-cta-wrapper">
+    <div class="hire-cta">
+      <p class="hire-cta-text">Ready to hire your new team member?</p>
+      <p class="hire-cta-sub">Setup a meeting with Ogmentor today!</p>
+      <a
+        class="hire-cta-btn"
+        href="https://hello.ogmentor.com/discovery"
+        target="_blank"
+        rel="noopener noreferrer">
+        Book a Meeting with Ogmentor
+      </a>
+    </div>
+  </div>
 </ion-content>

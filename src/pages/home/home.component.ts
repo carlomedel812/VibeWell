@@ -89,7 +89,7 @@ export class HomeComponent implements ViewWillEnter, OnInit {
   async logout() {
     this.tokenStorageService.clearAll();
     await signOut(this.auth);
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/');
   }
 
   onProfileImageError(): void {

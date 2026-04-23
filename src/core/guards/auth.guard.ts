@@ -28,13 +28,13 @@ const hasRoleAccess = (
 ) => {
   if (!tokenStorageService.hasValidToken()) {
     tokenStorageService.clearAll();
-    return router.createUrlTree(['/login']);
+    return router.createUrlTree(['/']);
   }
 
   const currentUser = tokenStorageService.decodeToken();
   if (!currentUser) {
     tokenStorageService.clearAll();
-    return router.createUrlTree(['/login']);
+    return router.createUrlTree(['/']);
   }
 
   const allowedRoles = resolveAllowedRoles(route);

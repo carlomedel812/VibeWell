@@ -1,0 +1,100 @@
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" routerLink="/">OpenKeyID</a>
+
+    <div class="nav-actions">
+      <a class="btn-ghost" routerLink="/login">Login</a>
+      <a class="btn-primary" routerLink="/register">Take the Assessment</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="assessment">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">● NEXT-GEN PSYCHOMETRICS</span>
+      <h1>Decode Your <span class="accent">Professional Identity</span></h1>
+      <p class="hero-sub">
+        Go beyond surface personality to map the core psychological traits that
+        silently shape your professional reality. Uncover the hidden drivers
+        behind your decision-making, stress resilience, and the exact
+        environments where you naturally thrive.
+      </p>
+      <div class="hero-actions">
+        <span class="hero-cta-label">Begin Your Deep Analysis</span>
+        <a class="btn-primary" routerLink="/register">Sign Up Now</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="card-badge precision">
+        <span class="badge-dot"></span> Precision: 90.4%
+      </div>
+      <div class="card-avatar">
+        <img
+          src="https://lh3.googleusercontent.com/d/1RCRtxIhcg4R920DebXeIgWELZzlCMebq"
+          alt="Professional identity avatar"
+          class="card-avatar-img"
+        />
+      </div>
+      <div class="card-badge tier">
+        <span class="badge-dot blue"></span> Tier: Executive Alpha
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="social-proof">
+  <span class="proof-label">Powered by deep psychometric modeling and advanced cognitive analytics.</span>
+</div>
+
+<!-- THREE LAYERS -->
+<section class="layers" id="architecture">
+  <div class="layers-inner">
+    <h2 class="section-label">THE TWO LAYERS OF <span class="accent">COGNITIVE PROFILING</span></h2>
+    <div class="layers-grid">
+      @for (layer of layers; track layer.title) {
+        <div class="layer-card">
+          <div class="layer-icon">{{ layer.icon }}</div>
+          <h3>{{ layer.title }}</h3>
+          <p>{{ layer.description }}</p>
+          <span class="layer-badge">▶ {{ layer.badge }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Ready to unlock your<br />peak potential?</h2>
+    <p>
+      The assessment takes 18 minutes. The clarity lasts a career. Join the elite
+      network of OpenKeyID professionals.
+    </p>
+    <a class="btn-cta" routerLink="/login">Start the OpenKeyID Assessment</a>
+    <div class="cta-meta">
+      <span>🔒 Secure Analysis</span>
+      <span>📄 40-Page Report</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand">OpenKeyID</span>
+      <p>© 2024 OpenKeyID. PRECISE INTELLIGENCE FOR<br />HIGH-STAKES ENVIRONMENTS.</p>
+    </div>
+    <div class="footer-links">
+      <a href="assets/docs/privacy-policy.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+      <a href="assets/docs/terms-of-service.pdf" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
