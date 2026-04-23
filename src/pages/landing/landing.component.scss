@@ -1,12 +1,14 @@
 // ── Variables ──────────────────────────────────────────────────────────────
 $bg-base:    #0b0f17;
 $bg-surface: #111827;
+$bg-dark-surface: #0e1421;
 $bg-card:    #141c29;
 $accent:     #50C878;
 $accent-dim: rgba(80, 200, 120, 0.15);
 $text-main:  #f0f4ff;
 $text-muted: #8b95a8;
 $border:     rgba(255, 255, 255, 0.07);
+$light-intensity: rgba(255, 255, 255, 0.15);
 
 // ── Global reset for this page ─────────────────────────────────────────────
 :host {
@@ -83,7 +85,8 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(11, 15, 23, 0.85);
+  // background: rgba(11, 15, 23, 0.85);
+  background: $bg-surface;
   backdrop-filter: blur(12px);
   border-bottom: 1px solid $border;
 }
@@ -130,6 +133,7 @@ a {
 // ── Hero ───────────────────────────────────────────────────────────────────
 .hero {
   padding: 6rem 1.5rem 5rem;
+  background-color: $bg-dark-surface;
 }
 
 .hero-inner {
@@ -285,7 +289,7 @@ h1 {
 // ── Layers Section ────────────────────────────────────────────────────────
 .layers {
   padding: 6rem 1.5rem;
-  background: $bg-surface;
+  background: $bg-dark-surface;
 }
 
 .layers-inner {
@@ -362,18 +366,33 @@ h1 {
 // ── CTA Section ───────────────────────────────────────────────────────────
 .cta-section {
   padding: 6rem 1.5rem;
-  background: $bg-base;
+  background: $bg-dark-surface;
 }
 
 .cta-inner {
-  max-width: 640px;
+  max-width: 840px;
   margin: 0 auto;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-  background: linear-gradient(145deg, #111827, #0d1320);
+  // background: linear-gradient(145deg, #111827, #0d1320);
+  background: 
+    // 1st Light: Top Left
+    radial-gradient(
+      circle at top left, 
+      $light-intensity 0%, 
+      transparent 25%
+    ),
+    // 2nd Light: Bottom Right
+    radial-gradient(
+      circle at bottom right, 
+      $light-intensity 0%, 
+      transparent 25%
+    ),
+    // 3rd: The base background color
+    $bg-card;
   border: 1px solid $border;
   border-radius: 20px;
   padding: 4rem 3rem;
@@ -416,6 +435,7 @@ h1 {
   gap: 2rem;
   font-size: 0.8rem;
   color: $text-muted;
+  padding-top: 1rem;
 }
 
 // ── Footer ────────────────────────────────────────────────────────────────
