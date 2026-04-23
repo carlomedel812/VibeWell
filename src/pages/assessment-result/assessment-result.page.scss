@@ -28,7 +28,11 @@ ion-toolbar {
 
 .hire-cta {
   padding: 76px 32px;
-  background: linear-gradient(135deg, #0d2018 0%, #122b1e 40%, #1a3d28 100%);
+  // background: linear-gradient(135deg, #0d2018 0%, #122b1e 40%, #1a3d28 100%);
+  background-image: url("../../assets/images/ogmentor11.jpg");
+  background-size: cover;    // Scales to fit entirely within the space
+  background-position: center; // Centers the image in the empty space
+  background-repeat: no-repeat;
   border: 1px solid rgba(80, 200, 120, 0.2);
   border-radius: 16px;
   text-align: center;
@@ -48,7 +52,9 @@ ion-toolbar {
 
 .hire-cta-sub {
   font-size: 0.9rem;
-  color: $text-muted;
+  // color: $text-muted;
+
+  color: white;
   margin: 0;
 }
 
