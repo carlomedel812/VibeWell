@@ -63,7 +63,10 @@ export class AssessmentResultPage implements OnInit {
   }
 
   downloadPdf(): void {
-    const user = this.tokenStorageService.decodeToken();
+    const userIdFromParam = this.route.snapshot.queryParamMap.get('userId');
+    const currentUserId = this.tokenStorageService.getCurrentUserUid();
+    const resolvedUserId = userIdFromParam ?? currentUserId;
+    const user = resolvedUserId === currentUserId ? this.tokenStorageService.decodeToken() : null;
     const userName = user ? `${user.firstName} ${user.lastName}`.trim() : undefined;
     this.assessmentPdfService.generate(this.traitListOutcome, this.bigFiveOutcome, this.bigFiveLayerOutcome, userName);
   }
