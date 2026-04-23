@@ -2,6 +2,7 @@ import { Component, DestroyRef, OnInit, ViewChild, inject, NgZone } from '@angul
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AssessmentAnswerRepository } from '../../core/repository/assessment-answer-repository';
+import { UserRepository } from '../../core/repository/user-repository';
 import { AssessmentOutcomeRepository } from '../../core/repository/assessment-outcome-repository';
 import { TraitListOutcomeRepository } from '../../core/repository/trait-list-outcome-repository';
 import { BigFiveOutcomeRepository } from '../../core/repository/big-five-outcome-repository';
@@ -46,6 +47,7 @@ export class AssessmentResultPage implements OnInit {
   private readonly tokenStorageService = inject(TokenStorageService);
   private readonly assessmentOutcomeGeneratorService = inject(AssessmentOutcomeGeneratorService);
   private readonly assessmentPdfService = inject(AssessmentPdfService);
+  private readonly userRepository = inject(UserRepository);
   readonly AssessmentLayerType = AssessmentLayerType;
   assessmentAnswer: IAssessmentAnswerModel | null = null;
   assessmentOutcome: IAssessmentOutcomeModel | null = null;
@@ -63,12 +65,23 @@ export class AssessmentResultPage implements OnInit {
   }
 
   downloadPdf(): void {
+    const capitalize = (s: string) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+    const buildName = (firstName: string, lastName: string) =>
+      `${capitalize(firstName)} ${capitalize(lastName)}`.trim();
+
     const userIdFromParam = this.route.snapshot.queryParamMap.get('userId');
-    const currentUserId = this.tokenStorageService.getCurrentUserUid();
-    const resolvedUserId = userIdFromParam ?? currentUserId;
-    const user = resolvedUserId === currentUserId ? this.tokenStorageService.decodeToken() : null;
-    const userName = user ? `${user.firstName} ${user.lastName}`.trim() : undefined;
-    this.assessmentPdfService.generate(this.traitListOutcome, this.bigFiveOutcome, this.bigFiveLayerOutcome, userName);
+    if (userIdFromParam) {
+      this.userRepository.getUserById(userIdFromParam).pipe(
+        takeUntilDestroyed(this.destroyRef),
+      ).subscribe(user => {
+        const userName = user ? buildName(user.firstName, user.lastName) : undefined;
+        this.assessmentPdfService.generate(this.traitListOutcome, this.bigFiveOutcome, this.bigFiveLayerOutcome, userName);
+      });
+    } else {
+      const tokenUser = this.tokenStorageService.decodeToken();
+      const userName = tokenUser ? buildName(tokenUser.firstName, tokenUser.lastName) : undefined;
+      this.assessmentPdfService.generate(this.traitListOutcome, this.bigFiveOutcome, this.bigFiveLayerOutcome, userName);
+    }
   }
 
   goBack(): void {    const ref = this.route.snapshot.queryParamMap.get('ref');
