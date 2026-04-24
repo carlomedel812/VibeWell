@@ -2,6 +2,7 @@ import { Component, DestroyRef, EventEmitter, Input, OnChanges, Output, SimpleCh
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IonIcon, IonSpinner } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
+import { informationCircleOutline } from 'ionicons/icons';
 import { arrowForwardOutline } from 'ionicons/icons';
 
 import { IAssessmentLayerModel } from '../../../../core/model/assessment-layer-model';
@@ -36,7 +37,7 @@ export class TraitListLayerComponent implements OnChanges {
   private userHasInteracted = false;
 
   constructor(private readonly traitListAdjectiveRepository: TraitListAdjectiveRepository) {
-    addIcons({ arrowForwardOutline });
+    addIcons({ arrowForwardOutline, informationCircleOutline });
   }
 
   ngOnInit(): void {
