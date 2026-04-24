@@ -5,6 +5,7 @@
 $dark-bg: #0d1117;
 $card-bg: #12171f;
 $green: #50c878;
+$orange: #ff7a3d;
 $border: #1e252f;
 $text-muted: #7a8290;
 
@@ -27,7 +28,8 @@ ion-toolbar {
 }
 
 .hire-cta {
-  padding: 76px 32px;
+  // padding: 76px 32px;
+  min-height: 320px;
   // background: linear-gradient(135deg, #0d2018 0%, #122b1e 40%, #1a3d28 100%);
   background-image: url("../../assets/images/ogmentor11.jpg");
   background-size: cover;    // Scales to fit entirely within the space
@@ -41,6 +43,17 @@ ion-toolbar {
   align-items: center;
   gap: 8px;
   box-shadow: 0 8px 40px rgba(80, 200, 120, 0.12);
+  & > div {
+    margin-top: 70px;
+    // background: #0000000a;
+    padding: 5px;
+    border-radius: 5px;
+    & p {
+      text-shadow: 0px 0px 4px rgba(255, 122, 61, 0.6), 
+               0px 0px 4px rgba(0, 0, 0, 0.3);
+    }
+
+  }
 }
 
 .hire-cta-text {
@@ -62,11 +75,11 @@ ion-toolbar {
   display: inline-block;
   margin-top: 12px;
   padding: 0.7rem 1.75rem;
-  background: $green;
-  color: #0b0f17;
+  background: $orange;
+  color: #ffffff;
   font-weight: 700;
   font-size: 0.875rem;
-  border-radius: 8px;
+  border-radius: 14px;
   text-decoration: none;
   transition: opacity 0.2s;
 
