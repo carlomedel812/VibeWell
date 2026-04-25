@@ -9,7 +9,7 @@ import { FirestoreService } from '../service/firestore.service';
   providedIn: 'root',
 })
 export class BigFiveOutcomeRepository {
-  private readonly collectionPath = 'big-five-outcomes-2';
+  private readonly collectionPath = 'big-five-outcome';
 
   constructor(private readonly firestoreService: FirestoreService) {}
 

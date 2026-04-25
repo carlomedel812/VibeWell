@@ -67,6 +67,8 @@ export class AssessmentOutcomeGeneratorService {
                     ),
                 );
                 const traitListOutcome = traitListOutcomes[0];
+                console.log("traitListOutcome")
+                console.log(traitListOutcome)
 
                 const layerOutcome: ILayerOutcomeModel = {
                     layerId: layerAnswer.layerId,
@@ -116,6 +118,8 @@ export class AssessmentOutcomeGeneratorService {
         const outcomeById = await firstValueFrom(
             this.bigFiveOutcomeRepository.getBigFiveOutcomeById(oceanProfile),
         );
+        console.log("outcomeById")
+        console.log(outcomeById)
 
         if (outcomeById) {
             return outcomeById.id ?? '';
@@ -133,6 +137,8 @@ export class AssessmentOutcomeGeneratorService {
         const outcomesByScores = await firstValueFrom(
             this.bigFiveOutcomeRepository.getBigFiveOutcomeByTraitScores(traitScores),
         );
+        console.log("outcomesByScores")
+        console.log(outcomesByScores)
 
         return outcomesByScores[0]?.id ?? '';
     }

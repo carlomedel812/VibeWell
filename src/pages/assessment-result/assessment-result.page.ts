@@ -151,8 +151,10 @@ export class AssessmentResultPage implements OnInit {
               return this.assessmentOutcomeRepository.getAssessmentOutcomesByAnswerId(this.assessmentAnswer.id);
             }),
             switchMap((outcomes: IAssessmentOutcomeModel[] | null) => {
+              console.log("outcomes")
+              console.log(outcomes)
               this.assessmentOutcome = outcomes?.[0] ?? null;
-
+              
               if (!this.assessmentOutcome && this.assessmentAnswer?.completed) {
                 return from(
                   this.assessmentOutcomeGeneratorService.generateOutcomesForAssessment(this.assessmentAnswer),
@@ -197,12 +199,14 @@ export class AssessmentResultPage implements OnInit {
       if (layer.layerType === AssessmentLayerType.TRAIT_LIST) {
         const traitOutcome = layer.outcome as ITraitListLayerOutcome;
         if (traitOutcome.traitListOutcomeId) {
+          console.log("fetching trait list outcome with id: " + traitOutcome.traitListOutcomeId);
           fetches['traitList'] = this.traitListOutcomeRepository.getTraitListOutcomeById(traitOutcome.traitListOutcomeId);
         }
       } else if (layer.layerType === AssessmentLayerType.BIG_FIVE_PERSONALITY_TRAIT) {
         const bigFiveOutcome = layer.outcome as IBigFiveLayerOutcome;
         this.bigFiveLayerOutcome = bigFiveOutcome;
         if (bigFiveOutcome.bigFiveTraitOutcomeId) {
+          console.log("fetching big five outcome with id: " + bigFiveOutcome.bigFiveTraitOutcomeId);
           fetches['bigFive'] = this.bigFiveOutcomeRepository.getBigFiveOutcomeById(bigFiveOutcome.bigFiveTraitOutcomeId);
         }
       }

@@ -10,7 +10,7 @@ import { FirestoreService } from '../service/firestore.service';
   providedIn: 'root',
 })
 export class TraitListOutcomeRepository {
-  private readonly collectionPath = 'trait-list-outcomes';
+  private readonly collectionPath = 'trait-list-outcome';
 
   constructor(private readonly firestoreService: FirestoreService) {}
 

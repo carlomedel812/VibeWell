@@ -18,6 +18,7 @@ export interface ICoreBaselineModel {
 
 export interface IEnvironmentalFitModel {
     idealManagerProfile: string;
+    idealSubordinateProfile: string;
     toxicEnvironmentTrigger: string;
 }
 

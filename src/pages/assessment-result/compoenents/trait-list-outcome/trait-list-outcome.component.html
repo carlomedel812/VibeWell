@@ -39,7 +39,7 @@
         <li class="trait-item" *ngFor="let strength of toArray(outcome.signatureStrengths)">
           <ion-icon name="checkmark-circle" class="trait-icon success"></ion-icon>
           <div>
-            <p>{{ strength }}</p>
+            <p>{{ strength.name }}</p>
           </div>
         </li>
       </ul>
@@ -52,7 +52,7 @@
         <li class="trait-item" *ngFor="let blindSpot of toArray(outcome.operationalBlindSpots)">
           <ion-icon name="warning" class="trait-icon danger"></ion-icon>
           <div>
-            <p>{{ blindSpot }}</p>
+            <p>{{ blindSpot.name }}</p>
           </div>
         </li>
       </ul>
