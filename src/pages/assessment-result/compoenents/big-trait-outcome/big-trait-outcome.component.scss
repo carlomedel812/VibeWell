@@ -442,6 +442,13 @@ $border: #1e252f;
   border: 1px solid $border;
   padding: 20px;
 
+  &.subordinate-card {
+    flex: none;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
+
   .manager-header {
     display: flex;
     align-items: center;

@@ -119,8 +119,18 @@ export class AssessmentPdfService {
     y = this.ensureSpace(doc, y, 10);
     const strengths = this.toArray(outcome.signatureStrengths);
     const blindSpots = this.toArray(outcome.operationalBlindSpots);
-    const rows = Math.max(strengths.length, blindSpots.length);
-    const colCardH = 12 + rows * 8 + 6;
+
+    // Calculate height needed per item (name line + description lines)
+    const itemHeight = (items: any[]): number => items.reduce((acc, item) => {
+      const descLines = item.description
+        ? doc.splitTextToSize(item.description, COL_W - 10).length
+        : 0;
+      return acc + 8 + descLines * 4.5;
+    }, 0);
+
+    const strengthsH = 12 + itemHeight(strengths) + 6;
+    const blindSpotsH = 12 + itemHeight(blindSpots) + 6;
+    const colCardH = Math.max(strengthsH, blindSpotsH);
 
     y = this.ensureSpace(doc, y, colCardH + 4);
 
@@ -131,12 +141,23 @@ export class AssessmentPdfService {
     doc.setFontSize(9);
     doc.setTextColor(...C.greenDark);
     doc.text('SIGNATURE STRENGTHS', MARGIN + 5, y + 8);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.setTextColor(...C.dark);
-    strengths.forEach((s: string, i: number) => {
-      const lines = doc.splitTextToSize(`• ${s}`, COL_W - 8);
-      doc.text(lines[0], MARGIN + 5, y + 15 + i * 8);
+    let itemY = y + 15;
+    strengths.forEach((s: any) => {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...C.dark);
+      const nameLines = doc.splitTextToSize(`• ${s.name ?? s}`, COL_W - 8);
+      doc.text(nameLines[0], MARGIN + 5, itemY);
+      itemY += 5.5;
+      if (s.description) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...C.muted);
+        const descLines = doc.splitTextToSize(s.description, COL_W - 10);
+        doc.text(descLines, MARGIN + 8, itemY);
+        itemY += descLines.length * 4.5;
+      }
+      itemY += 2.5;
     });
 
     // Blind Spots card
@@ -147,12 +168,23 @@ export class AssessmentPdfService {
     doc.setFontSize(9);
     doc.setTextColor(...C.red);
     doc.text('OPERATIONAL BLIND SPOTS', col2X + 5, y + 8);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.setTextColor(...C.dark);
-    blindSpots.forEach((b: string, i: number) => {
-      const lines = doc.splitTextToSize(`• ${b}`, COL_W - 8);
-      doc.text(lines[0], col2X + 5, y + 15 + i * 8);
+    itemY = y + 15;
+    blindSpots.forEach((b: any) => {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...C.dark);
+      const nameLines = doc.splitTextToSize(`• ${b.name ?? b}`, COL_W - 8);
+      doc.text(nameLines[0], col2X + 5, itemY);
+      itemY += 5.5;
+      if (b.description) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...C.muted);
+        const descLines = doc.splitTextToSize(b.description, COL_W - 10);
+        doc.text(descLines, col2X + 8, itemY);
+        itemY += descLines.length * 4.5;
+      }
+      itemY += 2.5;
     });
 
     y += colCardH + 8;
@@ -485,6 +517,30 @@ export class AssessmentPdfService {
       }
 
       y += rowH + 6;
+    }
+
+    // ── Ideal Subordinate Profile (full width)
+    const subordinateVal = outcome.environmentalFit?.idealSubordinateProfile;
+    if (subordinateVal) {
+      const subLines = doc.splitTextToSize(subordinateVal, CONTENT_W - 14);
+      const subH = 10 + subLines.length * 5 + 8;
+      y = this.ensureSpace(doc, y, subH);
+      doc.setFillColor(...C.white);
+      doc.setDrawColor(...C.light);
+      doc.roundedRect(MARGIN, y, CONTENT_W, subH, 2, 2, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.greenDark);
+      doc.text('IDEAL SUBORDINATE PROFILE', MARGIN + 5, y + 7);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(...C.muted);
+      doc.text('TEAM SYNERGY', MARGIN + 5, y + 13);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...C.dark);
+      doc.text(subLines, MARGIN + 5, y + 19);
+      y += subH + 6;
     }
 
     return y;

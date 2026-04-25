@@ -40,6 +40,7 @@
           <ion-icon name="checkmark-circle" class="trait-icon success"></ion-icon>
           <div>
             <p>{{ strength.name }}</p>
+            <p class="trait-description" *ngIf="strength.description">{{ strength.description }}</p>
           </div>
         </li>
       </ul>
@@ -53,6 +54,7 @@
           <ion-icon name="warning" class="trait-icon danger"></ion-icon>
           <div>
             <p>{{ blindSpot.name }}</p>
+            <p class="trait-description" *ngIf="blindSpot.description">{{ blindSpot.description }}</p>
           </div>
         </li>
       </ul>

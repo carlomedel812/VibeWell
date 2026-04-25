@@ -188,6 +188,12 @@ $border: #1e252f;
       margin: 0;
       line-height: 1.5;
     }
+
+    .trait-description {
+      font-size: 0.85rem;
+      color: rgba($text-muted, 0.75);
+      margin-top: 2px;
+    }
   }
 }
 
