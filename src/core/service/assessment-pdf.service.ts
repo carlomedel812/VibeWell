@@ -29,27 +29,29 @@ const CONTENT_W = PAGE_W - MARGIN * 2;
 @Injectable({ providedIn: 'root' })
 export class AssessmentPdfService {
 
-  generate(
+  async generate(
     traitList: ITraitListOutcomesModel | null,
     bigFive: IBigFivePersonalityTraitOutcomeModel | null,
     bigFiveLayer: IBigFiveLayerOutcome | null,
     userName?: string
-  ): void {
+  ): Promise<void> {
+    const logoBase64 = await this.loadImageAsBase64('assets/images/ogmentor-logo.png').catch(() => null);
+
     const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
     let y = 0;
 
-    y = this.drawCover(doc, userName);
+    y = this.drawCover(doc, userName, logoBase64);
     y = this.drawLayer1(doc, traitList, y);
 
     doc.addPage();
     y = this.drawLayer2(doc, bigFive, bigFiveLayer, 14);
-    this.drawFooterOnAllPages(doc);
+    this.drawFooterOnAllPages(doc, logoBase64);
 
     doc.save(`OpenKeyID-Assessment-${userName ?? 'Result'}.pdf`);
   }
 
   // ─── Cover / Header ────────────────────────────────────────────────────────
-  private drawCover(doc: jsPDF, userName?: string): number {
+  private drawCover(doc: jsPDF, userName?: string, logoBase64?: string | null): number {
     // Dark header bar
     doc.setFillColor(...C.dark);
     doc.rect(0, 0, PAGE_W, 42, 'F');
@@ -582,16 +584,26 @@ export class AssessmentPdfService {
     doc.line(MARGIN + doc.getTextWidth(label) + 3, y + 3, PAGE_W - MARGIN, y + 3);
   }
 
-  private drawFooterOnAllPages(doc: jsPDF): void {
+  private drawFooterOnAllPages(doc: jsPDF, logoBase64?: string | null): void {
+    const FOOTER_H = 14;
+    const LOGO_W   = 27;   // 1800/800 ≈ 2.25 ratio → 27×12
+    const LOGO_H   = 12;
     const total = (doc as any).internal.getNumberOfPages();
     for (let i = 1; i <= total; i++) {
       doc.setPage(i);
-      doc.setFillColor(...C.light);
-      doc.rect(0, PAGE_H - 10, PAGE_W, 10, 'F');
+      doc.setFillColor(240, 240, 240);
+      doc.rect(0, PAGE_H - FOOTER_H, PAGE_W, FOOTER_H, 'F');
+
+      if (logoBase64) {
+        const logoX = (PAGE_W - LOGO_W) / 2;
+        const logoY = PAGE_H - FOOTER_H + (FOOTER_H - LOGO_H) / 2;
+        doc.addImage(logoBase64, 'PNG', logoX, logoY, LOGO_W, LOGO_H);
+      }
+
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7);
+      doc.setFontSize(6.5);
       doc.setTextColor(...C.muted);
-      doc.text('OpenKeyID  •  Professional Identity Assessment', MARGIN, PAGE_H - 3);
+      doc.text('Professional Identity Assessment', MARGIN, PAGE_H - 3);
       doc.text(`Page ${i} of ${total}`, PAGE_W - MARGIN, PAGE_H - 3, { align: 'right' });
     }
   }
@@ -609,6 +621,17 @@ export class AssessmentPdfService {
     if (Array.isArray(value)) return value;
     if (value && typeof value === 'object') return Object.values(value);
     return [];
+  }
+
+  private loadImageAsBase64(url: string): Promise<string> {
+    return fetch(url)
+      .then(res => res.blob())
+      .then(blob => new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      }));
   }
 
   private scoreToPercent(score: string): number {

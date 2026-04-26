@@ -87,9 +87,29 @@ ion-toolbar {
 }
 
 .download-btn {
-  --color: #50c878;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid $green;
+  background: rgba($green, 0.12);
+  color: $green;
   font-size: 0.8rem;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba($green, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 // ---- Sticky Layer Tabs ----
@@ -98,11 +118,18 @@ ion-toolbar {
   top: 0;
   z-index: 100;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 16px;
   background: $dark-bg;
   border-bottom: 1px solid $border;
-  justify-content: center;
+
+  .layer-tabs-group {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    justify-content: flex-start;
+  }
 
   .layer-tab {
     padding: 8px 20px;
