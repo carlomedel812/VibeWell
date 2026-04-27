@@ -18,19 +18,21 @@
 <ion-content [fullscreen]="true" class="result-content" #resultContent [scrollEvents]="true" (ionScroll)="onContentScroll()">
   <!-- Sticky Layer Tabs -->
   <div class="layer-tabs" *ngIf="assessmentOutcome?.layerOutcomes?.length">
-    <div class="layer-tabs-group">
-      <button
-        *ngFor="let layer of assessmentOutcome!.layerOutcomes; let i = index"
-        class="layer-tab"
-        [class.active]="activeTabIndex === i"
-        (click)="scrollToLayer(i)">
-        Layer {{ i + 1 }}
+    <div class="layer-tabs-inner">
+      <div class="layer-tabs-group">
+        <button
+          *ngFor="let layer of assessmentOutcome!.layerOutcomes; let i = index"
+          class="layer-tab"
+          [class.active]="activeTabIndex === i"
+          (click)="scrollToLayer(i)">
+          Layer {{ i + 1 }}
+        </button>
+      </div>
+      <button (click)="downloadPdf()" [disabled]="isLoading" class="download-btn">
+        <ion-icon name="download-outline"></ion-icon>
+        Download PDF
       </button>
     </div>
-    <button (click)="downloadPdf()" [disabled]="isLoading" class="download-btn">
-      <ion-icon name="download-outline"></ion-icon>
-      Download PDF
-    </button>
   </div>
 
   <ng-container *ngFor="let layer of assessmentOutcome?.layerOutcomes; let i = index">
