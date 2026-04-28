@@ -533,6 +533,20 @@ body, p, span, ion-label, ion-text {
   font-size: 18px;
 }
 
+.vw-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.vw-sort-label {
+  font-size: 13px;
+  color: #8a9bb0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 @media (max-width: 640px) {
   .vw-admin-shortcut-link {
     width: 100%;

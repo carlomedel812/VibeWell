@@ -39,6 +39,7 @@ import { capitalize } from '../../../core/utils/string.util';
 
 type ProfileStatus = 'completed' | 'in-progress' | 'not-taken';
 type UserSearchField = 'email' | 'firstName' | 'lastName';
+type SortOption = 'name' | 'date';
 
 interface UserProfileRow {
   user: IUserModel;
@@ -86,6 +87,7 @@ export class AssessmentProfilesComponent implements OnInit {
   searchText = '';
   selectedSearchField: UserSearchField = 'email';
   hasActiveSearch = false;
+  sortBy: SortOption = 'name';
 
   deleteTarget: UserProfileRow | null = null;
   isDeleting = false;
@@ -109,6 +111,20 @@ export class AssessmentProfilesComponent implements OnInit {
     if (typeof value === 'number') return new Date(value);
     if (typeof (value as any)?.toDate === 'function') return (value as any).toDate();
     return null;
+  }
+
+  get sortedProfiles(): UserProfileRow[] {
+    return [...this.userProfiles].sort((a, b) => {
+      if (this.sortBy === 'name') {
+        const nameA = `${a.user.firstName ?? ''} ${a.user.lastName ?? ''}`.trim().toLowerCase();
+        const nameB = `${b.user.firstName ?? ''} ${b.user.lastName ?? ''}`.trim().toLowerCase();
+        return nameA.localeCompare(nameB);
+      } else {
+        const dateA = this.toDate(a.answer?.completedAt)?.getTime() ?? 0;
+        const dateB = this.toDate(b.answer?.completedAt)?.getTime() ?? 0;
+        return dateB - dateA; // newest first
+      }
+    });
   }
 
   constructor() {

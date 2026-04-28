@@ -77,6 +77,18 @@
           </button>
         }
       </div>
+
+      <div class="vw-sort-controls">
+        <span class="vw-sort-label">Sort by:</span>
+        <ion-select
+          interface="popover"
+          class="vw-search-select"
+          [(ngModel)]="sortBy"
+        >
+          <ion-select-option value="name">User Name</ion-select-option>
+          <ion-select-option value="date">Date Created</ion-select-option>
+        </ion-select>
+      </div>
     </section>
 
     @if (isLoading) {
@@ -101,7 +113,7 @@
       </div>
     } @else {
       <div class="user-list">
-        @for (row of userProfiles; track row.user.id) {
+        @for (row of sortedProfiles; track row.user.id) {
           <div class="user-row" [class.disabled-row]="row.status === 'not-taken'">
             <div class="user-info">
               <div class="user-avatar">
