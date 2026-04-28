@@ -59,18 +59,26 @@ export class AssessmentPdfService {
     doc.setTextColor(...C.white);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(22);
-    doc.text('OpenKeyID', MARGIN, 16);
+    doc.text('OpenKeyID', MARGIN, 14);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
-    doc.text('Professional Identity Assessment', MARGIN, 24);
+    doc.text('Professional Identity Assessment', MARGIN, 19);
 
     if (userName) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
-      doc.text(`Report for: ${userName}`, MARGIN, 35);
+      doc.text(`Report for: ${userName}`, MARGIN, 28);
     }
 
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor("#D4AF37");
+    doc.text("Disclaimer: This assessment is designed as a tool for team building and development only. While it provides valuable insights, your self-perception"
+      , MARGIN, 36);
+    doc.text("is the ultimate authority. If any results do not resonate with your experience, please prioritize your own intuition and judgment."
+      , MARGIN, 40);
+       
     // Date top-right
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
