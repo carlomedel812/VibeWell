@@ -111,7 +111,11 @@
 
         <label class="privacy-check">
           <input type="checkbox" [(ngModel)]="acceptPrivacy" name="acceptPrivacy" />
-          <span class="privacy-check-text">I accept the <a href="assets/docs/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" class="privacy-link">Privacy Policy</a> and <a href="assets/docs/terms-of-service.pdf" target="_blank" rel="noopener noreferrer" class="privacy-link">Terms of Service</a></span>
+          <span class="privacy-check-text">
+            I accept the <a href="https://policies.termageddon.com/api/policy/TkhadGVsbFRjVEpNWWpORFYwRTlQUT09" target="_blank" rel="noopener noreferrer" class="privacy-link">Privacy Policy</a>,
+            <a href="https://policies.termageddon.com/api/policy/YUZSbWVVMTBjRUZoVTBod1pXYzlQUT09" target="_blank" rel="noopener noreferrer" class="privacy-link">Terms of Service</a>
+            and <a href="https://policies.termageddon.com/api/policy/ZVdKbFUxVjNaVUl5WTJaWFdIYzlQUT09" target="_blank" rel="noopener noreferrer" class="privacy-link">End User License Agreement</a></span>
+
         </label>
 
         <button type="submit" class="signup-btn" [disabled]="isLoading || !acceptPrivacy">
