@@ -94,7 +94,16 @@
 
   <!-- In Good Company -->
   <div class="good-company-section" *ngIf="toArray(outcome.inGoodCompany).length">
-    <h3 class="good-company-title">In Good Company</h3>
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+          <h3 class="good-company-title">In Good Company</h3>
+        <div class="tooltip-container">
+          <ion-icon name="information-circle-outline" class="info-icon" color="primary"></ion-icon>
+          <div class="tooltip-text">
+            World-changing individuals are inherently complex, adapting their behavior to meet the demands of their era. The visionaries below are not 1:1 personality matches. Rather, we mapped them to you because their most significant historical breakthroughs were achieved using the precise cognitive traits you possess. You share the engine of their success, not their entire identity.
+         </div>
+      </div>
+    </div>
+
     <div class="good-company-grid">
       <div class="person-card" *ngFor="let person of toArray(outcome.inGoodCompany)">
         <div class="person-avatar">

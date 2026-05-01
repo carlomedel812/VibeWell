@@ -311,7 +311,10 @@ $border: #1e252f;
     font-weight: 800;
     color: #ffffff;
     text-align: center;
-    margin: 0 0 20px;
+    margin: 0;
+    margin-top: 3px;
+    margin-right: 6px;
+    margin-left: 14px;
   }
 
   .good-company-grid {
@@ -430,5 +433,71 @@ $border: #1e252f;
       min-width: 200px;
       scroll-snap-align: start;
     }
+  }
+}
+
+
+.tooltip-container {
+  // Relative positioning makes this the anchor point for the absolute tooltip
+  position: relative;
+  display: inline-block; 
+  cursor: pointer;
+
+  .tooltip-text {
+    // Hidden by default using visibility and opacity for a smooth fade
+    visibility: hidden;
+    opacity: 0;
+    
+    // Tooltip styling
+    width: 400px;
+    background-color: #222428; // Standard dark tooltip color
+    color: #ffffff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    
+    // Absolute positioning places it exactly above the icon
+    position: absolute;
+    z-index: 10;
+    bottom: 130%; // Pushes it above the container
+    left: 50%;
+    transform: translateX(-50%); // Centers it horizontally relative to the icon
+    
+    // Smooth transition
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    // The CSS Triangle pointing down to the icon
+    &::after {
+      content: "";
+      position: absolute;
+      top: 100%; // Places the triangle right at the bottom edge of the tooltip
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #222428 transparent transparent transparent;
+    }
+  }
+
+  // The Magic: When hovering the container, show the text
+  &:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  margin-top: 4px;
+}
+
+// Basic styling for the Ionic icon
+.info-icon {
+  font-size: 24px; 
+  color: var(--ion-color-medium, #ffffff); // Uses Ionic's built-in CSS variables
+  transition: color 0.2s ease;
+  
+  // Optional: Make the icon light up slightly when hovered
+  .tooltip-container:hover & {
+    color: var(--ion-color-primary, #3880ff);
   }
 }

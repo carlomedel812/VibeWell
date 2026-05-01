@@ -2,6 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonSpinner } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
+import { informationCircleOutline } from 'ionicons/icons';
+import { arrowForwardOutline } from 'ionicons/icons';
 import { shieldCheckmark, checkmarkCircle, warning, business, construct, people, flash, personCircle } from 'ionicons/icons';
 import { ITraitListOutcomesModel } from '../../../../core/model/trait-list-outcomes-model';
 import { GdriveImgPipe } from '../../../../core/utils/gdrive-img.pipe';
@@ -28,7 +30,7 @@ export class TraitListOutcomeComponent implements OnChanges {
   };
 
   constructor() {
-    addIcons({ shieldCheckmark, checkmarkCircle, warning, business, construct, people, flash, personCircle });
+    addIcons({ arrowForwardOutline, shieldCheckmark, checkmarkCircle, warning, business, construct, people, flash, personCircle, informationCircleOutline });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
