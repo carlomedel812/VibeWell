@@ -14,9 +14,9 @@ export class LandingComponent {
     {
       icon: '⬡',
       badge: 'SYNTHESIZED FOUNDATION',
-      title: 'Layer 1: The Core Archetype',
+      title: 'Layer 1: The Core Matrix',
       description:
-        'Discover your foundational psychometric identity. We synthesize your Big Five traits into one of 64 distinct geometric avatars, revealing your professional strengths and hidden blindspots.',
+        'Discover the raw architecture of your behavioral identity. We map your primary psychometric traits into one of 64 distinct, multi-faceted gemstone hybrids—unearthing your defining professional strengths and exposing hidden operational blindspots.',
     },
     {
       icon: '◎',
