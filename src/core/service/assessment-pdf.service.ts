@@ -35,7 +35,7 @@ export class AssessmentPdfService {
     bigFiveLayer: IBigFiveLayerOutcome | null,
     userName?: string
   ): Promise<void> {
-    const logoBase64 = await this.loadImageAsBase64('assets/images/ogmentor-logo.png').catch(() => null);
+    const logoBase64 = await this.loadImageAsBase64('assets/images/10XVA-logo.png').catch(() => null);
 
     const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
     let y = 0;
