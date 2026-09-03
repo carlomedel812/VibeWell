@@ -1,0 +1,290 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="menu-title">
+      <div class="toolbar-brand">
+        <img src="assets/icon/ic-ogmentorid-logo.png" alt="OpenKeyID" class="toolbar-brand-logo" width="26" height="26" />
+        <span class="toolbar-brand-name">OpenKeyID</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="mg-page">
+
+    @if (loading) {
+      <div class="vw-loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p class="vw-loading-text">Loading matching guide…</p>
+      </div>
+    } @else if (loadError) {
+      <div class="vw-empty-state">
+        <h3 class="vw-empty-title">Something went wrong</h3>
+        <p class="vw-empty-text">{{ loadError }}</p>
+      </div>
+    } @else {
+
+    <!-- HERO -->
+    <header class="mg-hero">
+      <div class="mg-kicker">Reference Guide</div>
+      <h1 class="mg-h1">Client–Assistant Personality Matching</h1>
+      <p class="mg-lede">Which assistant personality best fits which client. The model is <b>complementary fit</b> — the strongest assistant covers the client's blind spots rather than mirroring their strengths — in two layers: the archetype family grid first, then Big&nbsp;Five (OCEAN) trait rules to refine. Each family carries its signature <b>gemstone</b>.</p>
+      <div class="mg-meta">
+        <button class="mg-jump" (click)="scrollTo('mg-explorer')">🔍 Open the Pairing Explorer →</button>
+        <span class="mg-tag">64 archetypes → 8 gemstone families</span>
+        <span class="mg-tag">4,096 pairings</span>
+        <span class="mg-tag">v1 — validate against outcomes</span>
+      </div>
+    </header>
+
+    <!-- CORE IDEA -->
+    <section class="mg-sec">
+      <div class="mg-num">THE CORE IDEA</div>
+      <h2 class="mg-h2">Drivers pair with Executors</h2>
+      <p class="mg-sub">Every archetype rolls up to one of eight trait families, each with its own gemstone. Four are <b>drivers</b> (they set direction); four are <b>executors</b> (they deliver, stabilize, and care for people). In a client→assistant hierarchy, a driver client pairs best with an executor assistant — and vice-versa. Two drivers contest the wheel; two of the same family amplify a shared blind spot.</p>
+      <div class="mg-thesis">
+        <div class="mg-thesis-col">
+          <h4>Drivers — set direction</h4>
+          @for (k of drivers; track k) {
+            <div class="mg-fline">
+              <span class="mg-gem xs" [style.--ring]="fam[k].color"><img [src]="gemFor(k) | gdriveImg" [alt]="fam[k].stone" /></span>
+              <span class="mg-fl-name">{{ fam[k].name }}</span>
+              <span class="mg-fl-stone" [style.color]="fam[k].color">{{ fam[k].stone }}</span>
+            </div>
+          }
+        </div>
+        <div class="mg-arrow"><span class="big">⇄</span><span>complement</span></div>
+        <div class="mg-thesis-col">
+          <h4>Executors — deliver &amp; stabilize</h4>
+          @for (k of executors; track k) {
+            <div class="mg-fline">
+              <span class="mg-gem xs" [style.--ring]="fam[k].color"><img [src]="gemFor(k) | gdriveImg" [alt]="fam[k].stone" /></span>
+              <span class="mg-fl-name">{{ fam[k].name }}</span>
+              <span class="mg-fl-stone" [style.color]="fam[k].color">{{ fam[k].stone }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- GEMSTONE SYSTEM -->
+    <section class="mg-sec">
+      <div class="mg-num">THE GEMSTONE SYSTEM</div>
+      <h2 class="mg-h2">8 base gems → 64 hybrid archetypes</h2>
+      <p class="mg-sub">Each archetype is a <b>hybrid gemstone</b>. The <b>primary</b> trait sets the base gem and family; the <b>secondary</b> trait fuses a second gem inside it — that fusion <i>is</i> the archetype. An <b>Apex</b> archetype (no strong secondary) stays a single pure gem.</p>
+      <div class="mg-fusion">
+        <div class="mg-fu-part">
+          <div class="mg-fu-label">Primary · Influence</div>
+          <span class="mg-gem lg" style="--ring:#f4b23e"><img [src]="gemFor('INFLUENCE') | gdriveImg" alt="Citrine" /></span>
+          <div class="mg-fu-name" style="color:#f4b23e">Citrine</div><small>Commander base</small>
+        </div>
+        <div class="mg-fu-op">+</div>
+        <div class="mg-fu-part">
+          <div class="mg-fu-label">Secondary · Abstraction</div>
+          <span class="mg-gem lg" style="--ring:#b5484a"><img [src]="gemFor('ABSTRACTION') | gdriveImg" alt="Garnet" /></span>
+          <div class="mg-fu-name" style="color:#b5484a">Garnet</div><small>Visionary edge</small>
+        </div>
+        <div class="mg-fu-op">=</div>
+        <div class="mg-fu-part hybrid">
+          <div class="mg-fu-label">Hybrid archetype</div>
+          <span class="mg-gem lg glow"><img [src]="imgFor('The Sovereign Commander') | gdriveImg" alt="The Sovereign Commander" /></span>
+          <div class="mg-fu-name">The Sovereign Commander</div><small>Citrine crystal, Garnet core</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAIRING EXPLORER -->
+    <section class="mg-sec" id="mg-explorer">
+      <div class="mg-num">PAIRING EXPLORER</div>
+      <h2 class="mg-h2">Every client → assistant pairing</h2>
+      <p class="mg-sub">All 64 × 64 = <b>4,096</b> pairings, scored with <b>both gems</b> (primary family sets the base verdict, the secondary gem refines it). Pick a <b>client</b> on the left; every assistant is ranked best-fit first on the right. Filter to jump straight to any assistant.</p>
+      <div class="mg-exp">
+        <div class="mg-exp-col">
+          <input class="mg-search" placeholder="Search client archetype or gem…" [(ngModel)]="clientSearch" />
+          <div class="mg-list">
+            @for (a of filteredClients; track a.name) {
+              <div class="mg-item" [class.sel]="isSelected(a)" (click)="select(a)">
+                <span class="mg-gem sm"><img [src]="a.imageUrl | gdriveImg" [alt]="a.name" /></span>
+                <span class="mg-ei">
+                  <span class="mg-nm">{{ a.name }}</span>
+                  <span class="mg-st">{{ stoneStr(a) }}</span>
+                </span>
+              </div>
+            } @empty {
+              <div class="mg-empty">No archetype matches.</div>
+            }
+          </div>
+        </div>
+        <div class="mg-exp-col">
+          @if (!selected) {
+            <div class="mg-empty big">← Pick a client archetype to rank all 64 assistants.</div>
+          } @else {
+            <div class="mg-exp-head">
+              <span class="mg-gem lg"><img [src]="selected.imageUrl | gdriveImg" [alt]="selected.name" /></span>
+              <div>
+                <div class="mg-eh-lab">CLIENT</div>
+                <h3>{{ selected.name }}</h3>
+                <div class="mg-st2" [style.color]="fam[selected.p].color">{{ stoneStr(selected) }}</div>
+              </div>
+            </div>
+            <div class="mg-sum" [class.filtered]="explorerBand !== 'all'">
+              <button type="button" class="mg-count b-ideal" [class.active]="explorerBand === 'ideal'" (click)="setExplorerBand('ideal')">{{ counts['ideal'] }} Ideal</button>
+              <button type="button" class="mg-count b-strong" [class.active]="explorerBand === 'strong'" (click)="setExplorerBand('strong')">{{ counts['strong'] }} Strong</button>
+              <button type="button" class="mg-count b-workable" [class.active]="explorerBand === 'workable'" (click)="setExplorerBand('workable')">{{ counts['workable'] }} Workable</button>
+              <button type="button" class="mg-count b-friction" [class.active]="explorerBand === 'friction'" (click)="setExplorerBand('friction')">{{ counts['friction'] }} Friction</button>
+            </div>
+            <input class="mg-search" placeholder="Filter assistants by name, gem or rating…" [(ngModel)]="resultSearch" />
+            <div class="mg-res">
+              @for (r of filteredResults; track r.a.name) {
+                <div class="mg-row" [class]="'edge-' + r.band">
+                  <span class="mg-gem"><img [src]="r.a.imageUrl | gdriveImg" [alt]="r.a.name" /></span>
+                  <div class="mg-row-main">
+                    <div class="mg-rw-nm">{{ r.a.name }}</div>
+                    <div class="mg-rw-st">{{ stoneStr(r.a) }}</div>
+                  </div>
+                  <span class="mg-badge" [class]="'b-' + r.band">{{ label(r.band) }}</span>
+                  <div class="mg-rw-why">{{ r.reason }}</div>
+                </div>
+              } @empty {
+                <div class="mg-empty">No assistant matches that filter.</div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYER 1 GRID -->
+    <section class="mg-sec">
+      <div class="mg-num">LAYER 1</div>
+      <h2 class="mg-h2">Archetype family compatibility</h2>
+      <p class="mg-sub">The family-level overview behind the explorer. Read a <b>client</b> down the left, an <b>assistant</b> across the top; hover a cell for the reasoning.</p>
+      <div class="mg-scroll">
+        <table class="mg-matrix">
+          <thead>
+            <tr>
+              <th class="mg-corner">Client&nbsp;↓ / Assistant&nbsp;→</th>
+              @for (ak of order; track ak) {
+                <th class="mg-colhead">
+                  <span class="mg-gem sm"><img [src]="gemFor(ak) | gdriveImg" [alt]="fam[ak].stone" /></span>
+                  <span class="mg-fam">{{ fam[ak].name }}</span>
+                  <span class="mg-stonelbl" [style.color]="fam[ak].color">{{ fam[ak].stone }}</span>
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (ck of order; track ck) {
+              <tr>
+                <th class="mg-rowhead">
+                  <span class="mg-gem sm"><img [src]="gemFor(ck) | gdriveImg" [alt]="fam[ck].stone" /></span>
+                  <span class="mg-rh-txt">
+                    <span class="mg-fam">{{ fam[ck].name }}</span>
+                    <span class="mg-stonelbl" [style.color]="fam[ck].color">{{ fam[ck].stone }}</span>
+                  </span>
+                </th>
+                @for (ak of order; track ak) {
+                  <td class="mg-cell" [class]="famRate(ck, ak)" (mouseenter)="setGridReason(ck, ak)">
+                    <span>{{ label(famRate(ck, ak)) }}</span>
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="mg-legend">
+        <span class="k"><span class="dot" style="background:#34c77b"></span>Ideal</span>
+        <span class="k"><span class="dot" style="background:#5ec8c8"></span>Strong</span>
+        <span class="k"><span class="dot" style="background:#e8a13c"></span>Workable</span>
+        <span class="k"><span class="dot" style="background:#c25a5c"></span>Friction</span>
+      </div>
+      <div class="mg-reasonbox">{{ gridReason || 'Hover a cell to see why that client–assistant pairing lands where it does.' }}</div>
+    </section>
+
+    <!-- FAMILY REFERENCE -->
+    <section class="mg-sec">
+      <div class="mg-num">FAMILY REFERENCE</div>
+      <h2 class="mg-h2">The eight gemstone families</h2>
+      <div class="mg-cards">
+        @for (k of order; track k) {
+          <div class="mg-card" [style.--accent]="fam[k].color">
+            <div class="mg-card-top">
+              <span class="mg-gem lg"><img [src]="gemFor(k) | gdriveImg" [alt]="fam[k].stone" /></span>
+              <div>
+                <h3>{{ fam[k].name }}</h3>
+                <div class="mg-ct-meta">
+                  <span class="mg-stone-name" [style.color]="fam[k].color">{{ fam[k].stone }}</span>
+                  <span class="mg-chip" [class]="fam[k].role">{{ fam[k].role }}</span>
+                </div>
+              </div>
+            </div>
+            <p><b>Brings:</b> {{ fam[k].offers }}.</p>
+            <p><b>Needs an assistant who:</b> covers {{ fam[k].need }}.</p>
+            <div class="mg-recline">
+              <span class="mg-pill ideal">Ideal → {{ recNames(k, 'ideal') }}</span>
+              <span class="mg-pill strong">Strong → {{ recNames(k, 'strong') }}</span>
+              <span class="mg-pill avoid">Avoid → {{ recNames(k, 'friction') }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- LAYER 2 -->
+    <section class="mg-sec">
+      <div class="mg-num">LAYER 2</div>
+      <h2 class="mg-h2">OCEAN trait refinement</h2>
+      <p class="mg-sub">Once the family pairing is set, tune with the Big&nbsp;Five. Two traits are <b>complementary</b> (the assistant covers), two <b>match</b> (align styles), one <b>adapts</b>. Drawn from the "ideal subordinate" guidance on the 243 OCEAN outcomes.</p>
+      <div class="mg-scroll">
+        <table class="mg-ocean">
+          <thead><tr><th></th><th>Trait</th><th>Rule</th><th>Why</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td class="oc">C</td><td class="ot">Conscientiousness</td><td class="orl">COMPLEMENT — assistant High</td><td>The biggest lever. Whatever the client scores, the assistant should be High-C — the "structural integrator" who ships reliable work. Largest lift when the <b>client is Low-C</b>.</td><td class="ow">assistant C ≥ client C; aim High</td></tr>
+            <tr><td class="oc">N</td><td class="ot">Neuroticism</td><td class="orl">COMPLEMENT — assistant Low</td><td>Stability is a universal asset. A Low-N assistant absorbs pressure. Critical when the <b>client is High-N</b> — they need a calm anchor, never a second worrier.</td><td class="ow">assistant N ≤ client N; aim Low</td></tr>
+            <tr><td class="oc">E</td><td class="ot">Extraversion</td><td class="orl">MATCH — sync the energy</td><td>High-E clients want a vocal brainstorming partner; Low-E clients want quiet, asynchronous check-ins. A mismatch reads as social friction.</td><td class="ow">assistant E ≈ client E</td></tr>
+            <tr><td class="oc">A</td><td class="ot">Agreeableness</td><td class="orl">MATCH — sync conflict style</td><td>High-A clients want an empathetic collaborator; Low-A clients want a direct operator who defends ideas in debate. Match so their values align.</td><td class="ow">assistant A ≈ client A</td></tr>
+            <tr><td class="oc">O</td><td class="ot">Openness</td><td class="orl">ADAPT — within one band</td><td>Keep the assistant within ±1 band. A High-O client who loves pivots needs an adaptable (Med–High O) <i>and</i> High-C assistant so novelty still ships.</td><td class="ow">assistant O within ±1 of client O</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section class="mg-sec">
+      <div class="mg-num">PUTTING IT TOGETHER</div>
+      <h2 class="mg-h2">How to score a pairing</h2>
+      <div class="mg-example">
+        <div class="mg-exrow">
+          <div class="mg-exbox">
+            <h4>Client</h4>
+            <div class="mg-prof">O:High · C:Low · E:High · A:Low · N:High</div>
+            <div class="mg-big"><span class="mg-gem sm"><img [src]="imgFor('The Pioneer Catalyst') | gdriveImg" alt="The Pioneer Catalyst" /></span> The Pioneer Catalyst <span class="mg-fl-stone" style="color:#e8a13c">Topaz + Garnet</span></div>
+            <small>Driver. Fast, visionary, low structure, runs hot.</small>
+          </div>
+          <div class="mg-exarrow">→</div>
+          <div class="mg-exbox">
+            <h4>Best-fit assistant</h4>
+            <div class="mg-prof">O:Med–High · C:High · E:High · A:Low · N:Low</div>
+            <div class="mg-big"><span class="mg-gem sm"><img [src]="gemFor('CONSISTENCY') | gdriveImg" alt="Tourmaline" /></span> Stabilizer <span class="mg-fl-stone" style="color:#4a9d7a">Tourmaline</span></div>
+            <small>Executor who ships the vision and stays calm.</small>
+          </div>
+        </div>
+        <ol class="mg-steps">
+          <li><b>Family (Layer 1):</b> Catalyst client → <b>Stabilizer</b> is Ideal (the "structural integrator"); Analyzer is Strong. Avoid another Catalyst.</li>
+          <li><b>C — complement:</b> client is Low-C, so the assistant <b>must be High-C</b> — the biggest single fit driver.</li>
+          <li><b>N — complement:</b> client is High-N, so the assistant should be <b>Low-N</b> to anchor them.</li>
+          <li><b>E &amp; A — match:</b> client is High-E / Low-A → assistant High-E, Low-A.</li>
+          <li><b>O — adapt:</b> client is High-O → assistant Med–High-O to keep pace without adding chaos.</li>
+        </ol>
+      </div>
+    </section>
+
+    <p class="mg-foot"><b>v1 framework.</b> Layer&nbsp;1 from the operational dynamics of the 64 archetypes; Layer&nbsp;2 from the ideal-subordinate fields on the 243 OCEAN outcomes. The explorer scores each pairing as 3×(primary↔primary) + (primary↔secondary) + (secondary↔primary) + ½(secondary↔secondary). Validate against real placement outcomes before relying on it — ratings are directional (client→assistant), not symmetric.</p>
+
+    }
+  </div>
+</ion-content>

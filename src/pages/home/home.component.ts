@@ -4,7 +4,7 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { IonSplitPane, IonMenu, IonContent, IonMenuToggle, IonIcon, IonRouterOutlet } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { gridOutline, clipboardOutline, personOutline, logOutOutline, shieldCheckmarkOutline, peopleOutline } from 'ionicons/icons';
+import { gridOutline, clipboardOutline, personOutline, logOutOutline, shieldCheckmarkOutline, peopleOutline, diamondOutline } from 'ionicons/icons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TokenStorageService } from '../../core/service/token-storage.service';
 import { UserRepository } from '../../core/repository/user-repository';
@@ -45,6 +45,7 @@ export class HomeComponent implements ViewWillEnter, OnInit {
   private readonly adminRolePages = [
     { title: 'Dashboard',       url: '/home/dashboard',            icon: 'grid-outline' },
     { title: 'Manage Assessment', url: '/home/manage-assessment',  icon: 'clipboard-outline' },
+    { title: 'Matching Guide',  url: '/home/matching-guide',       icon: 'diamond-outline' },
     { title: 'Users',           url: '/home/users-management',     icon: 'people-outline' },
     { title: 'Profile',         url: '/home/profile',              icon: 'person-outline' },
   ];
@@ -54,7 +55,7 @@ export class HomeComponent implements ViewWillEnter, OnInit {
     private readonly tokenStorageService: TokenStorageService,
     private readonly auth: Auth,
   ) {
-    addIcons({ gridOutline, shieldCheckmarkOutline, clipboardOutline, personOutline, peopleOutline, logOutOutline });
+    addIcons({ gridOutline, shieldCheckmarkOutline, clipboardOutline, personOutline, peopleOutline, logOutOutline, diamondOutline });
   }
 
   ngOnInit(): void {

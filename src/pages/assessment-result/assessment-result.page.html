@@ -27,6 +27,13 @@
           (click)="scrollToLayer(i)">
           Layer {{ i + 1 }}
         </button>
+        <button
+          *ngIf="showMatches"
+          class="layer-tab"
+          [class.active]="activeTabIndex === matchesTabIndex"
+          (click)="scrollToMatches()">
+          Matches
+        </button>
       </div>
       <button (click)="downloadPdf()" [disabled]="isLoading" class="download-btn">
         <ion-icon name="download-outline"></ion-icon>
@@ -48,6 +55,72 @@
       </ng-container>
     </div>
   </ng-container>
+
+  <!-- Matches tab -->
+  <div id="section-matches" class="result-matches" *ngIf="showMatches">
+    <div class="rm-head">
+      <h2 class="rm-title">Who you match with</h2>
+      <p class="rm-sub">Matching is directional. Choose whether you're the client or the assistant, and we'll rank the personalities that best complement you in that role.</p>
+    </div>
+
+    <div class="rm-role">
+      <button class="rm-role-btn" [class.active]="matchRole === 'client'" (click)="setMatchRole('client')">
+        I'm the Client
+        <span>rank assistants for me</span>
+      </button>
+      <button class="rm-role-btn" [class.active]="matchRole === 'assistant'" (click)="setMatchRole('assistant')">
+        I'm the Assistant
+        <span>rank clients I'd best support</span>
+      </button>
+    </div>
+
+    <div class="rm-you" *ngIf="me as m">
+      <span class="rm-gem"><img [src]="m.imageUrl | gdriveImg" [alt]="m.name" /></span>
+      <div>
+        <div class="rm-you-lab">YOU</div>
+        <div class="rm-you-name">{{ m.name }}</div>
+        <div class="rm-you-st" [style.color]="match.fam[m.p].color">{{ match.stoneStr(m) }}</div>
+      </div>
+      <p class="rm-you-dir">
+        {{ matchRole === 'client'
+          ? 'These assistants best complement you as your assistant.'
+          : 'You best support these clients as their assistant.' }}
+      </p>
+    </div>
+
+    <div class="rm-ocean">
+      <div class="rm-ocean-title">Beyond the archetype — what to look for in the {{ matchRole === 'client' ? 'assistant' : 'client' }}'s Big Five:</div>
+      <div class="rm-ocean-tips">
+        <div class="rm-tip" *ngFor="let t of oceanTips">
+          <span class="rm-tip-code">{{ t.code }}</span>
+          <span class="rm-tip-text">{{ t.text }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-sum" [class.filtered]="matchBandFilter !== 'all'">
+      <button type="button" class="rm-count b-ideal" [class.active]="matchBandFilter === 'ideal'" (click)="setMatchBand('ideal')">{{ matchCounts['ideal'] }} Ideal</button>
+      <button type="button" class="rm-count b-strong" [class.active]="matchBandFilter === 'strong'" (click)="setMatchBand('strong')">{{ matchCounts['strong'] }} Strong</button>
+      <button type="button" class="rm-count b-workable" [class.active]="matchBandFilter === 'workable'" (click)="setMatchBand('workable')">{{ matchCounts['workable'] }} Workable</button>
+      <button type="button" class="rm-count b-friction" [class.active]="matchBandFilter === 'friction'" (click)="setMatchBand('friction')">{{ matchCounts['friction'] }} Friction</button>
+      <button type="button" class="rm-count-clear" *ngIf="matchBandFilter !== 'all'" (click)="matchBandFilter = 'all'">Show all</button>
+    </div>
+
+    <div class="rm-list">
+      <div class="rm-row" *ngFor="let r of filteredMatches" [ngClass]="'edge-' + r.band">
+        <span class="rm-gem"><img [src]="r.a.imageUrl | gdriveImg" [alt]="r.a.name" /></span>
+        <div class="rm-row-main">
+          <div class="rm-row-nm">{{ r.a.name }}</div>
+          <div class="rm-row-st">{{ match.stoneStr(r.a) }}</div>
+        </div>
+        <span class="rm-badge" [ngClass]="'b-' + r.band">{{ match.label(r.band) }}</span>
+        <div class="rm-row-why">{{ r.reason }}</div>
+      </div>
+      <div class="rm-empty" *ngIf="filteredMatches.length === 0">No {{ matchBandFilter }} matches in this direction.</div>
+    </div>
+
+    <p class="rm-foot">Complementary-fit model (v1) — a starting guide, not a guarantee.</p>
+  </div>
 
   <!-- CTA Banner -->
   <div class="hire-cta-wrapper">

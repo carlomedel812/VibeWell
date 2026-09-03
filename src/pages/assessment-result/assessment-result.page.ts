@@ -24,6 +24,8 @@ import { TraitListOutcomeComponent } from './compoenents/trait-list-outcome/trai
 import { BigTraitOutcomeComponent } from './compoenents/big-trait-outcome/big-trait-outcome.component';
 import { AssessmentOutcomeGeneratorService } from '../../core/service/assessment-score-generator.service';
 import { AssessmentPdfService } from '../../core/service/assessment-pdf.service';
+import { MatchingService, ArchLite, Band } from '../../core/service/matching.service';
+import { GdriveImgPipe } from '../../core/utils/gdrive-img.pipe';
 import { downloadOutline } from 'ionicons/icons';
 
 @Component({
@@ -31,7 +33,7 @@ import { downloadOutline } from 'ionicons/icons';
   templateUrl: './assessment-result.page.html',
   styleUrls: ['./assessment-result.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, RouterLink, CommonModule, FormsModule, TraitListOutcomeComponent, BigTraitOutcomeComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, RouterLink, CommonModule, FormsModule, GdriveImgPipe, TraitListOutcomeComponent, BigTraitOutcomeComponent]
 })
 
 export class AssessmentResultPage implements OnInit {
@@ -48,6 +50,7 @@ export class AssessmentResultPage implements OnInit {
   private readonly assessmentOutcomeGeneratorService = inject(AssessmentOutcomeGeneratorService);
   private readonly assessmentPdfService = inject(AssessmentPdfService);
   private readonly userRepository = inject(UserRepository);
+  private readonly matchService = inject(MatchingService);
   readonly AssessmentLayerType = AssessmentLayerType;
   assessmentAnswer: IAssessmentAnswerModel | null = null;
   assessmentOutcome: IAssessmentOutcomeModel | null = null;
@@ -57,6 +60,13 @@ export class AssessmentResultPage implements OnInit {
   isLoading = true;
   loadError = '';
   activeTabIndex = 0;
+
+  // --- Matches tab ---
+  readonly match = this.matchService;
+  allArches: ArchLite[] = [];
+  matchRole: 'client' | 'assistant' = 'client';
+  matches: { a: ArchLite; band: Band; reason: string }[] = [];
+  matchBandFilter: Band | 'all' = 'all';
 
   @ViewChild('resultContent', { static: false }) resultContent!: IonContent;
 
@@ -101,14 +111,14 @@ export class AssessmentResultPage implements OnInit {
   }
 
   onContentScroll(): void {
-    const layerCount = this.assessmentOutcome?.layerOutcomes?.length ?? 0;
-    if (layerCount === 0) return;
+    const ids = this.sectionIds();
+    if (ids.length === 0) return;
 
     let closestIndex = 0;
     let closestDistance = Infinity;
 
-    for (let i = 0; i < layerCount; i++) {
-      const el = document.getElementById('layer-' + i);
+    for (let i = 0; i < ids.length; i++) {
+      const el = document.getElementById(ids[i]);
       if (!el) continue;
 
       const rect = el.getBoundingClientRect();
@@ -126,7 +136,84 @@ export class AssessmentResultPage implements OnInit {
     }
   }
 
+  // --- Matches tab ---
+  /** Ordered list of scrollable section element ids (layers, then Matches). */
+  sectionIds(): string[] {
+    const n = this.assessmentOutcome?.layerOutcomes?.length ?? 0;
+    const ids: string[] = [];
+    for (let i = 0; i < n; i++) ids.push('layer-' + i);
+    if (this.showMatches) ids.push('section-matches');
+    return ids;
+  }
+  get matchesTabIndex(): number { return this.assessmentOutcome?.layerOutcomes?.length ?? 0; }
+  get showMatches(): boolean { return !!this.me && this.allArches.length > 0; }
+  get me(): ArchLite | null {
+    const t = this.traitListOutcome;
+    if (!t || !t.primaryTrait) return null;
+    return {
+      name: t.archetypeName,
+      p: t.primaryTrait as unknown as string,
+      s: (t.secondaryTrait as unknown as string) || 'NONE',
+      imageUrl: t.animalPictureUrl || '',
+    };
+  }
+  scrollToMatches(): void {
+    this.activeTabIndex = this.matchesTabIndex;
+    document.getElementById('section-matches')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  setMatchRole(role: 'client' | 'assistant'): void {
+    if (this.matchRole === role) return;
+    this.matchRole = role;
+    this.computeMatches();
+  }
+  computeMatches(): void {
+    const me = this.me;
+    this.matchBandFilter = 'all';
+    if (!me || this.allArches.length === 0) { this.matches = []; return; }
+    this.matches = this.match.rank(me, this.allArches, this.matchRole === 'client');
+  }
+  get matchCounts(): Record<string, number> {
+    const c: Record<string, number> = { ideal: 0, strong: 0, workable: 0, friction: 0 };
+    for (const r of this.matches) c[r.band]++;
+    return c;
+  }
+  get filteredMatches(): { a: ArchLite; band: Band; reason: string }[] {
+    return this.matchBandFilter === 'all'
+      ? this.matches
+      : this.matches.filter((r) => r.band === this.matchBandFilter);
+  }
+  setMatchBand(b: Band): void {
+    this.matchBandFilter = this.matchBandFilter === b ? 'all' : b;
+  }
+  /** OCEAN "what to look for" tips, personalised to the viewer's own Big Five when available. */
+  get oceanTips(): { code: string; text: string }[] {
+    const ts = this.bigFiveOutcome?.traitScores;
+    const e = ts?.extraversion, a = ts?.agreeableness, o = ts?.openness;
+    return [
+      { code: 'C', text: 'Runs High-Conscientiousness — the structural integrator who ships reliable work.' },
+      { code: 'N', text: 'Runs Low-Neuroticism — a calm anchor under pressure.' },
+      { code: 'E', text: e ? `Matches your ${e} Extraversion, so your energy syncs.` : 'Matches your Extraversion, so your energy syncs.' },
+      { code: 'A', text: a ? `Matches your ${a} Agreeableness, so your conflict styles align.` : 'Matches your Agreeableness, so your conflict styles align.' },
+      { code: 'O', text: o ? `Sits within one band of your ${o} Openness.` : 'Sits within one band of your Openness.' },
+    ];
+  }
+
   ngOnInit() {
+    // Load all archetypes once for the Matches tab
+    this.traitListOutcomeRepository.getAllTraitListOutcomes()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((all) => {
+        this.allArches = all
+          .filter((o) => o.archetypeName && o.primaryTrait)
+          .map((o) => ({
+            name: o.archetypeName,
+            p: o.primaryTrait as unknown as string,
+            s: (o.secondaryTrait as unknown as string) || 'NONE',
+            imageUrl: o.animalPictureUrl || '',
+          }));
+        this.computeMatches();
+      });
+
     this.route.paramMap
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -177,6 +264,7 @@ export class AssessmentResultPage implements OnInit {
               if (results?.['bigFive']) {
                 this.bigFiveOutcome = results['bigFive'] as IBigFivePersonalityTraitOutcomeModel;
               }
+              this.computeMatches();
               this.isLoading = false;
             },
             error: () => {

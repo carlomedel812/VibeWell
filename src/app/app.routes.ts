@@ -101,6 +101,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'matching-guide',
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () =>
+          import('../pages/matching-guide/matching-guide.component').then(
+            (m) => m.MatchingGuideComponent,
+          ),
+      },
+      {
         path: 'manage-assessment/:id/profiles',
         data: { roles: [UserRole.ADMIN] },
         loadComponent: () =>
